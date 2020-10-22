@@ -1,4 +1,4 @@
-package com.web.curation;
+package com.forfresh;
 
 import java.util.Arrays;
 
@@ -9,14 +9,14 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.web.curation.interceptor.JwtInterceptor;
+import com.forfresh.interceptor.JwtInterceptor;
 
 
 @SpringBootApplication
-public class WebCurationApplication implements WebMvcConfigurer{
+public class ComForfreshApplication implements WebMvcConfigurer{
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebCurationApplication.class, args);
+		SpringApplication.run(ComForfreshApplication.class, args);
 	}
 	
 	@Autowired
