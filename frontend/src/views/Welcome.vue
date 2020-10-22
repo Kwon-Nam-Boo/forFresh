@@ -1,14 +1,61 @@
 <template>
-    <v-main>
-        
-    </v-main>
+  <v-carousel 
+    v-model="model" 
+    :vertical=true
+    vertical-delimiters=true
+    :hide-delimiter-background=true
+    height="100%"
+    :touchless=true
+    v-touch="{up: () => swipe('Up'),
+        down: () => swipe('Down')}"
+  >
+    <v-carousel-item
+      v-for="(color, i) in colors"
+      :key="color"
+    >
+      <v-sheet
+        :color="color"
+        height="100%"
+        tile
+      >
+        <v-row
+          class="fill-height"
+          align="center"
+          justify="center"
+        >
+          <div class="display-3">
+            Slide {{ i + 1 }}
+          </div>
+        </v-row>
+      </v-sheet>
+    </v-carousel-item>
+  </v-carousel> 
 </template>
-<script>
-export default {
-    data() {
-        return {
 
-        };
+<script>
+
+export default {
+  data() {
+    return {
+      model: 0,
+      colors: [
+        'primary',
+        'secondary',
+        'yellow darken-2',
+        'red',
+        'orange',
+      ],
+    };
+  },
+  methods: {
+    swipe(direction) {
+      if(direction.includes("Up")){
+        this.model++
+      } else if(direction.includes("Down")){
+        this.model--
+      }
     },
-}
+  },
+  
+};
 </script>
