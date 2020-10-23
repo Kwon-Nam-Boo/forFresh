@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
 @Service
 public class MailDaoImpl implements MailDao {
     private Log log = LogFactory.getLog(MailDaoImpl.class);
     // org.springframework.mail.javamail.JavaMailSender
+    
     @Autowired
     private JavaMailSender javaMailSender;
+    
     public void setJavaMailSender(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -30,7 +33,7 @@ public class MailDaoImpl implements MailDao {
             if(from!=null){
                 helper.setFrom(from);
             } else {
-                helper.setFrom("ssafymail@gmail.com");
+                helper.setFrom("ssafyforfresh@gmail.com");
             }
             helper.setTo(to);
             // 첨부 파일 처리

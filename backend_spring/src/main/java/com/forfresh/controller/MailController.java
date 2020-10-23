@@ -35,37 +35,32 @@ public class MailController {
     @Autowired
     MailDao mailDao;
     
-//    @GetMapping("/mail")
-//    @ApiOperation(value = "이메일 인증")
-//    public Object mailConfirm(@RequestParam(required = true) String userId,
-//        @RequestParam(required = true) String nickName)  {
-//          
-//        Optional<User> user = userDao.findById(userId);
-////        Optional<User> emailChk = userDao.findUserByEmail(email);
-////        Optional<User> nicknameChk = userDao.findUserByNickname(nickname);
-//
-//        final BasicResponse result = new BasicResponse();
-//
-//        if (emailChk.isPresent()) {
-//            result.status = false;
-//            result.data = "email overlapped";
-//            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-//        } else if(nicknameChk.isPresent()) {
-//            result.status = false;
-//            result.data = "닉네임 중복";
-//            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-//        } else {
-//            int ran = new Random().nextInt(900000) + 100000;
-//            String authCode = String.valueOf(ran);
-//            String subject = "회원가입 인증 코드 발급 안내 입니다.";
-//            StringBuilder sb = new StringBuilder();
-//            sb.append("귀하의 인증 코드는 " + authCode + "입니다.");
-//            mailDao.send(subject, sb.toString(), null, email, null);
-//            result.status = true;
-//            result.data = Integer.toString(ran);
-//            return new ResponseEntity<>(result, HttpStatus.OK);
-//        }
-//
-//    }
+    @GetMapping("/mail/send")
+    @ApiOperation(value = "이메일 발송")
+    public Object mailConfirm(@RequestParam(required = true) String userId,
+        @RequestParam(required = true) String nickName)  {
+          
+        Optional<User> emailChk = userDao.findById(userId);
+
+        final BasicResponse result = new BasicResponse();
+
+        if (emailChk.isPresent()) {
+            result.status = false;
+            result.data = "email overlapped";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }  else {
+            int ran = new Random().nextInt(900000) + 100000;
+            String authCode = String.valueOf(ran);
+            String subject = "회원가입 인증 코드 발급 안내 입니다.";
+            StringBuilder sb = new StringBuilder();
+            sb.append("귀하의 인증 코드는 " + authCode + "입니다.");
+            mailDao.send(subject, sb.toString(), null, userId, null);
+            result.status = true;
+            result.data = Integer.toString(ran);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+    }
+    
+    
 
 }
