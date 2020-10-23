@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - ComForfreshApplication",
+            "request": "launch",
+            "mainClass": "com.forfresh.ComForfreshApplication",
+            "projectName": "webcuration"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-WebCurationApplication<webcuration>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
