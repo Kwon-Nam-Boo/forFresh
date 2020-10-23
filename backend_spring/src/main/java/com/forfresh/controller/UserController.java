@@ -107,6 +107,7 @@ public class UserController {
 			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
 		}
 	}
+	
 	@PutMapping("/user/update")
 	@ApiOperation(value = "회원 수정 (바꿀 아이디 값과 , 바꿀 값 User 값)")
 	public ResponseEntity<User> updateUser(@RequestParam("nickName") String nickName, @RequestParam("userId") String userId) {
