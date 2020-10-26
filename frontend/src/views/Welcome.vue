@@ -1,11 +1,11 @@
 <template>
   <v-carousel 
     v-model="model" 
-    :vertical=true
-    vertical-delimiters=true
-    :hide-delimiter-background=true
+    vertical
+    vertical-delimiters
+    hide-delimiter-background
     height="100%"
-    :touchless=true
+    touchless
     v-touch="{up: () => swipe('Up'),
         down: () => swipe('Down')}"
   >
