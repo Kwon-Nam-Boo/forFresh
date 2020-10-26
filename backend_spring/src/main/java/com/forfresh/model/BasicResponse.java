@@ -1,4 +1,4 @@
-package com.web.curation.model;
+package com.forfresh.model;
 
 import io.swagger.annotations.ApiModelProperty;
 

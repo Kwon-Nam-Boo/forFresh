@@ -1,4 +1,4 @@
-package com.web.curation.model.user;
+package com.forfresh.model.dto.user;
 
 
 import lombok.AllArgsConstructor;
@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Idpass {
-	private String id;
+	private String userId;
 	private String password;
 }
