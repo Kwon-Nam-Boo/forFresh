@@ -1,14 +1,16 @@
 <template>
   <div class="ma-5">
-    <v-card width="180">
+    <v-card width="180" height="30">
     <v-tabs
       v-model="tab"
-      background-color="#FFFF00"
-      color=""
+      background-color=""
+      color="#88dba3"
       grow
+      height="30"
     >
-      <v-tabs-slider color="#FFFF00"></v-tabs-slider>
+      <v-tabs-slider color="#88dba3"></v-tabs-slider>
       <v-tab
+        class="px-1"
         v-for="item in items"
         :key="item"
       >
@@ -90,6 +92,8 @@ export default {
     min-height:30px;
   }
   .v-card{
-    border-color:#88dba3;
+    border-color:#e2efef;
+    border-width: 2px;
   }
+
 </style>

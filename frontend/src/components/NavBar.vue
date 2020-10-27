@@ -1,32 +1,32 @@
 <template>
   <nav>
-    <v-toolbar dense color="#04B431">
+    <v-toolbar dense color="">
+     
       <v-toolbar-title class="grey--text">
-        <!-- <v-img
+        <v-img
           class="mt-2 mb-2"
-          src="../assets/images/lolbti_logo_2.png"
-          height="55"
-          width="100"
+          src="@/assets/logo.png"
+          height="30"
+          width="120"
           @click="$router.push('/').catch(() => {})"
           style="cursor: pointer"
-        /> -->
+        />
       </v-toolbar-title>
 
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-btn icon v-if="!isAlarm" @click="alarmDrawer = true">
-        <v-icon>mdi-bell-outline</v-icon>
+        <v-icon color="#88dba3">mdi-bell-outline</v-icon>
       </v-btn>
-      <v-btn icon v-if="isAlarm" @click="alarmDrawer = true">
+      <v-btn icon color="#88dba3" v-if="isAlarm" @click="alarmDrawer = true">
         <v-icon>mdi-bell</v-icon>
       </v-btn>
 
       
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon color="#88dba3" @click="drawer = true"></v-app-bar-nav-icon>
     </v-toolbar>
-
     <v-navigation-drawer
       v-model="alarmDrawer"
       temporary
@@ -131,5 +131,7 @@ export default {
 };
 </script>
 <style scoped>
-
+  .v-divider{
+    border-color:'#88dba3';
+  }
 </style>

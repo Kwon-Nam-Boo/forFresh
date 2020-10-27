@@ -4,10 +4,10 @@
     <v-tabs
       v-model="tab"
       background-color=""
-      color=""
+      color="#88dba3"
       show-arrows
     >
-      <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
+      <v-tabs-slider color="#88dba3"></v-tabs-slider>
 
       <v-tab
         v-for="item in items"
@@ -31,7 +31,7 @@
     </v-tabs-items>
     <v-fab-transition>
       <v-btn
-        color="green"
+        color="#88dba3"
         fixed
         bottom
         right
@@ -70,3 +70,6 @@ export default {
   },
 };
 </script>
+<style>
+
+</style>
