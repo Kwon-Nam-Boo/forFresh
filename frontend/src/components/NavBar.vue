@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import "../assets/css/main.css"; 
+
 export default {
   props:['title'],
   data() {
