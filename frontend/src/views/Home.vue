@@ -54,6 +54,9 @@ export default {
   },
   created() {
     this.$emit('updateTitle', '메인페이지');
+    if(this.$session.get('userinfo')){
+      
+    }
   },
   data() {
     return {
