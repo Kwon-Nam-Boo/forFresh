@@ -9,7 +9,7 @@
       <div class="expire">
         <p style="margin-left:3%;"> 유통기한 </p>
         <v-app id="inspire" style=" margin-top:10%">
-        <v-progress-linear value="30" height="25" color="#41D3BD" rounded></v-progress-linear>
+        <v-progress-linear value="30" height="25" color="#9DC8C8" rounded></v-progress-linear>
         </v-app>
         <p style=" font-size:12px; float:left; margin-right:74%; margin-left:5%">10월 1일</p>
         <p style=" font-size:12px;  margin-right:5%">10월 31일</p>
@@ -51,7 +51,7 @@ export default {
       datasets: [
         {
           backgroundColor: [
-            '#41D3BD',
+            '#9DC8C8','#e2efef'
           ],
           data: [40, 60]
         }

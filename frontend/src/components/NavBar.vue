@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <v-toolbar dense color="#04B431">
+    <v-toolbar dense color="#41D3BD">
       <v-toolbar-title class="grey--text">
         <!-- <v-img
           class="mt-2 mb-2"
