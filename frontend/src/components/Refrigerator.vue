@@ -3,11 +3,11 @@
     <v-card width="180">
     <v-tabs
       v-model="tab"
-      background-color="#FFFF00"
+      background-color="#FDD692"
       color=""
       grow
     >
-      <v-tabs-slider color="#FFFF00"></v-tabs-slider>
+      <v-tabs-slider color="#FDD692"></v-tabs-slider>
       <v-tab
         v-for="item in items"
         :key="item"
@@ -24,7 +24,7 @@
       >
         <v-card 
           class="pa-1"
-          color="#FFFF00"
+          color=""
           :elevation="0"
         >
           <div height="1"></div>

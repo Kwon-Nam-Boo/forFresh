@@ -1,18 +1,19 @@
 <template>
   <nav>
-    <v-toolbar dense color="#04B431">
+    <v-toolbar dense color="">
+     
       <v-toolbar-title class="grey--text">
-        <!-- <v-img
+        <v-img
           class="mt-2 mb-2"
-          src="../assets/images/lolbti_logo_2.png"
-          height="55"
-          width="100"
+          src="@/assets/logo.png"
+          height="30"
+          width="120"
           @click="$router.push('/').catch(() => {})"
           style="cursor: pointer"
-        /> -->
+        />
       </v-toolbar-title>
 
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
 
       <v-spacer></v-spacer>
 
