@@ -37,8 +37,7 @@ public class MailController {
     
     @GetMapping("/mail/send")
     @ApiOperation(value = "이메일 발송")
-    public Object mailConfirm(@RequestParam(required = true) String userId,
-        @RequestParam(required = true) String nickName)  {
+    public Object mailConfirm(@RequestParam(required = true) String userId)  {
           
         Optional<User> emailChk = userDao.findById(userId);
 

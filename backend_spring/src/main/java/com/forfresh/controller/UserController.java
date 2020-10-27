@@ -115,7 +115,11 @@ public class UserController {
 		BasicResponse result = new BasicResponse();
 		if(user.isPresent()) {
 			result.status = true;
-//			result.object = user.get();
+			
+			Map<String, String> userInfo = new HashMap<String, String>();
+			userInfo.put("userId", user.get().getUserId());
+			userInfo.put("nickName", user.get().getNickName());
+			result.object = userInfo;
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 		else {

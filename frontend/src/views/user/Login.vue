@@ -66,8 +66,10 @@
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
-// import UserApi from "../../api/UserApi";
+import UserApi from "../../api/UserApi";
 // import NavBar from "../../components/NavBar.vue";
+
+const storage = window.sessionStorage;
 
 export default {
   components: {
@@ -75,6 +77,9 @@ export default {
   },
   data: () => {
     return {
+      status: "",
+      token: "",
+      info: "",
       email: "",
       password: "",
       passwordSchema: new PV(),
@@ -84,6 +89,7 @@ export default {
       },
       isSubmit: false,
       navbarType: true,
+      statusMessage: "로그인해주세요.",
     };
   },
   created() {
@@ -98,10 +104,10 @@ export default {
       .letters();
   },
   watch: {
-    password: function () {
+    password: function() {
       this.checkForm();
     },
-    email: function () {
+    email: function() {
       this.checkForm();
     },
   },
@@ -125,30 +131,71 @@ export default {
       });
       this.isSubmit = isSubmit;
     },
-    // onLogin() {
-    //   if (this.isSubmit) {
-    //     let { email, password } = this;
-    //     let data = {
-    //       email,
-    //       password,
-    //     };
-    //     this.isSubmit = false;
-    //     UserApi.requestLogin(
-    //       data,
-    //       (res) => {
-    //         this.isSubmit = true;
-    //         this.$session.start();
-    //         this.$session.set("userinfo", {
-    //           email: this.$store.state.email,
-    //           summonerName: this.$store.state.summonerName,
-    //         });
-    //         this.$router.push({ path: "/" }).catch(() => {});
-    //       },
-    //       (error) => {
-    //       }
-    //     );
-    //   }
-    // },
+    setInfo(status, token, info) {
+      this.status = status;
+      this.token = token;
+      this.info = info;
+    },
+    logout() {
+      storage.setItem("jwt-auth-token", "");
+      storage.setItem("login_user", "");
+      this.statusMessage = "로그인해주세요.";
+      this.setInfo("로그아웃 성공", "", "");
+    },
+    onLogin() {
+      if (this.isSubmit) {
+        this.isSubmit = false;
+
+        storage.setItem("jwt-auth-token", "");
+        storage.setItem("login_user", "");
+
+        UserApi.requestLogin(
+          {
+            email: this.email,
+            password: this.password,
+          },
+          (res) => {
+            console.log(res);
+            this.isSubmit = true;
+            // this.$session.start();
+            // this.$session.set("userinfo", {
+            //   email: this.$store.state.email,
+            //   summonerName: this.$store.state.summonerName,
+            // });
+            // this.$router.push({ path: "/home" }).catch(() => {});
+            if (res.data.status) {
+              this.statusMessage = res.data.object.userId + "님 환영합니다.";
+              console.dir(res.headers["jwt-auth-token"]);
+              this.setInfo(
+                "성공",
+                res.headers["jwt-auth-token"],
+                JSON.stringify(res.data.object)
+              );
+              storage.setItem("jwt-auth-token", res.headers["jwt-auth-token"]);
+              storage.setItem("login_user", res.data.object.userId);
+              this.$router.push({ path: "/home" }).catch(() => {});
+            } else {
+              this.setInfo("", "", "");
+              this.statusMessage = "로그인해주세요.";
+              alert("입력정보를 확인하세요");
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
+    init() {
+      if (storage.getItem("jwt-auth-token")) {
+        this.statusMessage = storage.getItem("login_user") + "님 환영합니다.";
+      } else {
+        storage.setItem("jwt-auth-token", "");
+      }
+    },
+    mounted() {
+      this.init();
+    },
   },
 };
 </script>

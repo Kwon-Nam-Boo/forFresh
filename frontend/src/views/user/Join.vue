@@ -28,6 +28,7 @@
             <v-dialog v-model="dialog" persistent max-width="290">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                  :disabled="!chkForSendEmail"
                   class="mt-3"
                   color="btncolor"
                   v-bind="attrs"
@@ -39,7 +40,7 @@
               </template>
               <v-card>
                 <v-card-title class="headline">
-                  Use Google's location service?
+                  {{ email }} 로 메일을 발송했습니다.
                 </v-card-title>
                 <v-card-text
                   >Let Google help apps determine location. This means sending
@@ -94,7 +95,16 @@
           <div align="left" class="error-text" v-if="error.nickname">
             <b>{{ error.nickname }}</b>
           </div>
-          <v-btn class="my-5" @click="checkNickName()">중복 검사</v-btn>
+          <v-btn class="my-5" v-if="!nickNameChkStatus" @click="checkNickName()"
+            >중복 검사</v-btn
+          >
+          <v-btn
+            v-if="nickNameChkStatus && checkedNickName === nickname"
+            color="btncolor"
+            class="my-3"
+            >인증확인
+            <v-icon dark right>{{ svgPath }}</v-icon>
+          </v-btn>
           <p class="text-red">* 표시는 필수로 작성해야합니다.</p>
           <v-btn class="my-10" block color="btncolor" @click="onJoin"
             >회원가입</v-btn
@@ -109,12 +119,36 @@
 <script>
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
-// import UserApi from "../../api/UserApi";
+import { mdiCheckCircle } from "@mdi/js";
+import UserApi from "../../api/UserApi";
 // import NavBar from "../../components/NavBar.vue";
 
 export default {
   components: {
     // NavBar,
+  },
+  data: () => {
+    return {
+      chkForSendEmail: false,
+      svgPath: mdiCheckCircle,
+      emailAuthCode: "",
+      email: "",
+      password: "",
+      passwordRe: "",
+      nickname: "",
+      checkedNickName: "",
+      nickNameChkStatus: false,
+      passwordSchema: new PV(),
+      dialog: false,
+      error: {
+        email: false,
+        password: false,
+        passwordRe: false,
+        nickname: false,
+      },
+      isSubmit: false,
+      navbarType: true,
+    };
   },
   created() {
     this.passwordSchema
@@ -128,23 +162,59 @@ export default {
       .letters();
   },
   watch: {
-    passwordRe: function () {
+    passwordRe: function() {
       this.checkForm();
     },
-    password: function () {
+    password: function() {
       this.checkForm();
     },
-    email: function () {
+    email: function() {
       this.checkForm();
+    },
+    nickname: function(val) {
+      if (val != this.checkedNickName) {
+        this.nickNameChkStatus = false;
+        this.error.nickname = "";
+      }
     },
   },
   methods: {
-    checkNickName() {},
-    sednMail() {},
+    checkNickName() {
+      UserApi.checkNickName(
+        this.nickname,
+        (res) => {
+          console.log(res.data.data);
+          this.error.nickname = "중복된 닉네임 입니다.";
+        },
+        (error) => {
+          console.log(error);
+          this.checkedNickName = this.nickname;
+          this.nickNameChkStatus = true;
+        }
+      );
+    },
+    sendMail() {
+      UserApi.sendMailApi(
+        this.email,
+        (res) => {
+          console.log(res);
+          // this.emailAuthCode = res.data
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
       else this.error.email = false;
+
+      if (EmailValidator.validate(this.email)) {
+        this.chkForSendEmail = true;
+      } else {
+        this.chkForSendEmail = false;
+      }
 
       if (
         this.password.length >= 0 &&
@@ -177,7 +247,6 @@ export default {
     //       email,
     //       password,
     //       userId,
-    //       userMbti,
     //     };
     //     this.isSubmit = false;
     //     UserApi.requestJoin(
@@ -191,24 +260,6 @@ export default {
     //     );
     //   }
     // },
-  },
-  data: () => {
-    return {
-      email: "",
-      password: "",
-      passwordRe: "",
-      nickname: "",
-      passwordSchema: new PV(),
-      dialog: false,
-      error: {
-        email: false,
-        password: false,
-        passwordRe: false,
-        nickname: false,
-      },
-      isSubmit: false,
-      navbarType: true,
-    };
   },
 };
 </script>
