@@ -12,7 +12,7 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "email-validator": "^2.0.4",
-    "node-sass": "^4.14.1",
+    
     "password-validator": "^5.1.0",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
