@@ -16,19 +16,16 @@
       </v-tab>
     </v-tabs>
     </v-card>
-    <v-card>
     <v-tabs-items v-model="tab">
       <v-tab-item
         v-for="item in items"
         :key="item"
       >
-        <v-card 
-          class="pa-1"
-          color="#FFFF00"
-          :elevation="0"
-        >
-          <div height="1"></div>
-          <v-card class="ma-4" v-for="item in items2" :key="item[0]">
+          <v-card 
+            class="ma-4"
+            outlined
+            v-for="item in items2"
+            :key="item[0]">
             <v-card-text :class="item[1]+'--text pb-3'">{{item[0]}}</v-card-text>
             <v-slide-group
               class="pb-3"
@@ -42,22 +39,20 @@
                 <v-list class="pa-1 ma-0">
                   <v-list-item-group>
                     <v-list-item class='pa-0'>
-                      <v-avatar class="mx-auto" size='30'>
+                      <v-avatar class="mx-auto" size='40'>
                         <img :src=food.img>
                       </v-avatar>
                     </v-list-item>
                     <v-list-item class='foodname pa-0' dense>
-                      {{food.name}}
+                      <p class='ma-auto'>{{food.name}}</p>
                     </v-list-item>
                   </v-list-item-group>
                 </v-list>
               </v-slide-item>
             </v-slide-group>
           </v-card>
-        </v-card>
       </v-tab-item>
     </v-tabs-items>
-    </v-card>
   </div>
 </template>
 
@@ -93,5 +88,8 @@ export default {
   }
   .v-list-item{
     min-height:30px;
+  }
+  .v-card{
+    border-color:#88dba3;
   }
 </style>
