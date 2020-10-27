@@ -104,10 +104,10 @@ export default {
       .letters();
   },
   watch: {
-    password: function() {
+    password: function () {
       this.checkForm();
     },
-    email: function() {
+    email: function () {
       this.checkForm();
     },
   },
@@ -136,12 +136,6 @@ export default {
       this.token = token;
       this.info = info;
     },
-    logout() {
-      storage.setItem("jwt-auth-token", "");
-      storage.setItem("login_user", "");
-      this.statusMessage = "로그인해주세요.";
-      this.setInfo("로그아웃 성공", "", "");
-    },
     onLogin() {
       if (this.isSubmit) {
         this.isSubmit = false;
@@ -155,7 +149,7 @@ export default {
             password: this.password,
           },
           (res) => {
-            console.log(res);
+            // console.log(res);
             this.isSubmit = true;
             // this.$session.start();
             // this.$session.set("userinfo", {

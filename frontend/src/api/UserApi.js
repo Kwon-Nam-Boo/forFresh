@@ -2,10 +2,7 @@
 import BASE_URL from "../main";
 
 const axios = require("axios");
-// const storage = window.sessionStorage;
-// const headers = {
-//   "jwt-auth-token": storage.getItem("jwt-auth-token"),
-// };
+const storage = window.sessionStorage;
 
 const requestLogin = (data, callback, errorCallback) => {
   axios({
@@ -65,6 +62,26 @@ const checkNickName = (nickname, callback, errorCallback) => {
     });
 };
 
+const getUserInfo = (email, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/account/user/search",
+
+    params: {
+      userId: email,
+    },
+    headers: {
+      "jwt-auth-token": storage.getItem("jwt-auth-token"),
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const sendMailApi = (email, callback, errorCallback) => {
   axios({
     method: "get",
@@ -92,6 +109,9 @@ const UserApi = {
 
   sendMailApi: (email, callback, errorCallback) =>
     sendMailApi(email, callback, errorCallback),
+
+  getUserInfo: (email, callback, errorCallback) =>
+    getUserInfo(email, callback, errorCallback),
 };
 
 export default UserApi;
