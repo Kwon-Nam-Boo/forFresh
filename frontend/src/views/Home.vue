@@ -1,7 +1,6 @@
 <template>
-  <div>
-    <nav-bar :title="title"></nav-bar>
-      <!-- <v-tabs
+  <v-main>
+      <v-tabs
         v-model="tab"
         background-color=""
         color=""
@@ -28,30 +27,33 @@
             <refrigerator></refrigerator>
           </v-card>
         </v-tab-item>
-      </v-tabs-items> -->
-      <!-- <v-fab-transition>
+      </v-tabs-items>
+      <v-fab-transition>
         <v-btn
-          class="ma-2"
           color="green"
           fixed
           bottom
           right
+          fab
+          dark
+          small
         >
-          <v-icon dark>
+          <v-icon>
             mdi-plus
           </v-icon>
         </v-btn>
-      </v-fab-transition> -->
-  </div>
+      </v-fab-transition>
+  </v-main>
 </template>
 
 <script>
-import NavBar from "../components/NavBar";
-// import Refrigerator from "../components/Refrigerator";
+import Refrigerator from "../components/Refrigerator";
 export default {
   components: {
-    NavBar,
-    // Refrigerator,
+    Refrigerator,
+  },
+  created() {
+    this.$emit('updateTitle', '메인페이지');
   },
   data() {
     return {

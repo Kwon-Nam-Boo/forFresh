@@ -29,9 +29,8 @@
 
     <v-navigation-drawer
       v-model="alarmDrawer"
-      absolute
       temporary
-      bottom
+      app
     >
       <v-list
         nav
@@ -52,9 +51,9 @@
 
     <v-navigation-drawer
       v-model="drawer"
-      absolute
       temporary
       right
+      app
     >
       <v-list
         nav
