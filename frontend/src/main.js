@@ -6,6 +6,12 @@ import store from "./vuex/store";
 import vuetify from "./plugins/vuetify";
 import VueSession from 'vue-session';
 
+// hostname setting
+// const hostname = 'localhost';
+const hostname = 'k3a407.p.ssafy.io';
+const BASE_URL = 'http://' + hostname + ':8080';
+export default BASE_URL ;
+
 
 Vue.config.productionTip = false;
 
@@ -27,5 +33,3 @@ new Vue({
   vuetify,
   render: (h) => h(App),
 }).$mount("#app");
-
-export default router;
