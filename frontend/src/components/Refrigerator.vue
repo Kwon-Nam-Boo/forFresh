@@ -47,8 +47,7 @@
                       </v-avatar>
                     </v-list-item>
                     <v-list-item class='foodname pa-0' dense>
-                      <!-- {{food.name}} -->
-                      두부두부
+                      {{food.name}}
                     </v-list-item>
                   </v-list-item-group>
                 </v-list>

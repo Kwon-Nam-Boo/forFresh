@@ -155,7 +155,7 @@ export default {
             password: this.password,
           },
           (res) => {
-            console.log(res);
+            // console.log(res);
             this.isSubmit = true;
             // this.$session.start();
             // this.$session.set("userinfo", {
@@ -181,7 +181,7 @@ export default {
             }
           },
           (error) => {
-            console.log(error);
+            // console.log(error);
           }
         );
       }
