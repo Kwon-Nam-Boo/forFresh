@@ -84,7 +84,7 @@
 </template>
 
 <script>
-
+import "../assets/css/main.css"; 
 export default {
   props:['title'],
   data() {
@@ -102,3 +102,6 @@ export default {
   },
 };
 </script>
+<style scoped>
+
+</style>

@@ -2,6 +2,7 @@ import Welcome from './views/Welcome'
 import Home from './views/Home'
 import Login from './views/user/Login'
 import Join from './views/user/Join'
+import Detail from './views/Detail'
 
 export default [
     {
@@ -23,6 +24,11 @@ export default [
         path : '/join',
         name : 'Join',
         component : Join
+    },
+    {
+        path : '/detail',
+        name : 'Detail',
+        component : Detail
     },
    
 ]
