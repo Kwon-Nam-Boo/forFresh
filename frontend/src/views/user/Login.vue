@@ -52,7 +52,11 @@
             @click="$router.push('/join').catch(() => {})"
             >회원가입</v-btn
           >
-          <v-btn class="mt-5" block color="btncolor" @click="findPassWord()"
+          <v-btn
+            class="mt-5"
+            block
+            color="btncolor"
+            @click="$router.push('/findpassword').catch(() => {})"
             >비밀번호 찾기</v-btn
           >
           <br />
@@ -112,7 +116,6 @@ export default {
     },
   },
   methods: {
-    findPassWord() {},
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";

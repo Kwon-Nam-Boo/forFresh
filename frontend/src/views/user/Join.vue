@@ -162,16 +162,16 @@ export default {
       .letters();
   },
   watch: {
-    passwordRe: function() {
+    passwordRe: function () {
       this.checkForm();
     },
-    password: function() {
+    password: function () {
       this.checkForm();
     },
-    email: function() {
+    email: function () {
       this.checkForm();
     },
-    nickname: function(val) {
+    nickname: function (val) {
       if (val != this.checkedNickName) {
         this.nickNameChkStatus = false;
         this.error.nickname = "";
@@ -179,6 +179,9 @@ export default {
     },
   },
   methods: {
+    sendMail() {
+      this.$store.commit("sendMail", this.email);
+    },
     checkNickName() {
       UserApi.checkNickName(
         this.nickname,
@@ -193,18 +196,7 @@ export default {
         }
       );
     },
-    sendMail() {
-      UserApi.sendMailApi(
-        this.email,
-        (res) => {
-          console.log(res);
-          // this.emailAuthCode = res.data
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    },
+
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
