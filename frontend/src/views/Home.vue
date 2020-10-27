@@ -37,6 +37,8 @@
 <script>
 import NavBar from "../components/NavBar";
 import Refrigerator from "../components/Refrigerator";
+import "../../public/css/style.css"; 
+
 export default {
   components: {
     NavBar,
@@ -53,3 +55,6 @@ export default {
   },
 };
 </script>
+<style>
+
+</style>
