@@ -23,6 +23,43 @@
             <b>{{ error.email }}</b>
           </div>
 
+          <!-- 여기는 이메일 인증 버튼 누를 때 modal 창 팝업 되는 곳 -->
+          <v-row justify="center">
+            <v-dialog v-model="dialog" persistent max-width="290">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  class="mt-3"
+                  color="btncolor"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="sendMail()"
+                >
+                  이메일 인증
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline">
+                  Use Google's location service?
+                </v-card-title>
+                <v-card-text
+                  >Let Google help apps determine location. This means sending
+                  anonymous location data to Google, even when no apps are
+                  running.</v-card-text
+                >
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="green darken-1" text @click="dialog = false">
+                    Disagree
+                  </v-btn>
+                  <v-btn color="green darken-1" text @click="dialog = false">
+                    Agree
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-row>
+          <!-- 여기까지 modal 창 -->
+
           <v-text-field
             class="mt-5"
             v-model="password"
@@ -57,7 +94,7 @@
           <div align="left" class="error-text" v-if="error.nickname">
             <b>{{ error.nickname }}</b>
           </div>
-
+          <v-btn class="my-5" @click="checkNickName()">중복 검사</v-btn>
           <p class="text-red">* 표시는 필수로 작성해야합니다.</p>
           <v-btn class="my-10" block color="btncolor" @click="onJoin"
             >회원가입</v-btn
@@ -102,6 +139,8 @@ export default {
     },
   },
   methods: {
+    checkNickName() {},
+    sednMail() {},
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
@@ -118,7 +157,7 @@ export default {
         this.error.passwordRe = "비밀번호가 일치하지 않습니다.";
       else this.error.passwordRe = false;
 
-      if(this.nickname.length <= 0)
+      if (this.nickname.length <= 0)
         this.error.nickname = "닉네임을 입력해주세요.";
       else this.error.nickname = false;
 
@@ -160,6 +199,7 @@ export default {
       passwordRe: "",
       nickname: "",
       passwordSchema: new PV(),
+      dialog: false,
       error: {
         email: false,
         password: false,

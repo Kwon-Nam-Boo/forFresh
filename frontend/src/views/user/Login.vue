@@ -45,7 +45,16 @@
             :class="{ disabled: !isSubmit }"
             >로그인</v-btn
           >
-          <v-btn class="mt-5" block color="btncolor" @click="moveJoin">회원가입</v-btn>
+          <v-btn
+            class="mt-5"
+            block
+            color="btncolor"
+            @click="$router.push('/join').catch(() => {})"
+            >회원가입</v-btn
+          >
+          <v-btn class="mt-5" block color="btncolor" @click="findPassWord()"
+            >비밀번호 찾기</v-btn
+          >
           <br />
           <br />
         </div>
@@ -63,6 +72,19 @@ import * as EmailValidator from "email-validator";
 export default {
   components: {
     // NavBar,
+  },
+  data: () => {
+    return {
+      email: "",
+      password: "",
+      passwordSchema: new PV(),
+      error: {
+        email: false,
+        passowrd: false,
+      },
+      isSubmit: false,
+      navbarType: true,
+    };
   },
   created() {
     this.passwordSchema
@@ -84,6 +106,7 @@ export default {
     },
   },
   methods: {
+    findPassWord() {},
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
@@ -119,26 +142,13 @@ export default {
     //           email: this.$store.state.email,
     //           summonerName: this.$store.state.summonerName,
     //         });
-
     //         this.$router.push({ path: "/" }).catch(() => {});
     //       },
-    //       (error) => {}
+    //       (error) => {
+    //       }
     //     );
     //   }
     // },
-  },
-  data: () => {
-    return {
-      email: "",
-      password: "",
-      passwordSchema: new PV(),
-      error: {
-        email: false,
-        passowrd: false,
-      },
-      isSubmit: false,
-      navbarType: true,
-    };
   },
 };
 </script>
