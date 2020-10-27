@@ -108,6 +108,26 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/user/search/nickname")
+	@ApiOperation(value = "닉넴임 중복 확인용 조회")
+	public Object checkNickName(@RequestParam("nickName") String nickName) {
+		Optional<User> user = userService.findByNickName(nickName);
+		BasicResponse result = new BasicResponse();
+		if(user.isPresent()) {
+			result.status = true;
+			
+			Map<String, String> userInfo = new HashMap<String, String>();
+			userInfo.put("userId", user.get().getUserId());
+			userInfo.put("nickName", user.get().getNickName());
+			result.object = userInfo;
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		else {
+			result.status=false;
+			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@PutMapping("/user/update")
 	@ApiOperation(value = "회원 수정 (바꿀 아이디 값과 , 바꿀 값 User 값)")
 	public ResponseEntity<User> updateUser(@RequestParam("nickName") String nickName, @RequestParam("userId") String userId) {
