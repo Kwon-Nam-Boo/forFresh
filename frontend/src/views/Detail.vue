@@ -11,7 +11,7 @@
         <v-app id="inspire" style=" margin-top:10%">
         <v-progress-linear value="30" height="25" color="#9DC8C8" rounded></v-progress-linear>
         </v-app>
-        <p style=" font-size:12px; float:left; margin-right:74%; margin-left:5%">10월 1일</p>
+        <p style=" font-size:12px; float:left; margin-right:60%; margin-left:5%">10월 1일</p>
         <p style=" font-size:12px;  margin-right:5%">10월 31일</p>
       </div>
         <div>

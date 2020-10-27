@@ -22,6 +22,7 @@
     "vuex": "^3.5.1"
   },
   "devDependencies": {
+    "@mdi/js": "^5.8.55",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
@@ -47,7 +48,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-console": "off",
+      "no-unused-vars": "off"
+    }
   },
   "browserslist": [
     "> 1%",

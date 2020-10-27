@@ -35,6 +35,9 @@
 <script>
 
 export default {
+  created() {
+    this.$emit('updateTitle', null);
+  },
   data() {
     return {
       model: 0,
@@ -48,6 +51,7 @@ export default {
     };
   },
   methods: {
+    //위아래로 드래그하여 화면전환
     swipe(direction) {
       if(direction.includes("Up")){
         this.model++

@@ -1,18 +1,19 @@
 <template>
   <nav>
-    <v-toolbar dense color="#41D3BD">
+    <v-toolbar dense color="">
+     
       <v-toolbar-title class="grey--text">
-        <!-- <v-img
+        <v-img
           class="mt-2 mb-2"
-          src="../assets/images/lolbti_logo_2.png"
-          height="55"
-          width="100"
+          src="@/assets/logo.png"
+          height="30"
+          width="120"
           @click="$router.push('/').catch(() => {})"
           style="cursor: pointer"
-        /> -->
+        />
       </v-toolbar-title>
 
-      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-toolbar-title></v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -29,9 +30,8 @@
 
     <v-navigation-drawer
       v-model="alarmDrawer"
-      absolute
       temporary
-      bottom
+      app
     >
       <v-list
         nav
@@ -52,9 +52,9 @@
 
     <v-navigation-drawer
       v-model="drawer"
-      absolute
       temporary
       right
+      app
     >
       <v-list
         nav
@@ -77,8 +77,24 @@
             </v-list-item-icon>
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
+
+          <!-- 로그아웃 -->
+          <!-- <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <logout></logout>
+          </v-list-item-content>
+        </v-list-item> -->
+
         </v-list-item-group>
       </v-list>
+      <template v-slot:append>
+        <div class='pa-2'>
+            <v-btn block @click="logout">로그아웃</v-btn>
+        </div>
+      </template>
     </v-navigation-drawer>
   </nav>
 </template>
@@ -87,6 +103,9 @@
 
 export default {
   props:['title'],
+  components:{
+
+  },
   data() {
     return {
       drawer: false,
@@ -99,6 +118,16 @@ export default {
         alarm2: "알람2",
       },
     }
+  },
+  methods:{
+    logout(){
+      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제 
+      this.$session.remove(this.$store.state.nickname)
+      this.$session.remove("userinfo")
+      this.$store.dispatch("logout")
+
+      this.$router.push('/').catch(()=>{});
+    }   
   },
 };
 </script>
