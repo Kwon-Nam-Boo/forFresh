@@ -35,6 +35,9 @@
 <script>
 
 export default {
+  created() {
+    this.$emit('updateTitle', null);
+  },
   data() {
     return {
       model: 0,

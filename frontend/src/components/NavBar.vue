@@ -29,9 +29,8 @@
 
     <v-navigation-drawer
       v-model="alarmDrawer"
-      absolute
       temporary
-      bottom
+      app
     >
       <v-list
         nav
@@ -52,9 +51,9 @@
 
     <v-navigation-drawer
       v-model="drawer"
-      absolute
       temporary
       right
+      app
     >
       <v-list
         nav
@@ -77,6 +76,14 @@
             </v-list-item-icon>
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
+          <v-list-item link>
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <logout></logout>
+          </v-list-item-content>
+        </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -84,9 +91,12 @@
 </template>
 
 <script>
-
+import logout from './user/Logout'
 export default {
   props:['title'],
+  components:{
+    logout,
+  },
   data() {
     return {
       drawer: false,
