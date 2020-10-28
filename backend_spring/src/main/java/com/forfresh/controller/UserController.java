@@ -123,8 +123,9 @@ public class UserController {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 		else {
-			result.status=false;
-			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+			result.status=true;
+//			result.data="ok";
+			return new ResponseEntity<>(result,  HttpStatus.OK);
 		}
 	}
 	
