@@ -195,16 +195,16 @@ export default {
       .letters();
   },
   watch: {
-    passwordRe: function () {
+    passwordRe: function() {
       this.checkForm();
     },
-    password: function () {
+    password: function() {
       this.checkForm();
     },
-    email: function () {
+    email: function() {
       this.checkForm();
     },
-    nickname: function (val) {
+    nickname: function(val) {
       if (val != this.checkedNickName) {
         this.nickNameChkStatus = false;
         this.error.nickname = "";

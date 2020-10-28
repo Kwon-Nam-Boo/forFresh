@@ -27,7 +27,9 @@ public class ComForfreshApplication implements WebMvcConfigurer{
 		registry.addInterceptor(jwtInterceptor).addPathPatterns("/account/**") // 기본 적용 경로
 				.excludePathPatterns(Arrays.asList("/account/login/**")) // 적용 제외 경로 
 				.excludePathPatterns(Arrays.asList("/account/user/join"))
-				.excludePathPatterns(Arrays.asList("/account/user/search/nickname"));
+				.excludePathPatterns(Arrays.asList("/account/user/search/nickname"))
+				.excludePathPatterns(Arrays.asList("/account/user/update/password"));
+		
 	}
 
 	/**
