@@ -1,6 +1,7 @@
 <template>
   <v-carousel 
     v-model="model" 
+    cycle
     vertical
     vertical-delimiters
     hide-delimiter-background
