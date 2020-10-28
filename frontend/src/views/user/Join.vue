@@ -8,12 +8,23 @@
         height="300"
         src="../../assets/images/lolbti_logo_2.png"
       ></v-img> -->
-
+      <v-alert
+        v-model="alertStatus"
+        dismissible
+        color="#9DC8C8"
+        border="left"
+        elevation="2"
+        colored-border
+        icon="mdi-message-outline"
+      >
+        {{ alertMessage }}
+      </v-alert>
       <v-card class="mx-auto my-5" max-width="500">
         <v-card-text class="display-1 text--primary">Sign Up</v-card-text>
         <div class="px-10">
           <v-text-field
             class="mt-10"
+            :disabled="authStatus"
             v-model="email"
             label="이메일*"
             outlined
@@ -22,6 +33,16 @@
           <div align="left" class="error-text" v-if="error.email">
             <b>{{ error.email }}</b>
           </div>
+          <v-btn
+            v-if="authStatus"
+            class="mt-3"
+            color="btncolor"
+            v-bind="attrs"
+            v-on="on"
+            @click="cancelAuth()"
+          >
+            인증취소
+          </v-btn>
 
           <!-- 여기는 이메일 인증 버튼 누를 때 modal 창 팝업 되는 곳 -->
           <v-row justify="center">
@@ -42,18 +63,25 @@
                 <v-card-title class="headline">
                   {{ email }} 로 메일을 발송했습니다.
                 </v-card-title>
-                <v-card-text
-                  >Let Google help apps determine location. This means sending
-                  anonymous location data to Google, even when no apps are
-                  running.</v-card-text
+                <v-text-field
+                  class="mt-10"
+                  v-model="userInputCode"
+                  label="코드 입력*"
+                  outlined
+                  hide-details
+                ></v-text-field>
+                <v-btn
+                  color="green darken-1"
+                  outlined
+                  text
+                  @click="authorizeCode()"
                 >
+                  확인
+                </v-btn>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="green darken-1" text @click="dialog = false">
-                    Disagree
-                  </v-btn>
-                  <v-btn color="green darken-1" text @click="dialog = false">
-                    Agree
+                    닫기
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -106,7 +134,7 @@
             <v-icon dark right>{{ svgPath }}</v-icon>
           </v-btn>
           <p class="text-red">* 표시는 필수로 작성해야합니다.</p>
-          <v-btn class="my-10" block color="btncolor" @click="onJoin"
+          <v-btn class="my-10" block color="btncolor" @click="onJoin()"
             >회원가입</v-btn
           >
           <v-divider></v-divider>
@@ -121,6 +149,7 @@ import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import { mdiCheckCircle } from "@mdi/js";
 import UserApi from "../../api/UserApi";
+
 // import NavBar from "../../components/NavBar.vue";
 
 export default {
@@ -129,9 +158,12 @@ export default {
   },
   data: () => {
     return {
+      alertStatus: false,
       chkForSendEmail: false,
       svgPath: mdiCheckCircle,
-      emailAuthCode: "",
+      userInputCode: "",
+      authStatus: false,
+      authorizedEmail: "",
       email: "",
       password: "",
       passwordRe: "",
@@ -148,6 +180,7 @@ export default {
       },
       isSubmit: false,
       navbarType: true,
+      alertMessage: "",
     };
   },
   created() {
@@ -179,22 +212,61 @@ export default {
     },
   },
   methods: {
+    cancelAuth() {
+      this.authStatus = false;
+      this.email = "";
+      this.authorizedEmail = "";
+    },
+    authorizeCode() {
+      if (this.userInputCode == this.$store.state.emailAuthCode) {
+        this.authStatus = true;
+        this.alertMessage = "인증되었습니다.";
+        this.alertStatus = true;
+        this.userInputCode = "";
+        this.authorizedEmail = this.email;
+        this.chkForSendEmail = false;
+        this.dialog = false;
+      } else {
+        this.alertMessage = "인증 코드가 틀렸습니다.";
+        this.alertStatus = true;
+      }
+    },
     sendMail() {
       this.$store.commit("sendMail", this.email);
+      this.$store.watch(this.$store.getters.getEmailAuthCode, (n) => {
+        if (n == "email overlapped") {
+          this.dialog = false;
+          this.alertMessage = "이미 가입된 이메일입니다.";
+          this.alertStatus = true;
+          // console.log(this.$store.getters.getEmailAuthCode);
+          this.$store.state.emailAuthCode = "";
+        }
+      });
     },
     checkNickName() {
-      UserApi.checkNickName(
-        this.nickname,
-        (res) => {
-          console.log(res.data.data);
-          this.error.nickname = "중복된 닉네임 입니다.";
-        },
-        (error) => {
-          console.log(error);
-          this.checkedNickName = this.nickname;
-          this.nickNameChkStatus = true;
-        }
-      );
+      if (this.nickname != "") {
+        UserApi.checkNickName(
+          this.nickname,
+          (res) => {
+            // console.log(res.data.data);
+            // console.log(res.data.object);
+            if (res.data.object == null) {
+              // console.log("중복이 아닙니다.");
+              this.checkedNickName = this.nickname;
+              this.nickNameChkStatus = true;
+              this.error.nickname = false;
+              this.checkForm();
+            } else {
+              this.error.nickname = "중복된 닉네임 입니다.";
+            }
+          },
+          (error) => {
+            // console.log(error);
+          }
+        );
+      } else {
+        this.error.nickname = "닉네임을 입력해주세요.";
+      }
     },
 
     checkForm() {
@@ -202,7 +274,7 @@ export default {
         this.error.email = "이메일 형식이 아닙니다.";
       else this.error.email = false;
 
-      if (EmailValidator.validate(this.email)) {
+      if (!this.authStatus && EmailValidator.validate(this.email)) {
         this.chkForSendEmail = true;
       } else {
         this.chkForSendEmail = false;
@@ -229,29 +301,39 @@ export default {
       });
       this.isSubmit = isSubmit;
     },
-    // onJoin() {
-    //   if (this.isSubmit) {
-    //     let { email, password, userId, userMbti } = this;
-    //     console.log(email);
-    //     console.log(userId);
-    //     console.log(userMbti);
-    //     let data = {
-    //       email,
-    //       password,
-    //       userId,
-    //     };
-    //     this.isSubmit = false;
-    //     UserApi.requestJoin(
-    //       data,
-    //       (res) => {
-    //         this.$router.push({ path: "/" }).catch(() => {
-    //           console.log("error 회원가입안됨");
-    //         });
-    //       },
-    //       (error) => {}
-    //     );
-    //   }
-    // },
+    onJoin() {
+      // console.log(this.isSubmit);
+
+      // console.log(this.error.nickname);
+      // console.log(this.error.email);
+      // console.log(this.error.password);
+      // console.log(this.error.passwordRe);
+
+      if (this.isSubmit && this.nickNameChkStatus && this.authStatus) {
+        this.isSubmit = false;
+        UserApi.requestJoin(
+          {
+            email: this.email,
+            password: this.password,
+            nickname: this.nickname,
+          },
+          (res) => {
+            this.$router.push({ path: "/login" }).catch(() => {
+              // console.log("error 회원가입안됨");
+            });
+          },
+          (error) => {
+            this.alertMessage =
+              "이메일 인증, 닉네임 중복 검사 등 작성 양식을 다시 확인해주세요";
+            this.alertStatus = true;
+          }
+        );
+      } else {
+        this.alertMessage =
+          "이메일 인증, 닉네임 중복 검사 등 작성 양식을 다시 확인해주세요";
+        this.alertStatus = true;
+      }
+    },
   },
 };
 </script>

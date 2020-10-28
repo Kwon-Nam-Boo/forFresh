@@ -8,7 +8,17 @@
         height="300"
         src="../../assets/images/lolbti_logo_2.png"
       ></v-img> -->
-
+      <v-alert
+        v-model="alertStatus"
+        dismissible
+        color="#9DC8C8"
+        border="left"
+        elevation="2"
+        colored-border
+        icon="mdi-message-outline"
+      >
+        {{ alertMessage }}
+      </v-alert>
       <v-card class="mx-auto my-5" max-width="500">
         <v-card-text class="text--primary" style="">로그인</v-card-text>
         <div class="px-10">
@@ -81,6 +91,7 @@ export default {
   },
   data: () => {
     return {
+      alertStatus: false,
       status: "",
       token: "",
       info: "",
@@ -94,6 +105,7 @@ export default {
       isSubmit: false,
       navbarType: true,
       statusMessage: "로그인해주세요.",
+      alertMessage: "",
     };
   },
   created() {
@@ -174,11 +186,14 @@ export default {
             } else {
               this.setInfo("", "", "");
               this.statusMessage = "로그인해주세요.";
-              alert("입력정보를 확인하세요");
+              this.alertMessage = "입력정보를 확인하세요";
+              this.alertStatus = true;
             }
           },
           (error) => {
             console.log(error);
+            this.alertMessage = "입력정보를 확인하세요";
+            this.alertStatus = true;
           }
         );
       }

@@ -15,6 +15,16 @@
           <div align="left" class="error-text" v-if="error.email">
             <b>{{ error.email }}</b>
           </div>
+          <v-btn
+            v-if="authStatus"
+            class="mt-3"
+            color="btncolor"
+            v-bind="attrs"
+            v-on="on"
+            @click="cancelAuth()"
+          >
+            인증취소
+          </v-btn>
           <!-- 여기는 이메일 인증 버튼 누를 때 modal 창 팝업 되는 곳 -->
           <v-row justify="center">
             <v-dialog v-model="dialog" persistent max-width="290">
@@ -34,11 +44,21 @@
                 <v-card-title class="headline">
                   {{ email }} 로 메일을 발송했습니다.
                 </v-card-title>
-                <v-card-text
-                  >Let Google help apps determine location. This means sending
-                  anonymous location data to Google, even when no apps are
-                  running.</v-card-text
+                <v-text-field
+                  class="mt-10"
+                  v-model="userInputCode"
+                  label="코드 입력*"
+                  outlined
+                  hide-details
+                ></v-text-field>
+                <v-btn
+                  color="green darken-1"
+                  outlined
+                  text
+                  @click="authorizeCode()"
                 >
+                  확인
+                </v-btn>
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="green darken-1" text @click="dialog = false">
@@ -102,6 +122,7 @@ export default {
   data: () => {
     return {
       dialog: false,
+      userInputCode: "",
       chkForSendEmail: false,
       emailAuthCode: "",
       email: "",
@@ -135,6 +156,23 @@ export default {
     },
   },
   methods: {
+    cancelAuth() {
+      this.authStatus = false;
+      this.email = "";
+      this.authorizedEmail = "";
+    },
+    authorizeCode() {
+      if (this.userInputCode == this.$store.state.emailAuthCode) {
+        this.authStatus = true;
+        alert("인증되었습니다.");
+        this.userInputCode = "";
+        this.authorizedEmail = this.email;
+        this.chkForSendEmail = false;
+        this.dialog = false;
+      } else {
+        alert("인증 코드가 틀렸습니다.");
+      }
+    },
     sendMail() {
       this.$store.commit("sendMail", this.email);
     },

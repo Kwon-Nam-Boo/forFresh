@@ -1,15 +1,16 @@
 import UserApi from "../api/UserApi";
 
 export default {
-  sendMail(email) {
+  sendMail(state, payload) {
     UserApi.sendMailApi(
-      email,
+      payload,
       (res) => {
-        console.log(res);
+        // console.log(res);
         // this.emailAuthCode = res.data
+        state.emailAuthCode = res.data.data;
       },
       (error) => {
-        console.log(error);
+        state.emailAuthCode = "email overlapped";
       }
     );
   },

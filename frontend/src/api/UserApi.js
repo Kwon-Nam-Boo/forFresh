@@ -34,8 +34,9 @@ const requestJoin = (data, callback, errorCallback) => {
     method: "post",
     url: BASE_URL + "/account/user/join",
     data: {
-      id: data.email,
+      userId: data.email,
       password: data.password,
+      nickName: data.nickname,
     },
   })
     .then(function(response) {
