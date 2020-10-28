@@ -9,7 +9,7 @@
       </div>
     <div >
       <div class="expire">
-        <p style="margin-left:3%;font-weight: bold ;"> 유통기한 </p>
+        <p style="margin-left:3%;font-weight: bold ;"> 유통기한 10.31 까지</p>
         <v-app id="inspire" style=" margin-top:10%">
         <v-progress-linear value="30" height="25" color="#9DC8C8" rounded></v-progress-linear>
         </v-app>
@@ -43,6 +43,7 @@ export default {
       food: {num:1,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
       loaded:false,
       chartData: null,
+      Expiration:{date:10.31}
     }
   },
   async mounted() {

@@ -13,7 +13,17 @@
           <th>수량</th>
         </thead>
         <tbody>
-
+            
+            <tr v-for="food in foods" :key="food.food_no">
+              <td>
+                {{ food.name }}
+              </td>
+              <td>{{ food.price }}</td>
+              <td>
+                {{ food.no }}
+              </td>
+              
+            </tr>
         </tbody>
       </table>
 
