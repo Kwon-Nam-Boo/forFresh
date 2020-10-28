@@ -13,7 +13,7 @@ export default {
     NavBar,
   },
   data: () => ({
-    title: "",
+    title: null,
   }),
   methods: {
     updateTitle(title) {
@@ -22,3 +22,6 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+@import "@/assets/css/main.scss";
+</style>
