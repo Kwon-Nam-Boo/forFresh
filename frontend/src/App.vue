@@ -13,7 +13,7 @@ export default {
     NavBar,
   },
   data: () => ({
-    title: "",
+    title: null,
   }),
   methods: {
     updateTitle(title) {

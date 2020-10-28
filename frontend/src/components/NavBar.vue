@@ -16,38 +16,49 @@
       <v-toolbar-title></v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <!-- 알람 -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn 
+            icon v-if="!isAlarm" 
+            @click="alarmMenu = true"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon color="#88dba3">mdi-bell-outline</v-icon>
+          </v-btn>
+            <v-btn 
+              icon color="#88dba3"
+              v-if="isAlarm" 
+              @click="alarmMenu = true"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-badge
+                color="red"
+                dot
+                left
+                overlap
+              >
+                <v-icon>mdi-bell</v-icon>
+              </v-badge>
+            </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="alarm in alarmList"
+            :key="alarm"
+          >
+            <v-list-item-title>{{ alarm }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
-      <v-btn icon v-if="!isAlarm" @click="alarmDrawer = true">
-        <v-icon color="#88dba3">mdi-bell-outline</v-icon>
-      </v-btn>
-      <v-btn icon color="#88dba3" v-if="isAlarm" @click="alarmDrawer = true">
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-
-      
       <v-app-bar-nav-icon color="#88dba3" @click="drawer = true"></v-app-bar-nav-icon>
     </v-toolbar>
-    <v-navigation-drawer
-      v-model="alarmDrawer"
-      temporary
-      app
-    >
-      <v-list
-        nav
-        dense
-      >
-        <v-list-item-group
-          v-model="alarmGroup"
-          active-class="deep-purple--text text--accent-4"
-        >
-          <v-list-item v-for="alarm in alarmList" :key="alarm">
-            <v-list-item-title>{{alarm}}</v-list-item-title>
-          </v-list-item>
+   
 
-          
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
+    
 
     <v-navigation-drawer
       v-model="drawer"
@@ -109,7 +120,7 @@ export default {
     return {
       drawer: false,
       group: null,
-      isAlarm: false,
+      isAlarm: true,
       alarmDrawer: false,
       alarmGroup: null,
       alarmList: {
@@ -131,7 +142,8 @@ export default {
 };
 </script>
 <style scoped>
-  .v-divider{
-    border-color:'#88dba3';
+  .v-btn{
+    height:24px;
+    width:24px;
   }
 </style>
