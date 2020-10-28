@@ -5,8 +5,8 @@
          <img src="@/assets/camera.png" onClick="post" style="width:10%; height:10%;">
          <p>영수증 사진을 등록해주세요</p>
     </div>
-    <div style="height:90%; margin-top: 20%">
-      <table style="margin:0px auto; width:70%">
+    <div style="height:30%; margin-top: 20%">
+      <table style="margin:0px auto; width:70%; height: 30%">
         <thead>
           <th>상품명</th>
           <th>금액</th>
