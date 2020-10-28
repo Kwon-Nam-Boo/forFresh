@@ -35,4 +35,9 @@ export default [
         name : 'Post',
         component : Post
     },
+      {
+    path: "/findpassword",
+    name: "FindPassword",
+    component: FindPassword,
+  },
 ]

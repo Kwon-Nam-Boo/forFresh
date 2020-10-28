@@ -2,10 +2,7 @@
 import BASE_URL from "../main";
 
 const axios = require("axios");
-// const storage = window.sessionStorage;
-// const headers = {
-//   "jwt-auth-token": storage.getItem("jwt-auth-token"),
-// };
+const storage = window.sessionStorage;
 
 const requestLogin = (data, callback, errorCallback) => {
   axios({
@@ -37,8 +34,9 @@ const requestJoin = (data, callback, errorCallback) => {
     method: "post",
     url: BASE_URL + "/account/user/join",
     data: {
-      id: data.email,
+      userId: data.email,
       password: data.password,
+      nickName: data.nickname,
     },
   })
     .then(function(response) {
@@ -65,6 +63,26 @@ const checkNickName = (nickname, callback, errorCallback) => {
     });
 };
 
+const getUserInfo = (email, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/account/user/search",
+
+    params: {
+      userId: email,
+    },
+    headers: {
+      "jwt-auth-token": storage.getItem("jwt-auth-token"),
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const sendMailApi = (email, callback, errorCallback) => {
   axios({
     method: "get",
@@ -80,6 +98,41 @@ const sendMailApi = (email, callback, errorCallback) => {
       errorCallback(error);
     });
 };
+
+const sendMailForPassword = (email, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/mail/send/password",
+    params: {
+      userId: email,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
+const updateUserPassword = (data, callback, errorCallback) => {
+  axios({
+    method: "put",
+    url: BASE_URL + "/account/user/update/password",
+    data: {
+      userId: data.email,
+      password: data.password,
+      nickName: data.nickname,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const UserApi = {
   requestLogin: (data, callback, errorCallback) =>
     requestLogin(data, callback, errorCallback),
@@ -87,11 +140,20 @@ const UserApi = {
   requestJoin: (data, callback, errorCallback) =>
     requestJoin(data, callback, errorCallback),
 
+  updateUserPassword: (data, callback, errorCallback) =>
+    updateUserPassword(data, callback, errorCallback),
+
   checkNickName: (nickname, callback, errorCallback) =>
     checkNickName(nickname, callback, errorCallback),
 
   sendMailApi: (email, callback, errorCallback) =>
     sendMailApi(email, callback, errorCallback),
+
+  sendMailForPassword: (email, callback, errorCallback) =>
+    sendMailForPassword(email, callback, errorCallback),
+
+  getUserInfo: (email, callback, errorCallback) =>
+    getUserInfo(email, callback, errorCallback),
 };
 
 export default UserApi;

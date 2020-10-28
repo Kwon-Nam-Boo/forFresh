@@ -44,14 +44,8 @@ public class UserService {
 	}
 
 	// 회원 수정
-	public void updateById(String userId, User user) {
-		Optional<User> u = userDao.findById(userId);
-		if (u.isPresent()) {
-			u.get().setUserId(user.getUserId());
-			u.get().setPassword(user.getPassword());
-			u.get().setNickName(user.getNickName());
-			userDao.save(u.get());
-		}
+	public void updateById(User u) {
+			userDao.save(u);
 	}
 
 	// 회원 삭제
