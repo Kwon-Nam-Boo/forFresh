@@ -58,5 +58,10 @@ public class UserService {
 	public void deleteById(String userId) {
 		userDao.deleteById(userId);
 	}
-
+	
+	//닉네임중복체크 
+	public Optional<User> findByNickName(String nickName) {
+		Optional<User> user = userDao.findByNickName(nickName);
+		return user;
+	} 
 }

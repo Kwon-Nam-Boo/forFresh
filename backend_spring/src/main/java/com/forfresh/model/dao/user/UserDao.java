@@ -8,4 +8,5 @@ import com.forfresh.model.dto.user.User;
 
 public interface UserDao extends JpaRepository<User, String> {
     Optional<User> findByUserIdAndPassword(String userId, String password);
+    Optional<User> findByNickName(String nickName);
 }
