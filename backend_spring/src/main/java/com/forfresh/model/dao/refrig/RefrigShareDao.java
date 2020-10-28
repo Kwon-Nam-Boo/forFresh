@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.forfresh.model.dto.refrig.RefrigShare;
 
 public interface RefrigShareDao extends JpaRepository<RefrigShare, String> {
-    Optional<RefrigShare> findById(int shareNo);
 }
