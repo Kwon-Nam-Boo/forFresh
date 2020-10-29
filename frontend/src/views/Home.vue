@@ -29,21 +29,56 @@
         </v-card>
       </v-tab-item>
     </v-tabs-items>
-    <v-fab-transition>
-      <v-btn
-        color="#88dba3"
-        fixed
-        bottom
-        right
-        fab
-        dark
-        small
-      >
-        <v-icon>
-          mdi-plus
-        </v-icon>
-      </v-btn>
-    </v-fab-transition>
+    <v-speed-dial
+      v-model="fab"
+      bottom
+      right
+      fixed
+      direction="top"
+      transition="slide-y-reverse-transition"
+    >
+      <template v-slot:activator>
+        <v-btn
+          v-model="fab"
+          color="#88dba3"
+          dark
+          fab
+          small
+        >
+          <v-icon v-if="fab">
+            mdi-close
+          </v-icon>
+          <v-icon v-else>
+            mdi-format-list-bulleted-square
+          </v-icon>
+        </v-btn>
+      </template>
+        <v-btn
+          fab
+          dark
+          small
+          color="green"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+       
+        <v-btn
+          fab
+          dark
+          small
+          color="indigo"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          dark
+          small
+          color="red"
+        >
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+    </v-speed-dial>
   </v-main>
 </template>
 
@@ -63,6 +98,7 @@ export default {
     return {
       title:"메인페이지",
       tab: null,
+      fab: false,
       items: [
         '냉장고1', '냉장고2', '냉장고3', '냉장고4',
       ],

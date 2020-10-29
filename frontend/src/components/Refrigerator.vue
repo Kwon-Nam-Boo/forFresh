@@ -1,6 +1,8 @@
 <template>
   <div class="ma-5">
-    <v-card width="180" height="30">
+    <v-row>
+      <v-col>
+        <v-card width="180" height="30">
     <v-tabs
       v-model="tab"
       background-color=""
@@ -18,6 +20,13 @@
       </v-tab>
     </v-tabs>
     </v-card>
+      </v-col>
+      <v-col>
+        <v-card height="30">asdfa</v-card>
+      </v-col>
+    </v-row>
+    
+    
     <v-tabs-items v-model="tab">
       <v-tab-item
         v-for="item in items"
