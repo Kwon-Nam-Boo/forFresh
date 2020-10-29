@@ -97,14 +97,8 @@
             </v-list-item-icon>
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-logout</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <logout></logout>
-            </v-list-item-content>
-          </v-list-item>
+
+
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
@@ -123,7 +117,6 @@ const storage = window.sessionStorage;
 export default {
   props: ["title"],
   components: {
-  
   },
   data() {
     return {
@@ -186,4 +179,9 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+  .v-btn{
+    height:24px;
+    width:24px;
+  }
+</style>
