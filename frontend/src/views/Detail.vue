@@ -22,8 +22,10 @@
         <Doughnut v-if="loaded" :chartData="chartData" :options="options" style="height:30vh;width:30vw; margin-left:65%"/>
         </div>
         <p style="margin-left:3%;font-weight: bold ;">수량</p>
-        
     </div>
+    <div id="inspire">
+        <v-btn depressed color="#e2efef" style="width:30%">삭제하기</v-btn>
+      </div>
 
 
   </div>
@@ -98,5 +100,8 @@ export default {
   margin-top: 10%;
 }
 
-
+#inspire{
+   margin-left: 70%;
+   
+}
 </style>

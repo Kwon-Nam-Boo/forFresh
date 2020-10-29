@@ -28,11 +28,11 @@
       </table>
 
     </div>
-    <div >
-      <v-app id="inspire">
+  
+      <div id="inspire">
         <v-btn depressed color="#e2efef" style="width:30%">등록하기</v-btn>
-      </v-app>
-    </div>
+      </div>
+    
 
 
   </div>
