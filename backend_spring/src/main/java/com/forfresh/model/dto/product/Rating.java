@@ -1,9 +1,10 @@
-package com.forfresh.model.dto.user;
+package com.forfresh.model.dto.product;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,15 +14,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
-public class User {
+@Table(name = "rating")
+public class Rating {
     @Id
+    private int ratingNo;
+    
     private String userId;
-    private String password;
-    private String nickName;
-    private String phone;
-    private String addr1;
-    private String addr2;
-    private String addr3;
+    private int productNo;
+    private int rate;
     
 }

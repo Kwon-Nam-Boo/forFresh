@@ -1,3 +1,4 @@
+
 CREATE TABLE `user` (
 	`user_id`	varchar(100)	NOT NULL PRIMARY KEY,
 	`password`	varchar(100)	NOT NULL,
@@ -31,5 +32,6 @@ CREATE TABLE `regist_share` (
 	`share_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`refrig_no`	INT(10)	NOT NULL,
 	`shared_id`	varchar(100)	NOT NULL,
+    `accept` int default 0,
 	FOREIGN KEY (refrig_no) REFERENCES refrig_regist (refrig_no) ON UPDATE CASCADE ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
