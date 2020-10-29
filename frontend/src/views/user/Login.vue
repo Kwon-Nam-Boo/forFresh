@@ -8,7 +8,17 @@
         height="300"
         src="../../assets/images/lolbti_logo_2.png"
       ></v-img> -->
-
+      <v-alert
+        v-model="alertStatus"
+        dismissible
+        color="#9DC8C8"
+        border="left"
+        elevation="2"
+        colored-border
+        icon="mdi-message-outline"
+      >
+        {{ alertMessage }}
+      </v-alert>
       <v-card class="mx-auto my-5" max-width="500">
         <v-card-text class="text--primary" style="">로그인</v-card-text>
         <div class="px-10">
@@ -52,7 +62,11 @@
             @click="$router.push('/join').catch(() => {})"
             >회원가입</v-btn
           >
-          <v-btn class="mt-5" block color="btncolor" @click="findPassWord()"
+          <v-btn
+            class="mt-5"
+            block
+            color="btncolor"
+            @click="$router.push('/findpassword').catch(() => {})"
             >비밀번호 찾기</v-btn
           >
           <br />
@@ -77,6 +91,7 @@ export default {
   },
   data: () => {
     return {
+      alertStatus: false,
       status: "",
       token: "",
       info: "",
@@ -90,6 +105,7 @@ export default {
       isSubmit: false,
       navbarType: true,
       statusMessage: "로그인해주세요.",
+      alertMessage: "",
     };
   },
   created() {
@@ -104,15 +120,14 @@ export default {
       .letters();
   },
   watch: {
-    password: function() {
+    password: function () {
       this.checkForm();
     },
-    email: function() {
+    email: function () {
       this.checkForm();
     },
   },
   methods: {
-    findPassWord() {},
     checkForm() {
       if (this.email.length >= 0 && !EmailValidator.validate(this.email))
         this.error.email = "이메일 형식이 아닙니다.";
@@ -135,12 +150,6 @@ export default {
       this.status = status;
       this.token = token;
       this.info = info;
-    },
-    logout() {
-      storage.setItem("jwt-auth-token", "");
-      storage.setItem("login_user", "");
-      this.statusMessage = "로그인해주세요.";
-      this.setInfo("로그아웃 성공", "", "");
     },
     onLogin() {
       if (this.isSubmit) {
@@ -177,11 +186,14 @@ export default {
             } else {
               this.setInfo("", "", "");
               this.statusMessage = "로그인해주세요.";
-              alert("입력정보를 확인하세요");
+              this.alertMessage = "입력정보를 확인하세요";
+              this.alertStatus = true;
             }
           },
           (error) => {
-            // console.log(error);
+            //console.log(error);
+            this.alertMessage = "입력정보를 확인하세요";
+            this.alertStatus = true;
           }
         );
       }

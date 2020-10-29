@@ -1,0 +1,35 @@
+CREATE TABLE `user` (
+	`user_id`	varchar(100)	NOT NULL PRIMARY KEY,
+	`password`	varchar(100)	NOT NULL,
+	`nick_name`	varchar(100)	NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `expiration` (
+	`category_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`category`	varchar(100)	NULL,
+	`expire_date`	DATE	NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `refrig_regist` (
+	`refrig_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`user_id`	varchar(100)	NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `food_list` (
+	`food_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`refrig_no`	INT(10)	NOT NULL,
+	`category_no`	INT(10)	NOT NULL,
+	`name`	varchar(100)	NULL,
+	`status`	varchar(100)	NULL,
+	`regist_date`	datetime DEFAULT current_timestamp(),
+	 FOREIGN KEY (refrig_no) REFERENCES refrig_regist (refrig_no) ON UPDATE CASCADE ON DELETE CASCADE,
+	 FOREIGN KEY (category_no) REFERENCES expiration (category_no) ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `regist_share` (
+	`share_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`refrig_no`	INT(10)	NOT NULL,
+	`shared_id`	varchar(100)	NOT NULL,
+	FOREIGN KEY (refrig_no) REFERENCES refrig_regist (refrig_no) ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
