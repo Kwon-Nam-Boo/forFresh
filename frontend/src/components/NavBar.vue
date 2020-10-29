@@ -117,13 +117,13 @@
 </template>
 
 <script>
-import logout from "./user/Logout";
+
 import UserApi from "../api/UserApi";
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
   components: {
-    logout,
+  
   },
   data() {
     return {
