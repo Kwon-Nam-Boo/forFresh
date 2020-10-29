@@ -21,6 +21,7 @@ public class RefrigShare {
     private int shareNo;
     
     private int refrigNo;
-    private String shareId;
+    private String sharedId;
+    private int accept;
 
 }
