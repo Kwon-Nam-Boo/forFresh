@@ -191,7 +191,7 @@ export default {
             }
           },
           (error) => {
-            console.log(error);
+            //console.log(error);
             this.alertMessage = "입력정보를 확인하세요";
             this.alertStatus = true;
           }

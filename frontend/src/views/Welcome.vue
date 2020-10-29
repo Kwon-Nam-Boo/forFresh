@@ -1,6 +1,7 @@
 <template>
   <v-carousel 
     v-model="model" 
+    cycle
     vertical
     vertical-delimiters
     hide-delimiter-background
@@ -51,6 +52,7 @@ export default {
     };
   },
   methods: {
+    //위아래로 드래그하여 화면전환
     swipe(direction) {
       if(direction.includes("Up")){
         this.model++
