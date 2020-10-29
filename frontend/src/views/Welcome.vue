@@ -1,11 +1,12 @@
 <template>
   <v-carousel 
     v-model="model" 
-    :vertical=true
-    vertical-delimiters=true
-    :hide-delimiter-background=true
+    cycle
+    vertical
+    vertical-delimiters
+    hide-delimiter-background
     height="100%"
-    :touchless=true
+    touchless
     v-touch="{up: () => swipe('Up'),
         down: () => swipe('Down')}"
   >
@@ -35,6 +36,9 @@
 <script>
 
 export default {
+  created() {
+    this.$emit('updateTitle', null);
+  },
   data() {
     return {
       model: 0,
@@ -48,6 +52,7 @@ export default {
     };
   },
   methods: {
+    //위아래로 드래그하여 화면전환
     swipe(direction) {
       if(direction.includes("Up")){
         this.model++

@@ -1,4 +1,4 @@
-package com.web.curation.interceptor;
+package com.forfresh.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.web.curation.service.JwtService;
+import com.forfresh.service.JwtService;
 
 import lombok.extern.slf4j.Slf4j;
 

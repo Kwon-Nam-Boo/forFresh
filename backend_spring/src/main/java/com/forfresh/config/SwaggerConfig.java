@@ -1,4 +1,4 @@
-package com.web.curation.config;
+package com.forfresh.config;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;

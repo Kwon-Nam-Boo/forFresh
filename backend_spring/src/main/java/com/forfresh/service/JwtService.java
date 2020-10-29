@@ -1,4 +1,4 @@
-package com.web.curation.service;
+package com.forfresh.service;
 
 import java.util.Date;
 import java.util.Map;
@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.web.curation.model.user.User;
+import com.forfresh.model.dto.user.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
