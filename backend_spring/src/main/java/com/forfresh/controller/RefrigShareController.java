@@ -1,6 +1,7 @@
 package com.forfresh.controller;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,7 +46,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = { "*" })
 @RequestMapping("refrig")
 @RestController
-public class RefrigController {
+public class RefrigShareController {
 
     @Autowired
     RefrigRegistDao refrigRegistDao;
@@ -53,24 +54,81 @@ public class RefrigController {
     @Autowired
     RefrigShareDao refrigShareDao;
 
-    @PostMapping("/register")
-	@ApiOperation(value = "냉장고 생성")
-	public Object save(@RequestBody Refrig refrig) {
+    @PostMapping("/share")
+	@ApiOperation(value = "냉장고 공유하기")
+	public Object saveShare(@RequestParam(required = true) String userId, @RequestParam(required = true) Integer refrigNo) {
 		BasicResponse result = new BasicResponse();
 
-        RefrigRegist refrigRegist = new RefrigRegist();
-        refrigRegist.setUserId(refrig.getUserId());
-        refrigRegist.setRefrigName(refrig.getRefrigName());
+        RefrigShare refrigShare = new RefrigShare();
+        refrigShare.setSharedId(userId);
+        refrigShare.setRefrigNo(refrigNo);
         
         result.status = true;
-        refrigRegistDao.save(refrigRegist);
+        refrigShareDao.save(refrigShare);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/getRefrig")
-	@ApiOperation(value = "id로 냉장고 조회")
-	public Object getRefirig(@RequestParam("userId") String userId) {
-        List<RefrigRegist> refrigList = refrigRegistDao.findByUserId(userId);
+    @GetMapping("/getShare")
+	@ApiOperation(value = "공유요청 가져오기")
+	public Object getShareRequest(@RequestParam(required = true) String userId) {
+        List<RefrigShare> refrigShareList = refrigShareDao.findBySharedIdAndAccept(userId, 0);
+        BasicResponse result = new BasicResponse();
+		if(!refrigShareList.isEmpty()) {
+			result.status = true;
+			result.object = refrigShareList;
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		else {
+			result.status=false;
+			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PatchMapping("/share/allow")
+	@ApiOperation(value = "공유 수락하기")
+	public Object ShareAllow(@RequestParam(required = true) Integer refrigNo, @RequestParam(required = true) String userId) {
+		Optional<RefrigShare> refrigShareOpt = refrigShareDao.findByRefrigNoAndSharedId(refrigNo, userId); 
+        BasicResponse result = new BasicResponse();
+		if(refrigShareOpt.isPresent()) {
+            RefrigShare refrigShare = refrigShareOpt.get();
+            refrigShare.setAccept(1);
+            refrigShareDao.save(refrigShare);
+            result.status = true;
+            result.data = "success";
+            return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		else {
+			result.status=false;
+            result.data = "공유 수락 실패";
+			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@DeleteMapping("/share")
+    @ApiOperation(value = "공유 거절")
+    public Object ShareReject(@RequestParam(required = true) Integer refrigNo, @RequestParam(required = true) String userId){
+
+		Optional<RefrigShare> refrigShareOpt = refrigShareDao.findByRefrigNoAndSharedId(refrigNo, userId); 
+
+        if(refrigShareOpt.isPresent()){
+            refrigShareDao.deleteByRefrigNoAndSharedId(refrigNo,userId);
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("fail", HttpStatus.OK);
+        }
+
+    }
+
+    @GetMapping("/getSharedRefrig")
+	@ApiOperation(value = "공유된 냉장고 조회하기")
+	public Object getSharedRefrig(@RequestParam(required = true) String userId) {
+        List<RefrigShare> refrigShareList = refrigShareDao.findBySharedIdAndAccept(userId, 1);
+        List<RefrigRegist> refrigList = new ArrayList<>();
+        Optional<RefrigRegist> refrigOpt;
+        for(int i=0; i<refrigShareList.size(); i++){
+            refrigOpt = refrigRegistDao.findByRefrigNo(refrigShareList.get(i).getRefrigNo());
+            refrigList.add(refrigOpt.get());
+        }
         BasicResponse result = new BasicResponse();
 		if(!refrigList.isEmpty()) {
 			result.status = true;
@@ -82,53 +140,5 @@ public class RefrigController {
 			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
 		}
 	}
-
-	@GetMapping("/getRefrig/{refrigNo}")
-	@ApiOperation(value = "냉장고no로 냉장고 조회")
-	public Object getRefrigByNo(@PathVariable int refrigNo) {
-        Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
-        BasicResponse result = new BasicResponse();
-		if(refrigOpt.isPresent()) {
-			result.status = true;
-			result.object = refrigOpt;
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		}
-		else {
-			result.status=false;
-			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	@PatchMapping("/changeName")
-    @ApiOperation(value = "냉장고 이름변경")
-
-    public Object updateRefrig(@RequestParam(required = true) final Integer refrigNo,
-    @RequestParam(required = true) final String refrigName) {
-
-        Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
-        BasicResponse result = new BasicResponse();
-
-        if (refrigOpt.isPresent()) {
-            RefrigRegist refrigRegist = refrigOpt.get();
-            refrigRegist.setRefrigName(refrigName);
-            refrigRegistDao.save(refrigRegist);
-            result.status = true;
-            result.data = "success";
-            return new ResponseEntity<>(result, HttpStatus.OK);
-		}
-		else {
-			result.status=false;
-            result.data = "냉장고 이름 변경 실패";
-			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	@DeleteMapping("/deleteRefrig")
-    @ApiOperation(value = "냉장고 삭제하기")
-    public Object deleteRefrig(@RequestParam(required = true) final Integer refrigNo){
-
-		refrigRegistDao.deleteByRefrigNo(refrigNo);
-		return new ResponseEntity<>(null, HttpStatus.OK);    
-    }
     
 }
