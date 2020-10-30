@@ -16,16 +16,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "product")
 public class Product {
+	
     @Id
-    private int productNo;
+    private Integer productNo;
     
-    private String categoryNo;
-    private String nickNam;
-    private int productPrice;
-    private int stock;
+    private Integer categoryNo;
+    private String productName;
+    private Integer productPrice;
+    private Integer stock;
     private String description;
     private String imgUrl; 
     private LocalDateTime registDate;
-    private int rate;
+    private Integer avgRate;
     private String detailImgs;
 }

@@ -1,7 +1,5 @@
 package com.forfresh.model.dto.product;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,9 +15,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "shopping_list")
 public class ShoppingList {
     @Id
-    private int shoplistNo;
+    private Integer shoplistNo;
     
     private String userId;
-    private int productNo;
+    private Integer productNo;
     
 }

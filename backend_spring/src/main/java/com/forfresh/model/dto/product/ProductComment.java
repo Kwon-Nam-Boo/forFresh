@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "product_comment")
 public class ProductComment {
     @Id
-    private int pcommentNo;
+    private Integer pcommentNo;
     
     private String userId;
-    private int userRate;
+    private Integer userRate;
     private String commentDetail;
     private LocalDateTime registDate; 
 
