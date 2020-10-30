@@ -21,6 +21,7 @@ import com.forfresh.model.BasicResponse;
 import com.forfresh.model.dao.product.ProductCommentDao;
 import com.forfresh.model.dao.product.ProductDao;
 import com.forfresh.model.dao.product.ShoppingListDao;
+import com.forfresh.model.dao.product.ShoppingListDao.ShopListProduct;
 import com.forfresh.model.dto.product.Product;
 import com.forfresh.model.dto.product.ShoppingList;
 
@@ -117,10 +118,10 @@ public class ProductController {
 	// product/shop//list
 	@GetMapping("/shop/list")
 	@ApiOperation(value = "사용자 장바구니 리스트 조회")
-	public ResponseEntity<List<Product>> getUserShopList(@RequestParam("userId") String userId,
+	public ResponseEntity<List<ShopListProduct>> getUserShopList(@RequestParam("userId") String userId,
 			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
-		List<Product> shopList = shoppingListDao.findByUserId(userId, pageable);
-		return new ResponseEntity<List<Product>>(shopList, HttpStatus.OK);
+		List<ShopListProduct> shopList = shoppingListDao.findByUserId(userId, pageable);
+		return new ResponseEntity<List<ShopListProduct>>(shopList, HttpStatus.OK);
 	}
 
 	// product/shop/add
@@ -142,12 +143,11 @@ public class ProductController {
 	// product/shop/delete/
 	@DeleteMapping("/shop/delete")
 	@ApiOperation(value = "장바구니 리스트에서 상품 삭제")
-	public Object deleteShopList(@RequestParam("userId") String userId, @RequestParam("productNo") Integer productNo) {
+	public Object deleteShopList(@RequestParam("shoplistNo") Integer shoplistNo) {
 		BasicResponse result = new BasicResponse();
 		try {
 			result.status=true;
-			Optional<ShoppingList> list = shoppingListDao.findByUserIdAndProductNo(userId,productNo);
-			shoppingListDao.delete(list.get());
+			shoppingListDao.deleteById(shoplistNo);
 			return new ResponseEntity<>(result,HttpStatus.OK);
 		} catch (Exception e) {
 			result.status=false;
