@@ -44,6 +44,7 @@ CREATE TABLE `product` (
 	`product_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`category_no`	INT(10)	NOT NULL,
 	`product_name`	varchar(50)	NOT NULL,
+    `product_price` int(10) default 0,
     `stock` int default 0,
     `description` varchar(100) null,
     `img_url` varchar(100) null,
@@ -56,10 +57,12 @@ CREATE TABLE `product` (
 CREATE TABLE `product_comment` (
 	`pcomment_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`user_id`	varchar(100)	NOT NULL,
+    `product_no` INT(10) NOT NULL,
     `user_rate` int(10) default 0,
 	`comment_detail`	varchar(500) null,
     `regist_date` datetime DEFAULT current_timestamp(),
-	FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE
+	FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (product_no) REFERENCES product (product_no) ON UPDATE CASCADE ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `shopping_list` (
@@ -70,3 +73,5 @@ CREATE TABLE `shopping_list` (
 	FOREIGN KEY (product_no) REFERENCES product (product_no) ON UPDATE CASCADE ON DELETE CASCADE
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

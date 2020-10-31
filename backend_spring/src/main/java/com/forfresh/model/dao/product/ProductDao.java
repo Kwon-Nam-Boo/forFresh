@@ -10,5 +10,5 @@ import com.forfresh.model.dto.product.Product;
 
 public interface ProductDao extends JpaRepository<Product, Integer>{
 
-	List<Product> findByCategoryNo(Integer categoryNo, Pageable pageable);
+	Optional<List<Product>> findByCategoryNo(Integer categoryNo, Pageable pageable);
 }

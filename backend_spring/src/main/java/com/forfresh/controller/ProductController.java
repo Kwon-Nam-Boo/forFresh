@@ -23,6 +23,7 @@ import com.forfresh.model.dao.product.ProductDao;
 import com.forfresh.model.dao.product.ShoppingListDao;
 import com.forfresh.model.dao.product.ShoppingListDao.ShopListProduct;
 import com.forfresh.model.dto.product.Product;
+import com.forfresh.model.dto.product.ProductComment;
 import com.forfresh.model.dto.product.ShoppingList;
 
 import io.swagger.annotations.ApiOperation;
@@ -48,16 +49,14 @@ public class ProductController {
 	ShoppingListDao shoppingListDao;
 
 	// ****************** product CRUD (상품)
-	// product/list
 	@GetMapping("/list")
 	@ApiOperation(value = "카테고리별 상품 리스트 조회")
 	public ResponseEntity<List<Product>> getProductList(@RequestParam("categoryNo") Integer categoryNo,
 			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
-		List<Product> productList = productDao.findByCategoryNo(categoryNo, pageable);
-		return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
+		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo, pageable);
+		return new ResponseEntity<List<Product>>(productList.get(), HttpStatus.OK);
 	}
 
-	// product/detail
 	@GetMapping("/detail")
 	@ApiOperation(value = "상품 상세정보 조회")
 	public ResponseEntity<Product> getProductDetail(@RequestParam("productNo") Integer productNo) {
@@ -65,7 +64,6 @@ public class ProductController {
 		return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
 	}
 
-	// product/add
 	@PostMapping("/add")
 	@ApiOperation(value = "상품 추가")
 	public Object saveProduct(@RequestBody Product product) {
@@ -80,7 +78,6 @@ public class ProductController {
 		}
 	}
 
-	// product/update
 	@PutMapping("/update")
 	@ApiOperation(value = "상품 수정")
 	public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
@@ -99,7 +96,6 @@ public class ProductController {
 
 	}
 
-	// product/delete
 	@DeleteMapping("/delete")
 	@ApiOperation(value = "상품 삭제")
 	public Object deleteProduct(@RequestParam("productNo") Integer productNo) {
@@ -114,8 +110,7 @@ public class ProductController {
 		}
 	}
 
-	// ****************** productComment CRUD (상품 댓글)
-	// product/shop//list
+	// ****************** shoppingLIST CRUD (상품 댓글)
 	@GetMapping("/shop/list")
 	@ApiOperation(value = "사용자 장바구니 리스트 조회")
 	public ResponseEntity<List<ShopListProduct>> getUserShopList(@RequestParam("userId") String userId,
@@ -124,7 +119,6 @@ public class ProductController {
 		return new ResponseEntity<List<ShopListProduct>>(shopList, HttpStatus.OK);
 	}
 
-	// product/shop/add
 	@PostMapping("/shop/add")
 	@ApiOperation(value = "사용자 상품 장바구니에 등록")
 	public Object addShopList(@RequestBody ShoppingList list) {
@@ -140,7 +134,6 @@ public class ProductController {
 	}
 
 	
-	// product/shop/delete/
 	@DeleteMapping("/shop/delete")
 	@ApiOperation(value = "장바구니 리스트에서 상품 삭제")
 	public Object deleteShopList(@RequestParam("shoplistNo") Integer shoplistNo) {
@@ -154,6 +147,51 @@ public class ProductController {
 			return new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
 		}
 	}
-	// ****************** shoppingLIST CRUD (장바구니 )
+	// ****************** productComment CRUD (장바구니 )
+	@GetMapping("/comment/list")
+	@ApiOperation(value="상품 댓글 리스트 조회")
+	public ResponseEntity<List<ProductComment>> getCommentList(@RequestParam("productNo") Integer productNo, 
+			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable){
+		Optional<List<ProductComment>> commentList = productCommentDao.findByProductNo(productNo, pageable);
+		
+		return new ResponseEntity<List<ProductComment>>(commentList.get(),HttpStatus.OK);
+	}
 	
+	@PostMapping("comment/add")
+	@ApiOperation(value = "댓글 등록")
+	public Object addComment(@RequestBody ProductComment comment) {
+		BasicResponse result = new BasicResponse();
+		try {
+			result.status = true;
+			ProductComment pcom = productCommentDao.save(comment);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			result.status = false;
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@DeleteMapping("comment/delete")
+	@ApiOperation(value = "댓글 삭제")
+	public Object deleteComment(@RequestParam("pcommentNo") Integer pcommentNo) {
+		BasicResponse result = new BasicResponse();
+		try {
+			result.status=true;
+			productCommentDao.deleteById(pcommentNo);
+			return new ResponseEntity<>(result,HttpStatus.OK);
+		} catch (Exception e) {
+			result.status=false;
+			return new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@PutMapping("comment/update")
+	@ApiOperation(value="댓글 수정")
+	public Object updateComment(@RequestBody ProductComment comment) {
+		Optional<ProductComment> findComment = productCommentDao.findById(comment.getPcommentNo());
+		findComment.get().setUserRate(comment.getUserRate());
+		findComment.get().setCommentDetail(comment.getCommentDetail());
+		productCommentDao.save(findComment.get());
+		return new ResponseEntity<ProductComment>(findComment.get(), HttpStatus.OK);
+	}
 }

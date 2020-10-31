@@ -20,6 +20,7 @@ public class ProductComment {
     private Integer pcommentNo;
     
     private String userId;
+    private Integer productNo;
     private Integer userRate;
     private String commentDetail;
     private LocalDateTime registDate; 
