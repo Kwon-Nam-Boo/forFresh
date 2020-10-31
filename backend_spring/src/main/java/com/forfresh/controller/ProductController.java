@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -108,6 +109,14 @@ public class ProductController {
 			result.status = false;
 			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	@GetMapping("/search")
+	@ApiOperation(value="상품 검색하기")
+	public ResponseEntity<List<Product>> searchProduct(@RequestParam("productName")String productName,
+			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable){
+		Optional<List<Product>> serachProductList = productDao.searchByProductName(productName,pageable);
+		return new ResponseEntity<List<Product>>(serachProductList.get(),HttpStatus.OK);
 	}
 
 	// ****************** shoppingLIST CRUD (상품 댓글)
