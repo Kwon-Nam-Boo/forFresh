@@ -55,4 +55,22 @@ public class KakaoPayController {
 //       model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
    }
    
+   @GetMapping("/kakaoPayCancel")
+   @ResponseBody
+   public String kakaoPayCancel() {
+//	   log.info("kakaoPaySuccess get............................................");
+//	   log.info("kakaoPaySuccess pg_token : ");
+	   return "cancel";
+//       model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+   }
+   
+   @GetMapping("/kakaoPaySuccessFail")
+   @ResponseBody
+   public String kakaoPaySuccessFail() {
+//	   log.info("kakaoPaySuccess get............................................");
+//	   log.info("kakaoPaySuccess pg_token : ");
+	   return "success fail";
+//       model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
+   }
+   
 }

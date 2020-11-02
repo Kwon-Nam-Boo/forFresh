@@ -42,7 +42,7 @@ public class KakaoPayService {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
         params.add("cid", "TC0ONETIME");
         params.add("partner_order_id", "1001");
-        params.add("partner_user_id", "gorany");
+        params.add("partner_user_id", "forfresh");
         params.add("item_name", totalpay.getItemName());
         params.add("quantity", totalpay.getQuantity());
         params.add("total_amount", totalpay.getTotalAmount());
@@ -90,16 +90,16 @@ public class KakaoPayService {
         params.add("cid", "TC0ONETIME");
         params.add("tid", kakaoPayReadyVO.getTid());
         params.add("partner_order_id", "1001");
-        params.add("partner_user_id", "gorany");
+        params.add("partner_user_id", "forfresh");
         params.add("pg_token", pg_token);
-        params.add("total_amount", "1000");
+//        params.add("total_amount", "1000");
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
             log.info("****************************" + kakaoPayApprovalVO);
-          
+            
             return kakaoPayApprovalVO;
         
         } catch (RestClientException e) {
