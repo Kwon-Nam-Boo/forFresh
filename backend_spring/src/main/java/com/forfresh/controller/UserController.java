@@ -132,17 +132,24 @@ public class UserController {
 	@PutMapping("/user/update/userinfo")
 	@ApiOperation(value = "회원 수정 (바꿀 아이디 값과 , 바꿀 값 User 값)")
 	public ResponseEntity<User> updateUser(@RequestBody User user) {
-		userService.updateById(user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		Optional<User> findUser = userService.findById(user.getUserId());
+		findUser.get().setAddr1(user.getAddr1());
+		findUser.get().setAddr2(user.getAddr2());
+		findUser.get().setAddr3(user.getAddr3());
+		findUser.get().setNickName(user.getNickName());
+		findUser.get().setPhone(user.getPhone());
+		userService.updateById(findUser.get());
+		
+		return new ResponseEntity<User>(findUser.get(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/user/update/password")
 	@ApiOperation(value = "회원 수정 (바꿀 아이디 값과 , 바꿀 값 User 값)")
 	public ResponseEntity<User> updateUserPassword(@RequestBody User user) {
 		Optional<User> findUser = userService.findById(user.getUserId());
-		user.setNickName(findUser.get().getNickName());
-		userService.updateById(user);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		findUser.get().setPassword(user.getPassword());
+		userService.updateById(findUser.get());
+		return new ResponseEntity<User>(findUser.get(), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/user/delete")
