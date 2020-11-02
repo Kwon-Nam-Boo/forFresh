@@ -92,7 +92,7 @@ public class KakaoPayService {
         params.add("partner_order_id", "1001");
         params.add("partner_user_id", "gorany");
         params.add("pg_token", pg_token);
-        params.add("total_amount", "2100");
+        params.add("total_amount", "1000");
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
         
