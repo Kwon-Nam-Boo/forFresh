@@ -119,26 +119,10 @@ public class RefrigShareController {
 
     }
 
-    @GetMapping("/getSharedRefrig")
-	@ApiOperation(value = "공유된 냉장고 조회하기")
-	public Object getSharedRefrig(@RequestParam(required = true) String userId) {
-        List<RefrigShare> refrigShareList = refrigShareDao.findBySharedIdAndAccept(userId, 1);
-        List<RefrigRegist> refrigList = new ArrayList<>();
-        Optional<RefrigRegist> refrigOpt;
-        for(int i=0; i<refrigShareList.size(); i++){
-            refrigOpt = refrigRegistDao.findByRefrigNo(refrigShareList.get(i).getRefrigNo());
-            refrigList.add(refrigOpt.get());
-        }
-        BasicResponse result = new BasicResponse();
-		if(!refrigList.isEmpty()) {
-			result.status = true;
-			result.object = refrigList;
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		}
-		else {
-			result.status=false;
-			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
-		}
-	}
+    // @GetMapping("/getSharedRefrig")
+	// @ApiOperation(value = "공유된 냉장고 조회하기")
+	// public Object getSharedRefrig(@RequestParam(required = true) String userId) {
+    //     System.out.println("삭제");
+	// }
     
 }

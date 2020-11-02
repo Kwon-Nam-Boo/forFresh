@@ -70,8 +70,16 @@ public class RefrigController {
     @GetMapping("/getRefrig")
 	@ApiOperation(value = "id로 냉장고 조회")
 	public Object getRefirig(@RequestParam("userId") String userId) {
+		BasicResponse result = new BasicResponse();
+		
+		List<RefrigShare> refrigShareList = refrigShareDao.findBySharedIdAndAccept(userId, 1);
         List<RefrigRegist> refrigList = refrigRegistDao.findByUserId(userId);
-        BasicResponse result = new BasicResponse();
+        Optional<RefrigRegist> refrigOpt;
+        for(int i=0; i<refrigShareList.size(); i++){
+            refrigOpt = refrigRegistDao.findByRefrigNo(refrigShareList.get(i).getRefrigNo());
+            refrigList.add(refrigOpt.get());
+        }
+
 		if(!refrigList.isEmpty()) {
 			result.status = true;
 			result.object = refrigList;
@@ -81,6 +89,7 @@ public class RefrigController {
 			result.status=false;
 			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
 		}
+
 	}
 
 	@GetMapping("/getRefrig/{refrigNo}")
