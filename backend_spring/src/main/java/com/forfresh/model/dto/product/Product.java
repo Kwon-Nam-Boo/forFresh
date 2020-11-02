@@ -3,10 +3,10 @@ package com.forfresh.model.dto.product;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,11 +16,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "product")
 public class Product {
 	
     @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer productNo;
     
     private Integer categoryNo;
