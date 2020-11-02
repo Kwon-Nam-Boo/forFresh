@@ -20,7 +20,7 @@
         {{ alertMessage }}
       </v-alert>
       <v-card class="mx-auto my-5" max-width="500">
-        <v-card-text class="text--primary" style="font-size:3vh">Login</v-card-text>
+        <v-card-text class="text--primary" style="font-size:3vh">로그인</v-card-text>
         <div class="px-10">
           <v-text-field
             class="mt-10"
