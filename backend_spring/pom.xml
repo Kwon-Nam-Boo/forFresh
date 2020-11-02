@@ -9,10 +9,10 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.web.curation</groupId>
-	<artifactId>webcuration</artifactId>
+	<groupId>com.forfresh</groupId>
+	<artifactId>forfresh</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>webcuration</name>
+	<name>forfresh</name>
 	<description>Web curation project for Spring Boot</description>
 
 	<properties>

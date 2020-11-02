@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar :title="title"></nav-bar>
+    <!-- <nav-bar :title="title"></nav-bar> -->
     <div>
          <img>
          <p>{{name}}</p>
@@ -8,9 +8,9 @@
     <div >
       <div class="expire">
         <p style="margin-left:3%;"> 유통기한 </p>
-        <v-app id="inspire" style=" margin-top:10%">
-        <v-progress-linear value="30" height="25" color="#9DC8C8" rounded></v-progress-linear>
-        </v-app>
+        <div id="inspire" style=" margin-top:10%">
+          <v-progress-linear value="30" height="25" color="#9DC8C8" rounded></v-progress-linear>
+        </div>
         <p style=" font-size:12px; float:left; margin-right:60%; margin-left:5%">10월 1일</p>
         <p style=" font-size:12px;  margin-right:5%">10월 31일</p>
       </div>
@@ -26,12 +26,12 @@
   </div>
 </template>
 <script>
-import NavBar from "../components/NavBar";
+// import NavBar from "../components/NavBar";
 import Doughnut from "../vuex/Doughnut.js";
 
 export default {
     components: {
-    NavBar,
+    // NavBar,
     Doughnut,
   },
    data() {
@@ -44,6 +44,12 @@ export default {
       loaded:false,
       chartData: null,
     }
+  },
+  created() {
+    this.$emit('updateTitle', '메인페이지');
+    // if(this.$session.get('userinfo')){
+
+    // }
   },
   async mounted() {
     this.chartData = {
@@ -64,23 +70,22 @@ export default {
 
 }
 </script>
-<style scoped>
+<style>
 #inspire{
-    width: 80%;
-    margin: 0 auto;
-   
+  width: 80%;
+  margin: 0 auto;
+  flex: 1 1 auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 1vh !important;
+  max-width: 100%;
+  position: relative;
 }
-#v-application--wrap {
-    flex: 1 1 auto;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 20vh !important;
-    max-width: 100%;
-    position: relative;
-}
+
 .expire{
   margin-bottom: 5%;
 }
+
 </style>
