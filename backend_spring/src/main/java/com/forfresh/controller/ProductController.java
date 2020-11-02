@@ -119,7 +119,7 @@ public class ProductController {
 		return new ResponseEntity<List<Product>>(serachProductList.get(),HttpStatus.OK);
 	}
 
-	// ****************** shoppingLIST CRUD (상품 댓글)
+	// ****************** shoppingLIST CRUD (장바구니)
 	@GetMapping("/shop/list")
 	@ApiOperation(value = "사용자 장바구니 리스트 조회")
 	public ResponseEntity<List<ShopListProduct>> getUserShopList(@RequestParam("userId") String userId,
@@ -156,7 +156,7 @@ public class ProductController {
 			return new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
 		}
 	}
-	// ****************** productComment CRUD (장바구니 )
+	// ****************** productComment CRUD (댓글 )
 	@GetMapping("/comment/list")
 	@ApiOperation(value="상품 댓글 리스트 조회")
 	public ResponseEntity<List<ProductComment>> getCommentList(@RequestParam("productNo") Integer productNo, 
