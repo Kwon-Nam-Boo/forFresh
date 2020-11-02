@@ -5,7 +5,6 @@
     vertical
     vertical-delimiters
     hide-delimiter-background
-    height="100%"
     touchless
     v-touch="{up: () => swipe('Up'),
         down: () => swipe('Down')}"
