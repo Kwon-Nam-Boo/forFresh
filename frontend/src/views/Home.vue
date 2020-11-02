@@ -53,40 +53,53 @@
           </v-icon>
         </v-btn>
       </template>
-        <v-btn
-          fab
-          dark
-          small
-          color="green"
-        >
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-       
-        <v-btn
-          fab
-          dark
-          small
-          color="indigo"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
+        <!-- 냉장고 삭제 -->
         <v-btn
           fab
           dark
           small
           color="red"
+          @click="deleteRef"
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
+        <!-- 냉장고 공유 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="green"
+          @click="shareRef"
+        >
+          <v-icon>mdi-share-variant</v-icon>
+        </v-btn>
+        <!-- 냉장고 추가 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="indigo"
+          @click="addRef"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        
     </v-speed-dial>
+    <v-dialog
+      v-model="isAddRef"
+    >
+      <addRefrigerator @close="closeDialog"></addRefrigerator>
+    </v-dialog>
   </v-main>
 </template>
 
 <script>
 import Refrigerator from "../components/Refrigerator";
+import addRefrigerator from "../components/addRefrigerator";
 export default {
   components: {
     Refrigerator,
+    addRefrigerator,
   },
   created() {
     this.$emit('updateTitle', '메인페이지');
@@ -102,8 +115,23 @@ export default {
       items: [
         '냉장고1', '냉장고2', '냉장고3', '냉장고4',
       ],
+      isAddRef: false,
     }
   },
+  methods: {
+    addRef() {
+      this.isAddRef=true;
+    },
+    shareRef() {
+      console.log("2")
+    },
+    deleteRef() {
+      console.log("3")
+    },
+    closeDialog() {
+      this.isAddRef = false;
+    }
+  }
 };
 </script>
 <style>
