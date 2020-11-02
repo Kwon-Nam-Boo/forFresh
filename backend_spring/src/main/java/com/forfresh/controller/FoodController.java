@@ -1,5 +1,6 @@
 package com.forfresh.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.forfresh.model.BasicResponse;
 import com.forfresh.model.dao.refrig.RefrigRegistDao;
 import com.forfresh.model.dao.refrig.RefrigShareDao;
+import com.forfresh.model.dao.refrig.FoodlistDao;
 import com.forfresh.model.dto.refrig.Expiration;
 import com.forfresh.model.dto.refrig.Foodlist;
 import com.forfresh.model.dto.refrig.RefrigRegist;
@@ -53,19 +55,34 @@ public class FoodController {
     // @Autowired
     // RefrigShareDao refrigShareDao;
 
-    // @PostMapping("/register")
-	// @ApiOperation(value = "음식 넣기")
-	// public Object save(@RequestBody Refrig refrig) {
-	// 	BasicResponse result = new BasicResponse();
+    @Autowired
+    FoodlistDao foodlistDao;
 
-    //     RefrigRegist refrigRegist = new RefrigRegist();
-    //     refrigRegist.setUserId(refrig.getUserId());
-    //     refrigRegist.setRefrigName(refrig.getRefrigName());
-        
-    //     result.status = true;
-    //     refrigRegistDao.save(refrigRegist);
-    //     return new ResponseEntity<>(result, HttpStatus.OK);
+    @PostMapping("/register")
+	@ApiOperation(value = "음식 넣기")
+	public Object save(@RequestParam(required = true) Integer refrigNo, @RequestParam(required = true) List<String> foodNameList) {
+        BasicResponse result = new BasicResponse();
+        // List<Foodlist> foodLists = new ArrayList<>();
+        for (int i=0; i<foodNameList.size(); i++){
+            Foodlist foodlist = new Foodlist();
+            foodlist.setRefrigNo(refrigNo);
+            String foodName = foodNameList.get(i);
+            foodlist.setFoodName(foodName);
+            foodlist.setCategoryNo(2);
+            foodlist.setStatus(1);
+            foodlistDao.save(foodlist);
+            // foodLists.add(foodlist);
+        }
 
+        // System.out.println(foodLists.get(0));
+        // System.out.println(foodLists.get(1));
+
+        // foodlistDao.saveAll(foodLists);
+        result.status = true;
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+
+    }
 
     
 }

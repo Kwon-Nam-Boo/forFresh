@@ -2,6 +2,8 @@ package com.forfresh.model.dto.refrig;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,11 +20,12 @@ import lombok.NoArgsConstructor;
 public class Foodlist {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int foodNo;
     
     private int refrigNo;
     private int categoryNo;
-    private String name;
+    private String foodName;
     private int status;
     private String registDate;
 
