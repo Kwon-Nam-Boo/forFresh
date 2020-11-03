@@ -71,7 +71,7 @@ public class FoodController {
             String foodName = foodNameList.get(i);
             foodlist.setFoodName(foodName);
 
-            foodlist.setCategoryNo("111");
+            foodlist.setCategoryNo(111);
             foodlist.setStatus("status");;
 
             foodlistDao.save(foodlist);

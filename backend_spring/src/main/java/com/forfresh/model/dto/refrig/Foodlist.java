@@ -24,7 +24,7 @@ public class Foodlist {
     private int foodNo;
     
     private int refrigNo;
-    private String categoryNo;
+    private int categoryNo;
     private String foodName;
     private String status;
     private String registDate;
