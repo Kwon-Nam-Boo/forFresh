@@ -68,7 +68,7 @@ const shareRef = (data, callback, errorCallback) => {
 const deleteRef = (data, callback, errorCallback) => {
   axios({
       method: "DELETE",
-      url: BASE_URL + "/deleteRefrig",
+      url: BASE_URL + "/refrig/deleteRefrig",
       params: {
         userId: data.userId,
         refrigNo: data.refrigNo,

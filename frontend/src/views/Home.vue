@@ -63,7 +63,7 @@
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
-        <!-- 냉장고 편집 -->
+        <!-- 냉장고 이름 편집 -->
         <v-btn
           fab
           dark
@@ -98,7 +98,7 @@
     <v-dialog
       v-model="isAddRef"
     >
-      <AddRefrigerator @close="closeDialog"></AddRefrigerator>
+      <AddRefrigerator @close="closeDialog" @getRef="getRef"></AddRefrigerator>
     </v-dialog>
     <v-dialog
       v-model="isShareRef"
@@ -108,12 +108,12 @@
     <v-dialog
       v-model="isDeleteRef"
     >
-      <DeleteRefrigerator :item="items[tab]" @close="closeDialog"></DeleteRefrigerator>
+      <DeleteRefrigerator :item="items[tab]" @close="closeDialog" @getRef="getRef"></DeleteRefrigerator>
     </v-dialog>
     <v-dialog
       v-model="isEditRef"
     >
-      <EditRefrigerator :item="items[tab]" @close="closeDialog"></EditRefrigerator>
+      <EditRefrigerator :item="items[tab]" @close="closeDialog" @getRef="getRef"></EditRefrigerator>
     </v-dialog>
   </v-main>
 </template>

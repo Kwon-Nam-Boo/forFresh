@@ -3,6 +3,9 @@
     <v-btn icon style="float: right;" @click="closeDialog" >
       <v-icon>mdi-close</v-icon>
     </v-btn>
+    <v-alert :type="alertType" v-if="alertMessage">
+      {{alertMessage}}
+    </v-alert>
     <v-card-title class="headline lighten-2 green--text">
       냉장고 공유하기
     </v-card-title>
@@ -37,6 +40,8 @@ export default {
   data(){
     return{
       shareUserName: "",
+      alertType: false,
+      alertMessage: "",
     }
   },
   methods: {
@@ -48,8 +53,11 @@ export default {
       RefApi.shareRef(
         data,
         (res) => {
-          this.shareUserName="";
-          this.closeDialog();
+          this.alertType = "success";
+          this.alertMessage = "냉장고 공유릉 성공하였습니다.";
+          setTimeout(()=>{
+            this.closeDialog();
+          },2000)
         },
         (error) => {
 
@@ -57,6 +65,9 @@ export default {
       );
     },
     closeDialog() {
+      this.shareUserName="";
+      this.alertType = false;
+      this.alertMessage = "";
       this.$emit('close');
     },
   }
