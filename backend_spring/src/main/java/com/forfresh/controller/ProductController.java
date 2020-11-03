@@ -56,6 +56,10 @@ public class ProductController {
 	public ResponseEntity<List<Product>> getProductList(@RequestParam("categoryNo") Integer categoryNo,
 			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
 		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo, pageable);
+		for (int i = 0; i < productList.get().size(); i++) {
+			int productNo = productList.get().get(i).getProductNo();
+			productList.get().get(i).setAvgRate(productCommentDao.productAvgRate(productNo));
+		}
 		return new ResponseEntity<List<Product>>(productList.get(), HttpStatus.OK);
 	}
 
