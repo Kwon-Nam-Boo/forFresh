@@ -1,5 +1,29 @@
 <template>
   <v-main>
+    <!-- 냉장고가 없을 때 -->
+    <v-container 
+      class="text-center fill-height"
+      v-if="isNoItem"
+    >
+      <v-row class="align-center">
+        <v-col>
+          <img src="@/assets/img/isnoitem.png" width="200">
+          <h1 class="display-2 primary--text">
+            냉장고가 없어요!
+          </h1>
+          <p>냉장고를 추가해주세요</p>
+          <v-btn
+            dark
+            large
+            color="#88dba3"
+            @click="addRef"
+          >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        </v-col>
+      </v-row>
+
+    </v-container>
     <!-- 냉장고 고르기 탭 -->
     <v-tabs
       v-model="tab"
@@ -31,6 +55,7 @@
     </v-tabs-items>
     <v-speed-dial
       v-model="fab"
+      v-if="!isNoItem"
       bottom
       right
       fixed
@@ -147,6 +172,7 @@ export default {
       tab: null,
       fab: false,
       items: [],
+      isNoItem: false,
       isAddRef: false,
       isShareRef: false,
       isDeleteRef: false,
@@ -179,10 +205,12 @@ export default {
       RefApi.getRef(
         data,
         (res) => {
-          this.items=res.data.object;
+          this.isNoItem = false;
+          this.items = res.data.object;
         },
         (error) => {
-          console.log(error);
+          this.isNoItem = true;
+          this.items = [];
         }
       )
     }

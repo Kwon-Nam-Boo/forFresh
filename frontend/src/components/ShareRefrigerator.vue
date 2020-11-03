@@ -1,11 +1,11 @@
 <template>
   <v-card>
-    <v-btn icon style="float: right;" @click="closeDialog" >
-      <v-icon>mdi-close</v-icon>
-    </v-btn>
     <v-alert :type="alertType" v-if="alertMessage">
       {{alertMessage}}
     </v-alert>
+    <v-btn icon style="float: right;" @click="closeDialog" >
+      <v-icon>mdi-close</v-icon>
+    </v-btn>
     <v-card-title class="headline lighten-2 green--text">
       냉장고 공유하기
     </v-card-title>
@@ -26,6 +26,7 @@
         color="primary"
         text
         @click="shareRef"
+        :disabled="!isSubmit"
       >
         공유하기
       </v-btn>
@@ -42,6 +43,15 @@ export default {
       shareUserName: "",
       alertType: false,
       alertMessage: "",
+      isSubmit: false,
+    }
+  },
+  watch: {
+    refrigName: function() {
+      if(this.refrigName.length > 0)
+        this.isSubmit = true;
+      else
+        this.isSubmit = false;
     }
   },
   methods: {
@@ -68,6 +78,7 @@ export default {
       this.shareUserName="";
       this.alertType = false;
       this.alertMessage = "";
+      this.isSubmit = false;
       this.$emit('close');
     },
   }

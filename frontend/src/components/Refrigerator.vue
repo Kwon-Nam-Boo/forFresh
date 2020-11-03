@@ -64,7 +64,7 @@
                   <v-list-item-group>
                     <v-list-item class='pa-0'>
                       <v-avatar class="mx-auto" size='40'>
-                        <img src=food.img>
+                        <img :src="require(`@/assets/img/${food.img}`)">
                       </v-avatar>
                     </v-list-item>
                     <v-list-item class='foodname pa-0' dense>
@@ -96,14 +96,14 @@ export default {
         ['위험','red'], ['보통','blue'], ['신선','green'],
       ],
       foodList: [
-        {num:1,img:"@/assets/tofu.png", name:'두부'},
-        {num:2,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:3,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:4,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:5,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:6,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:7,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:8,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
+        {num:1,img:"tofu.png", name:'두부'},
+        {num:2,img:"tofu.png", name:'두부'},
+        {num:3,img:"tofu.png", name:'두부'},
+        {num:4,img:"tofu.png", name:'두부'},
+        {num:5,img:"tofu.png", name:'두부'},
+        {num:6,img:"tofu.png", name:'두부'},
+        {num:7,img:"tofu.png", name:'두부'},
+        {num:8,img:"tofu.png", name:'두부'},
 
       ],
       options:[
