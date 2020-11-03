@@ -5,9 +5,9 @@ from rest_framework.permissions import IsAuthenticated
 from django.http.response import JsonResponse, HttpResponse
 # Create your views here.
 
-@api_view(['POST'])
-def getItemInfo(request):
-    data = request.body
+@api_view(['GET'])
+def getItemInfo(request, foodName):
+    data = list(foodName)
     print(data)
     try:
         return JsonResponse({
@@ -19,3 +19,4 @@ def getItemInfo(request):
         return JsonResponse({
             "fff":111
         })
+

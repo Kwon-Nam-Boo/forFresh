@@ -24,10 +24,12 @@ public class Foodlist {
     private int foodNo;
     
     private int refrigNo;
-    private int categoryNo;
+    private String categoryNo;
     private String foodName;
-    private int status;
+    private String status;
     private String registDate;
+    private int stock;
+    private int price;
 
 }
 

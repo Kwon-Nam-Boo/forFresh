@@ -65,15 +65,14 @@ public class FoodController {
     public Object save(@RequestParam(required = true) Integer refrigNo,
             @RequestParam(required = true) List<String> foodNameList) {
         BasicResponse result = new BasicResponse();
-        // List<Foodlist> foodLists = new ArrayList<>();
         for (int i = 0; i < foodNameList.size(); i++) {
             Foodlist foodlist = new Foodlist();
             foodlist.setRefrigNo(refrigNo);
             String foodName = foodNameList.get(i);
             foodlist.setFoodName(foodName);
 
-            foodlist.setCategoryNo(2);
-            foodlist.setStatus(1);
+            foodlist.setCategoryNo("111");
+            foodlist.setStatus("status");;
 
             foodlistDao.save(foodlist);
         }
@@ -161,7 +160,6 @@ public class FoodController {
 			result.status=false;
 			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
 		}
-
     }
     
 }
