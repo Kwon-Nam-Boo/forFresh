@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import RefApi from "../api/RefApi"
+const storage = window.sessionStorage;
 export default {
   data(){
     return{
@@ -36,9 +38,20 @@ export default {
   },
   methods: {
     createRef() {
-      console.log(this.refrigName);
+      const data = {
+        userId: storage.getItem("login_user"),
+        refrigName: this.refrigName,
+      }
+      RefApi.addRef(
+        data,
+        (res) => {
+          this.$emit('getRef');
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
 
-      
       this.refrigName="";
       this.closeDialog();
     },

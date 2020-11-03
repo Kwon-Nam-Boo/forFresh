@@ -7,7 +7,7 @@
       <v-text-field
         class="mt-10"
         v-model="shareUserName"
-        label="냉장고 이름"
+        label="공유할 유저 아이디"
         outlined
         hide-details
       ></v-text-field>

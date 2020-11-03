@@ -10,16 +10,16 @@
       <v-tabs-slider color="#88dba3"></v-tabs-slider>
 
       <v-tab
-        v-for="item in items"
-        :key="item"
+        v-for="(item,i) in items"
+        :key="i"
       >
-        {{item}}
+        {{item.refrigName}}
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item
-        v-for="item in items"
-        :key="item"
+        v-for="(item,i) in items"
+        :key="i"
       >
         <v-card
           color="="
@@ -95,14 +95,17 @@
 
 <script>
 import Refrigerator from "../components/Refrigerator";
-import addRefrigerator from "../components/addRefrigerator";
+import AddRefrigerator from "../components/AddRefrigerator";
+import RefApi from "../api/RefApi";
+const storage = window.sessionStorage;
 export default {
   components: {
     Refrigerator,
-    addRefrigerator,
+    AddRefrigerator,
   },
   created() {
     this.$emit('updateTitle', '메인페이지');
+    this.getRef();
     // if(this.$session.get('userinfo')){
 
     // }
@@ -112,9 +115,7 @@ export default {
       title:"메인페이지",
       tab: null,
       fab: false,
-      items: [
-        '냉장고1', '냉장고2', '냉장고3', '냉장고4',
-      ],
+      items: [],
       isAddRef: false,
     }
   },
@@ -130,6 +131,20 @@ export default {
     },
     closeDialog() {
       this.isAddRef = false;
+    },
+    getRef() {
+      const data = {
+        userId: storage.getItem("login_user"),
+      }
+      RefApi.getRef(
+        data,
+        (res) => {
+          this.items=res.data.object;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
     }
   }
 };
