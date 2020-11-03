@@ -10,22 +10,22 @@
       <v-tabs-slider color="#88dba3"></v-tabs-slider>
 
       <v-tab
-        v-for="(item,i) in items"
-        :key="i"
+        v-for="item in items"
+        :key="item.refrigNo"
       >
         {{item.refrigName}}
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item
-        v-for="(item,i) in items"
-        :key="i"
+        v-for="item in items"
+        :key="item.refrigNo"
       >
         <v-card
           color="="
           flat
         >
-          <refrigerator></refrigerator>
+          <Refrigerator></Refrigerator>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -88,20 +88,34 @@
     <v-dialog
       v-model="isAddRef"
     >
-      <addRefrigerator @close="closeDialog"></addRefrigerator>
+      <AddRefrigerator @close="closeDialog"></AddRefrigerator>
+    </v-dialog>
+    <v-dialog
+      v-model="isShareRef"
+    >
+      <ShareRefrigerator :item="items[tab]" @close="closeDialog"></ShareRefrigerator>
+    </v-dialog>
+    <v-dialog
+      v-model="isDeleteRef"
+    >
+      <DeleteRefrigerator :item="items[tab]" @close="closeDialog"></DeleteRefrigerator>
     </v-dialog>
   </v-main>
 </template>
 
 <script>
 import Refrigerator from "../components/Refrigerator";
-import AddRefrigerator from "../components/addRefrigerator";
+import AddRefrigerator from "../components/AddRefrigerator";
+import ShareRefrigerator from "../components/ShareRefrigerator";
+import DeleteRefrigerator from "../components/DeleteRefrigerator";
 import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
   components: {
     Refrigerator,
     AddRefrigerator,
+    ShareRefrigerator,
+    DeleteRefrigerator,
   },
   created() {
     this.$emit('updateTitle', '메인페이지');
@@ -117,6 +131,8 @@ export default {
       fab: false,
       items: [],
       isAddRef: false,
+      isShareRef: false,
+      isDeleteRef: false,
     }
   },
   methods: {
@@ -124,13 +140,15 @@ export default {
       this.isAddRef=true;
     },
     shareRef() {
-      console.log("2")
+      this.isShareRef=true;
     },
     deleteRef() {
-      console.log("3")
+      this.isDeleteRef=true;
     },
     closeDialog() {
-      this.isAddRef = false;
+      this.isAddRef=false;
+      this.isShareRef=false;
+      this.isDeleteRef=false;
     },
     getRef() {
       const data = {
