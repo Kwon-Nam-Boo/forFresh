@@ -95,7 +95,7 @@
 
 <script>
 import Refrigerator from "../components/Refrigerator";
-import AddRefrigerator from "../components/AddRefrigerator";
+import AddRefrigerator from "../components/addRefrigerator";
 import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
