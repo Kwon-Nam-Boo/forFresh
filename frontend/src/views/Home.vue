@@ -1,30 +1,16 @@
 <template>
   <v-main>
     <!-- 냉장고 고르기 탭 -->
-    <v-tabs
-      v-model="tab"
-      background-color=""
-      color="#88dba3"
-      show-arrows
-    >
+    <v-tabs v-model="tab" background-color="" color="#88dba3" show-arrows>
       <v-tabs-slider color="#88dba3"></v-tabs-slider>
 
-      <v-tab
-        v-for="(item,i) in items"
-        :key="i"
-      >
-        {{item.refrigName}}
+      <v-tab v-for="(item, i) in items" :key="i">
+        {{ item.refrigName }}
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
-      <v-tab-item
-        v-for="(item,i) in items"
-        :key="i"
-      >
-        <v-card
-          color="="
-          flat
-        >
+      <v-tab-item v-for="(item, i) in items" :key="i">
+        <v-card color="=" flat>
           <refrigerator></refrigerator>
         </v-card>
       </v-tab-item>
@@ -38,56 +24,25 @@
       transition="slide-y-reverse-transition"
     >
       <template v-slot:activator>
-        <v-btn
-          v-model="fab"
-          color="#88dba3"
-          dark
-          fab
-          small
-        >
-          <v-icon v-if="fab">
-            mdi-close
-          </v-icon>
-          <v-icon v-else>
-            mdi-format-list-bulleted-square
-          </v-icon>
+        <v-btn v-model="fab" color="#88dba3" dark fab small>
+          <v-icon v-if="fab"> mdi-close </v-icon>
+          <v-icon v-else> mdi-format-list-bulleted-square </v-icon>
         </v-btn>
       </template>
-        <!-- 냉장고 삭제 -->
-        <v-btn
-          fab
-          dark
-          small
-          color="red"
-          @click="deleteRef"
-        >
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-        <!-- 냉장고 공유 -->
-        <v-btn
-          fab
-          dark
-          small
-          color="green"
-          @click="shareRef"
-        >
-          <v-icon>mdi-share-variant</v-icon>
-        </v-btn>
-        <!-- 냉장고 추가 -->
-        <v-btn
-          fab
-          dark
-          small
-          color="indigo"
-          @click="addRef"
-        >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-        
+      <!-- 냉장고 삭제 -->
+      <v-btn fab dark small color="red" @click="deleteRef">
+        <v-icon>mdi-delete</v-icon>
+      </v-btn>
+      <!-- 냉장고 공유 -->
+      <v-btn fab dark small color="green" @click="shareRef">
+        <v-icon>mdi-share-variant</v-icon>
+      </v-btn>
+      <!-- 냉장고 추가 -->
+      <v-btn fab dark small color="indigo" @click="addRef">
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
     </v-speed-dial>
-    <v-dialog
-      v-model="isAddRef"
-    >
+    <v-dialog v-model="isAddRef">
       <addRefrigerator @close="closeDialog"></addRefrigerator>
     </v-dialog>
   </v-main>
@@ -95,7 +50,7 @@
 
 <script>
 import Refrigerator from "../components/Refrigerator";
-import AddRefrigerator from "../components/AddRefrigerator";
+import AddRefrigerator from "../components/addRefrigerator";
 import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
@@ -104,7 +59,7 @@ export default {
     AddRefrigerator,
   },
   created() {
-    this.$emit('updateTitle', '메인페이지');
+    this.$emit("updateTitle", "메인페이지");
     this.getRef();
     // if(this.$session.get('userinfo')){
 
@@ -112,22 +67,22 @@ export default {
   },
   data() {
     return {
-      title:"메인페이지",
+      title: "메인페이지",
       tab: null,
       fab: false,
       items: [],
       isAddRef: false,
-    }
+    };
   },
   methods: {
     addRef() {
-      this.isAddRef=true;
+      this.isAddRef = true;
     },
     shareRef() {
-      console.log("2")
+      console.log("2");
     },
     deleteRef() {
-      console.log("3")
+      console.log("3");
     },
     closeDialog() {
       this.isAddRef = false;
@@ -135,20 +90,19 @@ export default {
     getRef() {
       const data = {
         userId: storage.getItem("login_user"),
-      }
+      };
       RefApi.getRef(
         data,
         (res) => {
-          this.items=res.data.object;
+          this.items = res.data.object;
         },
         (error) => {
           console.log(error);
         }
-      )
-    }
-  }
+      );
+    },
+  },
 };
 </script>
 <style>
-
 </style>
