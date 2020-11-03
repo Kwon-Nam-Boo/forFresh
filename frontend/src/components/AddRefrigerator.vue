@@ -3,6 +3,9 @@
     <v-btn icon style="float: right;" @click="closeDialog" >
       <v-icon>mdi-close</v-icon>
     </v-btn>
+    <v-alert :type="alertType" v-if="alertMessage">
+        {{alertMessage}}
+    </v-alert>
 
     <v-card-title class="headline lighten-2 green--text">
       냉장고 만들기
@@ -39,6 +42,8 @@ export default {
   data(){
     return{
       refrigName: "",
+      alertType: false,
+      alertMessage: "",
     }
   },
   methods: {
@@ -51,16 +56,23 @@ export default {
         data,
         (res) => {
           this.$emit('getRef');
-          this.refrigName="";
-          this.closeDialog();
+          this.alertType = "success";
+          this.alertMessage = "냉장고 등록이 완료되었습니다.";
+          setTimeout(()=>{
+            this.closeDialog();
+          },2000)
         },
         (error) => {
-          console.log(error);
+          this.alertType = "error";
+          this.alertMessage = "냉장고 등록 중 에러가 발생했습니다.";
         }
       );
 
     },
     closeDialog() {
+      this.refrigName="";
+      this.alertType = false;
+      this.alertMessage = "";
       this.$emit('close');
     },
   }
