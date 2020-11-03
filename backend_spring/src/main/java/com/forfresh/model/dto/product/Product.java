@@ -18,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "product")
 public class Product {
 	
@@ -34,5 +33,4 @@ public class Product {
     private String imgUrl; 
     private LocalDateTime registDate;
     private Integer avgRate;
-    private String detailImgs;
 }

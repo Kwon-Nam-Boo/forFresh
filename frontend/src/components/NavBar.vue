@@ -74,6 +74,8 @@
           </v-list-item>
 
           <PayButton />
+          <br />
+          <AddProduct />
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
@@ -88,12 +90,14 @@
 <script>
 import UserApi from "../api/UserApi";
 import PayButton from "../components/payment/Paytest";
+import AddProduct from "../components/product/AddProduct";
 
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
   components: {
     PayButton,
+    AddProduct,
   },
   data() {
     return {

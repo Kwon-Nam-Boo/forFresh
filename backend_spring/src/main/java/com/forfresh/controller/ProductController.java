@@ -92,7 +92,6 @@ public class ProductController {
 		findProduct.get().setAvgRate(product.getAvgRate());
 		findProduct.get().setCategoryNo(product.getCategoryNo());
 		findProduct.get().setDescription(product.getDescription());
-		findProduct.get().setDetailImgs(product.getDetailImgs());
 		findProduct.get().setImgUrl(product.getImgUrl());
 		findProduct.get().setProductName(product.getProductName());
 		findProduct.get().setProductPrice(product.getProductPrice());
