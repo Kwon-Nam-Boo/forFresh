@@ -17,7 +17,12 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     private String userId;
+    
     private String password;
     private String nickName;
+    private String phone;
+    private String addr1;
+    private String addr2;
+    private String addr3;
     
 }

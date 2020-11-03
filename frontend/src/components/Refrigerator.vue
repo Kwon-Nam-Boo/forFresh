@@ -1,23 +1,45 @@
 <template>
   <div class="ma-5">
-    <v-card width="180" height="30">
-    <v-tabs
-      v-model="tab"
-      background-color=""
-      color="#88dba3"
-      grow
-      height="30"
-    >
-      <v-tabs-slider color="#88dba3"></v-tabs-slider>
-      <v-tab
-        class="px-1"
-        v-for="item in items"
-        :key="item"
-      >
-        {{item}}
-      </v-tab>
-    </v-tabs>
-    </v-card>
+    <v-row>
+      <v-col>
+        <v-card width="180" height="30">
+          <v-tabs
+            v-model="tab"
+            background-color=""
+            color="#88dba3"
+            grow
+            height="30"
+          >
+            <v-tabs-slider color="#88dba3"></v-tabs-slider>
+            <v-tab
+              class="px-1"
+              v-for="item in items"
+              :key="item"
+            >
+              {{item}}
+            </v-tab>
+          </v-tabs>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-select
+          v-model="select"
+          :items="options"
+          item-text="text"
+          item-value="val"
+          label="식재료 수정"
+          dense
+          solo
+        ></v-select>
+        <v-dialog
+          v-model="deleteDialog"
+        >
+          <delete-food @close="closeDialog"></delete-food>
+        </v-dialog>
+      </v-col>
+    </v-row>
+    
+    
     <v-tabs-items v-model="tab">
       <v-tab-item
         v-for="item in items"
@@ -59,7 +81,11 @@
 </template>
 
 <script>
+import deleteFood from './DeleteFood'
 export default {
+  components:{
+    deleteFood,
+  },
   data() {
     return {
       tab: null,
@@ -79,9 +105,29 @@ export default {
         {num:7,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
         {num:8,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
 
-      ]
+      ],
+      options:[
+        {text:'추가하기', val:'1'}, {text:'삭제하기', val:'2'}
+      ],
+      select: '0',
+      deleteDialog: false,
     }
   },
+  watch: {
+    select: function() {
+      if(this.select==1){
+        this.$router.push('/post');
+      } else if(this.select==2){
+        this.deleteDialog = true;
+      }
+    },
+  },
+  methods: {
+    closeDialog() {
+      this.select = 0;
+      this.deleteDialog = false;
+    }
+  }
 };
 </script>
 <style scoped>
@@ -94,6 +140,9 @@ export default {
   .v-card{
     border-color:#e2efef;
     border-width: 2px;
+  }
+  .v-select{
+    font-size:12px;
   }
 
 </style>
