@@ -10,16 +10,16 @@
       <v-tabs-slider color="#88dba3"></v-tabs-slider>
 
       <v-tab
-        v-for="item in items"
-        :key="item"
+        v-for="(item,i) in items"
+        :key="i"
       >
-        {{item}}
+        {{item.refrigName}}
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
       <v-tab-item
-        v-for="item in items"
-        :key="item"
+        v-for="(item,i) in items"
+        :key="i"
       >
         <v-card
           color="="
@@ -29,32 +29,83 @@
         </v-card>
       </v-tab-item>
     </v-tabs-items>
-    <v-fab-transition>
-      <v-btn
-        color="#88dba3"
-        fixed
-        bottom
-        right
-        fab
-        dark
-        small
-      >
-        <v-icon>
-          mdi-plus
-        </v-icon>
-      </v-btn>
-    </v-fab-transition>
+    <v-speed-dial
+      v-model="fab"
+      bottom
+      right
+      fixed
+      direction="top"
+      transition="slide-y-reverse-transition"
+    >
+      <template v-slot:activator>
+        <v-btn
+          v-model="fab"
+          color="#88dba3"
+          dark
+          fab
+          small
+        >
+          <v-icon v-if="fab">
+            mdi-close
+          </v-icon>
+          <v-icon v-else>
+            mdi-format-list-bulleted-square
+          </v-icon>
+        </v-btn>
+      </template>
+        <!-- 냉장고 삭제 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="red"
+          @click="deleteRef"
+        >
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+        <!-- 냉장고 공유 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="green"
+          @click="shareRef"
+        >
+          <v-icon>mdi-share-variant</v-icon>
+        </v-btn>
+        <!-- 냉장고 추가 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="indigo"
+          @click="addRef"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        
+    </v-speed-dial>
+    <v-dialog
+      v-model="isAddRef"
+    >
+      <addRefrigerator @close="closeDialog"></addRefrigerator>
+    </v-dialog>
   </v-main>
 </template>
 
 <script>
 import Refrigerator from "../components/Refrigerator";
+import AddRefrigerator from "../components/AddRefrigerator";
+import RefApi from "../api/RefApi";
+const storage = window.sessionStorage;
 export default {
   components: {
     Refrigerator,
+    AddRefrigerator,
   },
   created() {
     this.$emit('updateTitle', '메인페이지');
+    this.getRef();
     // if(this.$session.get('userinfo')){
 
     // }
@@ -63,11 +114,39 @@ export default {
     return {
       title:"메인페이지",
       tab: null,
-      items: [
-        '냉장고1', '냉장고2', '냉장고3', '냉장고4',
-      ],
+      fab: false,
+      items: [],
+      isAddRef: false,
     }
   },
+  methods: {
+    addRef() {
+      this.isAddRef=true;
+    },
+    shareRef() {
+      console.log("2")
+    },
+    deleteRef() {
+      console.log("3")
+    },
+    closeDialog() {
+      this.isAddRef = false;
+    },
+    getRef() {
+      const data = {
+        userId: storage.getItem("login_user"),
+      }
+      RefApi.getRef(
+        data,
+        (res) => {
+          this.items=res.data.object;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
+  }
 };
 </script>
 <style>
