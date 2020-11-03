@@ -65,6 +65,50 @@ const shareRef = (data, callback, errorCallback) => {
         errorCallback(error);
       });
 };
+const deleteRef = (data, callback, errorCallback) => {
+  axios({
+      method: "DELETE",
+      url: BASE_URL + "/deleteRefrig",
+      params: {
+        userId: data.userId,
+        refrigNo: data.refrigNo,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
+const editRef = (data, callback, errorCallback) => {
+  axios({
+      method: "PATCH",
+      url: BASE_URL + "/refrig/changeName",
+      params: {
+        userId: data.userId,
+        refrigNo: data.refrigNo,
+        refrigName: data.refrigName,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
+
 
 const RefApi = {
     addRef: (data, callback, errorCallback) =>
@@ -73,6 +117,10 @@ const RefApi = {
         getRef(data, callback, errorCallback),
     shareRef: (data, callback, errorCallback) =>
         shareRef(data, callback, errorCallback),
+    deleteRef: (data, callback, errorCallback) =>
+        deleteRef(data, callback, errorCallback),
+    editRef: (data, callback, errorCallback) =>
+        editRef(data, callback, errorCallback),
 };
 
 export default RefApi;

@@ -63,6 +63,16 @@
         >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
+        <!-- 냉장고 편집 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="yellow"
+          @click="editRef"
+        >
+          <v-icon>mdi-square-edit-outline</v-icon>
+        </v-btn>
         <!-- 냉장고 공유 -->
         <v-btn
           fab
@@ -100,6 +110,11 @@
     >
       <DeleteRefrigerator :item="items[tab]" @close="closeDialog"></DeleteRefrigerator>
     </v-dialog>
+    <v-dialog
+      v-model="isEditRef"
+    >
+      <EditRefrigerator :item="items[tab]" @close="closeDialog"></EditRefrigerator>
+    </v-dialog>
   </v-main>
 </template>
 
@@ -108,6 +123,7 @@ import Refrigerator from "../components/Refrigerator";
 import AddRefrigerator from "../components/AddRefrigerator";
 import ShareRefrigerator from "../components/ShareRefrigerator";
 import DeleteRefrigerator from "../components/DeleteRefrigerator";
+import EditRefrigerator from "../components/EditRefrigerator";
 import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
@@ -116,6 +132,7 @@ export default {
     AddRefrigerator,
     ShareRefrigerator,
     DeleteRefrigerator,
+    EditRefrigerator,
   },
   created() {
     this.$emit('updateTitle', '메인페이지');
@@ -133,6 +150,7 @@ export default {
       isAddRef: false,
       isShareRef: false,
       isDeleteRef: false,
+      isEditRef: false,
     }
   },
   methods: {
@@ -145,10 +163,14 @@ export default {
     deleteRef() {
       this.isDeleteRef=true;
     },
+    editRef() {
+      this.isEditRef=true;
+    },
     closeDialog() {
       this.isAddRef=false;
       this.isShareRef=false;
       this.isDeleteRef=false;
+      this.isEditRef=false;
     },
     getRef() {
       const data = {
