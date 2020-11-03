@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.forfresh.model.dto.product.Product;
 import com.forfresh.model.dto.product.ShoppingList;
 
 public interface ShoppingListDao extends JpaRepository<ShoppingList, Integer>{
@@ -28,7 +29,7 @@ public interface ShoppingListDao extends JpaRepository<ShoppingList, Integer>{
 	List<ShopListProduct> findByUserId(@Param("userId") String userId, Pageable pageable); 
 	
 	public static interface ShopListProduct{
-		Integer getShoplistNo();
+		Integer getShoplistNo(); 
 		Integer getProductNo();
 		Integer getCategoryNo();
 		String getProductName();
