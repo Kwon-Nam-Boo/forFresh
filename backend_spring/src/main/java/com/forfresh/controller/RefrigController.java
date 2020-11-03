@@ -112,12 +112,12 @@ public class RefrigController {
     @ApiOperation(value = "냉장고 이름변경")
 
     public Object updateRefrig(@RequestParam(required = true) final Integer refrigNo,
-    @RequestParam(required = true) final String refrigName) {
+    @RequestParam(required = true) final String refrigName, @RequestParam(required = true) final String userId) {
 
         Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
         BasicResponse result = new BasicResponse();
 
-        if (refrigOpt.isPresent()) {
+        if (refrigOpt.isPresent() && refrigOpt.get().getUserId()==userId) {
             RefrigRegist refrigRegist = refrigOpt.get();
             refrigRegist.setRefrigName(refrigName);
             refrigRegistDao.save(refrigRegist);
