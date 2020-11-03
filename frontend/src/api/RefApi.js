@@ -5,7 +5,7 @@ const storage = window.sessionStorage;
 
 const addRef = (data, callback, errorCallback) => {
     axios({
-        method: "post",
+        method: "POST",
         url: BASE_URL + "/refrig/register",
         data: {
           userId: data.userId,
@@ -26,7 +26,7 @@ const addRef = (data, callback, errorCallback) => {
 };
 const getRef = (data, callback, errorCallback) => {
     axios({
-        method: "get",
+        method: "GET",
         url: BASE_URL + "/refrig/getRefrig",
         params: {
           userId: data.userId,
@@ -44,12 +44,35 @@ const getRef = (data, callback, errorCallback) => {
           errorCallback(error);
         });
 };
+const shareRef = (data, callback, errorCallback) => {
+  axios({
+      method: "POST",
+      url: BASE_URL + "/refrig/share",
+      params: {
+        userId: data.userId,
+        refrigNo: data.refrigNo,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
 
 const RefApi = {
     addRef: (data, callback, errorCallback) =>
         addRef(data, callback, errorCallback),
     getRef: (data, callback, errorCallback) =>
         getRef(data, callback, errorCallback),
+    shareRef: (data, callback, errorCallback) =>
+        shareRef(data, callback, errorCallback),
 };
 
 export default RefApi;
