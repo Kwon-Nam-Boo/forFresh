@@ -1,17 +1,31 @@
 <template>
   <v-main>
     <!-- 냉장고 고르기 탭 -->
-    <v-tabs v-model="tab" background-color="" color="#88dba3" show-arrows>
+    <v-tabs
+      v-model="tab"
+      background-color=""
+      color="#88dba3"
+      show-arrows
+    >
       <v-tabs-slider color="#88dba3"></v-tabs-slider>
 
-      <v-tab v-for="(item, i) in items" :key="i">
-        {{ item.refrigName }}
+      <v-tab
+        v-for="item in items"
+        :key="item.refrigNo"
+      >
+        {{item.refrigName}}
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="(item, i) in items" :key="i">
-        <v-card color="=" flat>
-          <refrigerator></refrigerator>
+      <v-tab-item
+        v-for="item in items"
+        :key="item.refrigNo"
+      >
+        <v-card
+          color="="
+          flat
+        >
+          <Refrigerator></Refrigerator>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -24,42 +38,87 @@
       transition="slide-y-reverse-transition"
     >
       <template v-slot:activator>
-        <v-btn v-model="fab" color="#88dba3" dark fab small>
-          <v-icon v-if="fab"> mdi-close </v-icon>
-          <v-icon v-else> mdi-format-list-bulleted-square </v-icon>
+        <v-btn
+          v-model="fab"
+          color="#88dba3"
+          dark
+          fab
+          small
+        >
+          <v-icon v-if="fab">
+            mdi-close
+          </v-icon>
+          <v-icon v-else>
+            mdi-format-list-bulleted-square
+          </v-icon>
         </v-btn>
       </template>
-      <!-- 냉장고 삭제 -->
-      <v-btn fab dark small color="red" @click="deleteRef">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
-      <!-- 냉장고 공유 -->
-      <v-btn fab dark small color="green" @click="shareRef">
-        <v-icon>mdi-share-variant</v-icon>
-      </v-btn>
-      <!-- 냉장고 추가 -->
-      <v-btn fab dark small color="indigo" @click="addRef">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
+        <!-- 냉장고 삭제 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="red"
+          @click="deleteRef"
+        >
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+        <!-- 냉장고 공유 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="green"
+          @click="shareRef"
+        >
+          <v-icon>mdi-share-variant</v-icon>
+        </v-btn>
+        <!-- 냉장고 추가 -->
+        <v-btn
+          fab
+          dark
+          small
+          color="indigo"
+          @click="addRef"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        
     </v-speed-dial>
-    <v-dialog v-model="isAddRef">
-      <addRefrigerator @close="closeDialog"></addRefrigerator>
+    <v-dialog
+      v-model="isAddRef"
+    >
+      <AddRefrigerator @close="closeDialog"></AddRefrigerator>
+    </v-dialog>
+    <v-dialog
+      v-model="isShareRef"
+    >
+      <ShareRefrigerator :item="items[tab]" @close="closeDialog"></ShareRefrigerator>
+    </v-dialog>
+    <v-dialog
+      v-model="isDeleteRef"
+    >
+      <DeleteRefrigerator :item="items[tab]" @close="closeDialog"></DeleteRefrigerator>
     </v-dialog>
   </v-main>
 </template>
 
 <script>
 import Refrigerator from "../components/Refrigerator";
-import AddRefrigerator from "../components/addRefrigerator";
+import AddRefrigerator from "../components/AddRefrigerator";
+import ShareRefrigerator from "../components/ShareRefrigerator";
+import DeleteRefrigerator from "../components/DeleteRefrigerator";
 import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
   components: {
     Refrigerator,
     AddRefrigerator,
+    ShareRefrigerator,
+    DeleteRefrigerator,
   },
   created() {
-    this.$emit("updateTitle", "메인페이지");
+    this.$emit('updateTitle', '메인페이지');
     this.getRef();
     // if(this.$session.get('userinfo')){
 
@@ -67,42 +126,47 @@ export default {
   },
   data() {
     return {
-      title: "메인페이지",
+      title:"메인페이지",
       tab: null,
       fab: false,
       items: [],
       isAddRef: false,
-    };
+      isShareRef: false,
+      isDeleteRef: false,
+    }
   },
   methods: {
     addRef() {
-      this.isAddRef = true;
+      this.isAddRef=true;
     },
     shareRef() {
-      console.log("2");
+      this.isShareRef=true;
     },
     deleteRef() {
-      console.log("3");
+      this.isDeleteRef=true;
     },
     closeDialog() {
-      this.isAddRef = false;
+      this.isAddRef=false;
+      this.isShareRef=false;
+      this.isDeleteRef=false;
     },
     getRef() {
       const data = {
         userId: storage.getItem("login_user"),
-      };
+      }
       RefApi.getRef(
         data,
         (res) => {
-          this.items = res.data.object;
+          this.items=res.data.object;
         },
         (error) => {
           console.log(error);
         }
-      );
-    },
-  },
+      )
+    }
+  }
 };
 </script>
 <style>
+
 </style>
