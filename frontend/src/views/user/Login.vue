@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-bar :viewType="navbarType" />
-    <v-col align="center" md="4" offset-md="4" class="my-10">
+    <v-col  md="4" offset-md="4" class="my-10">
       <!-- <v-img
         class="white--text align-end"
         width="600"
@@ -19,8 +19,8 @@
       >
         {{ alertMessage }}
       </v-alert>
-      <v-card class="mx-auto my-5" max-width="500">
-        <v-card-text class="text--primary" style="font-size:3vh">로그인</v-card-text>
+      <v-card class="mx-auto my-5" max-width="500" >
+        <v-card-text class="text--primary" style="font-size:3vh;" align=center>로그인</v-card-text>
         <div class="px-10">
           <v-text-field
             class="mt-10"
@@ -56,12 +56,17 @@
             :class="{ disabled: !isSubmit }"
             >로그인</v-btn
           >
-          <div>
-          <a @click="$router.push('/findpassword').catch(() => {})" style="color:black;  margin:5px;">비밀번호찾기</a>
-          </div>
-          <div>
-          <p style="margin-left:5%">forfresh는 처음이신가요?</p><a @click="$router.push('/join').catch(() => {})" style="color:#88dba3; margin-right:5%; margin:5px">회원가입</a>
-          </div>
+          <v-row style="margin-left:70%">
+          <a @click="$router.push('/findpassword').catch(() => {})" style="color:black;  margin:5px; font-size:2vh">비밀번호찾기</a>
+          </v-row>
+          
+          <v-row style="margin-left:10%">
+          <p >forfresh는 처음인가요?</p>
+          <a @click="$router.push('/join').catch(() => {})" style="color:#88dba3; margin-left:7%">회원가입</a>
+          </v-row>
+          
+          
+        
           <!-- <v-btn
             class="mt-5"
             block
