@@ -1,5 +1,7 @@
 package com.forfresh.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.forfresh.model.BasicResponse;
 import com.forfresh.model.dao.refrig.RefrigRegistDao;
 import com.forfresh.model.dao.refrig.RefrigShareDao;
+import com.forfresh.model.dao.refrig.FoodlistDao;
 import com.forfresh.model.dto.refrig.Expiration;
 import com.forfresh.model.dto.refrig.Foodlist;
 import com.forfresh.model.dto.refrig.RefrigRegist;
@@ -37,11 +40,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @ApiResponses(value = { @ApiResponse(code = 401, message = "Unauthorized", response = BasicResponse.class),
-		@ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
-		@ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
-		@ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
+        @ApiResponse(code = 403, message = "Forbidden", response = BasicResponse.class),
+        @ApiResponse(code = 404, message = "Not Found", response = BasicResponse.class),
+        @ApiResponse(code = 500, message = "Failure", response = BasicResponse.class) })
 
-// @CrossOrigin(origins = { "https://i3a310.p.ssafy.io:80", "http://localhost:3000" })
+// @CrossOrigin(origins = { "https://i3a310.p.ssafy.io:80",
+// "http://localhost:3000" })
 @CrossOrigin(origins = { "*" })
 @RequestMapping("food")
 @RestController
@@ -53,19 +57,111 @@ public class FoodController {
     // @Autowired
     // RefrigShareDao refrigShareDao;
 
-    // @PostMapping("/register")
-	// @ApiOperation(value = "음식 넣기")
-	// public Object save(@RequestBody Refrig refrig) {
-	// 	BasicResponse result = new BasicResponse();
+    @Autowired
+    FoodlistDao foodlistDao;
 
-    //     RefrigRegist refrigRegist = new RefrigRegist();
-    //     refrigRegist.setUserId(refrig.getUserId());
-    //     refrigRegist.setRefrigName(refrig.getRefrigName());
-        
-    //     result.status = true;
-    //     refrigRegistDao.save(refrigRegist);
-    //     return new ResponseEntity<>(result, HttpStatus.OK);
+    @PostMapping("/register")
+    @ApiOperation(value = "음식 넣기")
+    public Object save(@RequestParam(required = true) Integer refrigNo,
+            @RequestParam(required = true) List<String> foodNameList) {
+        BasicResponse result = new BasicResponse();
+        // List<Foodlist> foodLists = new ArrayList<>();
+        for (int i = 0; i < foodNameList.size(); i++) {
+            Foodlist foodlist = new Foodlist();
+            foodlist.setRefrigNo(refrigNo);
+            String foodName = foodNameList.get(i);
+            foodlist.setFoodName(foodName);
 
+            foodlist.setCategoryNo(2);
+            foodlist.setStatus(1);
 
+            foodlistDao.save(foodlist);
+        }
+        result.status = true;
+        return new ResponseEntity<>(result, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/getFood")
+    @ApiOperation(value = "냉장고No로 food 조회")
+    public Object getRefirig(@RequestParam(required = true) Integer refrigNo) {
+        BasicResponse result = new BasicResponse();
+
+        List<Foodlist> foodlist = foodlistDao.findByRefrigNo(refrigNo);
+
+        if (!foodlist.isEmpty()) {
+            result.status = true;
+            result.object = foodlist;
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            result.status = false;
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    // @PatchMapping("/changeFood")
+    // @ApiOperation(value = "음식 상태변경")
+
+    // public Object updateFood(@RequestParam(required = true) final Integer
+    // refrigNo,
+    // @RequestParam(required = true) final String refrigName) {
+
+    // Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
+    // BasicResponse result = new BasicResponse();
+
+    // if (refrigOpt.isPresent()) {
+    // RefrigRegist refrigRegist = refrigOpt.get();
+    // refrigRegist.setRefrigName(refrigName);
+    // refrigRegistDao.save(refrigRegist);
+    // result.status = true;
+    // result.data = "success";
+    // return new ResponseEntity<>(result, HttpStatus.OK);
+    // }
+    // else {
+    // result.status=false;
+    // result.data = "냉장고 이름 변경 실패";
+    // return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+    // }
+    // }
+
+    @DeleteMapping("/deleteFood")
+    @ApiOperation(value = "음식 삭제하기")
+    public Object deleteFood(@RequestParam(required = true) final Integer refrigNo,
+            @RequestParam(required = true) final String foodName) {
+
+        Optional<Foodlist> foodlistOpt = foodlistDao.findByRefrigNoAndFoodName(refrigNo, foodName);
+        BasicResponse result = new BasicResponse();
+
+        if (foodlistOpt.isPresent()) {
+            foodlistDao.deleteByFoodNo(foodlistOpt.get().getFoodNo());
+            result.status = true;
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            result.status = false;
+            result.data = "음식 삭제 실패";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/test")
+    @ApiOperation(value = "test 음식이름으로 정보가져오기 지워줘")
+    public Object getFoodInfo(@RequestParam(required = true) String foodName) throws IOException {
+		BasicResponse result = new BasicResponse();
+		
+        String foodInfo = null;
+        foodInfo =  foodlistDao.getItemInfo(foodName);
+
+		if(foodInfo != null) {
+			result.status = true;
+			result.object = foodInfo;
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		else {
+			result.status=false;
+			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+		}
+
+    }
     
 }
