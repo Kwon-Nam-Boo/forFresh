@@ -74,13 +74,13 @@
     </v-toolbar>
    
 
-    <v-navigation-drawer v-model="alarmDrawer" color="#e2efef" temporary right app >
+    <v-navigation-drawer v-model="alarmDrawer"  temporary right app >
       <v-list subheader>
-        <v-subheader >냉장고 공유</v-subheader>
+        <v-subheader style="background-color:#e2efef">냉장고 공유</v-subheader>
         <v-list-item-group
           v-model="alarmGroup"
         >
-          <v-list-item v-for="alarm in alarmList" :key="alarm">
+          <v-list-item v-for="alarm in alarmList" :key="alarm" >
             <v-img src="@/assets/fridge.png" height="30"
           width="20" style="margin-right:5%"/>
             <v-list-item-title>{{ alarm }}</v-list-item-title>
@@ -100,7 +100,7 @@
       </v-list>
        <v-divider></v-divider>
         <v-list subheader>
-        <v-subheader>유통기한 임박</v-subheader>
+        <v-subheader style="background-color:#e2efef">유통기한 임박</v-subheader>
         <v-list-item-group
           v-model="alarmGroup"
         >
@@ -113,7 +113,7 @@
               dark
               width="20"
               height="20"
-              color="#9DC8C8"
+              color="red"
             >
             <v-icon dark>
               mdi-minus
@@ -239,5 +239,7 @@ export default {
     font-size: 2.3vh;
    
 }
+.v-list-item-title{
 
+}
 </style>
