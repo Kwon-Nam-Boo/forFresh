@@ -65,14 +65,26 @@
     </v-toolbar>
    
 
-    <v-navigation-drawer v-model="alarmDrawer" temporary app>
+    <v-navigation-drawer v-model="alarmDrawer" color="#e2efef" temporary app >
       <v-list nav dense>
         <v-list-item-group
           v-model="alarmGroup"
-          active-class="deep-purple--text text--accent-4"
         >
           <v-list-item v-for="alarm in alarmList" :key="alarm">
+            <v-img src="@/assets/fridge.png" height="30"
+          width="20" style="margin-right:5%"/>
             <v-list-item-title>{{ alarm }}</v-list-item-title>
+            <v-btn 
+              fab
+              dark
+              width="20"
+              height="20"
+              color="#88dba3"
+            >
+            <v-icon dark>
+              mdi-minus
+            </v-icon>
+            </v-btn>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -127,8 +139,9 @@ export default {
       alarmDrawer: false,
       alarmGroup: null,
       alarmList: {
-        alarm1: "알람1",
-        alarm2: "알람2",
+        alarm1: "111님이 냉장고를 공유했습니다",
+        alarm2: "222님이 냉장고를 공유했습니다",
+        alarm3: "333님이 냉장고를 공유했습니다",
       },
     };
   },
