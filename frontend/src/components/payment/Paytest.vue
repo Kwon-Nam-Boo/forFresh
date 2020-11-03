@@ -8,18 +8,23 @@
 <script>
 import PaymentApi from "../../api/PaymentApi";
 
+const storage = window.sessionStorage;
+
 export default {
   data() {
     return {
       itemName: "사과",
       quantity: "1",
       totalAmount: "1000",
+      productNo: "2",
     };
   },
   methods: {
     payment() {
       PaymentApi.requestPayment(
         {
+          userId: storage.getItem("login_user"),
+          productNo: this.productNo,
           itemName: this.itemName,
           quantity: this.quantity,
           totalAmount: this.totalAmount,

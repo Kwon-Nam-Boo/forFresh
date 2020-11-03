@@ -3,6 +3,7 @@ package com.forfresh.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.forfresh.model.dao.kakaopay.PaymentListDao;
 import com.forfresh.model.dto.kakaopay.KakaoPayApprovalVO;
 import com.forfresh.model.dto.kakaopay.KakaoPayReadyVO;
+import com.forfresh.model.dto.kakaopay.PaymentList;
 import com.forfresh.model.dto.kakaopay.TotalPayment;
 
 import lombok.extern.java.Log;
@@ -25,13 +28,17 @@ public class KakaoPayService {
  
     private static final String HOST = "https://kapi.kakao.com";
     
+    @Autowired
+    PaymentListDao paymentListDao;
+
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
+    private String payiedUserId;
     
     public String kakaoPayReady(@RequestBody TotalPayment totalpay) {
  
         RestTemplate restTemplate = new RestTemplate();
- 
+        payiedUserId=totalpay.getUserId();
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + "179048868b71ef28f95e2b938400973b");
@@ -44,6 +51,7 @@ public class KakaoPayService {
         params.add("partner_order_id", "1001");
         params.add("partner_user_id", "forfresh");
         params.add("item_name", totalpay.getItemName());
+        params.add("item_code", totalpay.getProductNo());
         params.add("quantity", totalpay.getQuantity());
         params.add("total_amount", totalpay.getTotalAmount());
         params.add("tax_free_amount", "100");
@@ -99,7 +107,8 @@ public class KakaoPayService {
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
             log.info("****************************" + kakaoPayApprovalVO);
-            
+            PaymentList payList = new PaymentList(kakaoPayApprovalVO.getTid(),payiedUserId,Integer.parseInt(kakaoPayApprovalVO.getItem_code()),kakaoPayApprovalVO.getQuantity(),kakaoPayApprovalVO.getAmount().getTotal());
+            paymentListDao.save(payList);
             return kakaoPayApprovalVO;
         
         } catch (RestClientException e) {

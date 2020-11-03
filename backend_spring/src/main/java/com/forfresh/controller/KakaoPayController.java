@@ -41,7 +41,7 @@ public class KakaoPayController {
    @ResponseBody
    public String kakaoPay(@RequestBody TotalPayment totalpay) {
        log.info("kakaoPay post............................................");
-       
+       log.info("totalpay : "+totalpay.toString());
        return kakaopay.kakaoPayReady(totalpay);
 
    }
