@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>kakaoPay api 이용하기</h1>
+    <!-- <h1>kakaoPay api 이용하기</h1> -->
     <button @click="payment()">카카오페이로 결제하기</button>
   </div>
 </template>
@@ -42,5 +42,4 @@ export default {
 };
 </script>
 
-<style lang="">
-</style>
+<style lang=""></style>

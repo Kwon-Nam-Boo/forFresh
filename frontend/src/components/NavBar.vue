@@ -72,10 +72,6 @@
             </v-list-item-icon>
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
-
-          <PayButton />
-          <br />
-          <AddProduct />
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
@@ -89,16 +85,11 @@
 
 <script>
 import UserApi from "../api/UserApi";
-import PayButton from "../components/payment/Paytest";
-import AddProduct from "../components/product/AddProduct";
 
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
-  components: {
-    PayButton,
-    AddProduct,
-  },
+  components: {},
   data() {
     return {
       userInfo: {},
@@ -149,13 +140,13 @@ export default {
       );
     }
   },
-  methods:{
-    logout(){
-      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제 
+  methods: {
+    logout() {
+      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제
       storage.removeItem("jwt-auth-token");
       storage.removeItem("login_user");
-      this.$router.push('/').catch(()=>{});
-    }   
+      this.$router.push("/").catch(() => {});
+    },
   },
 };
 </script>

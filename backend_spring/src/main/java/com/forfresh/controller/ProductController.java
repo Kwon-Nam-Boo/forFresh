@@ -3,8 +3,6 @@ package com.forfresh.controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -72,7 +70,7 @@ public class ProductController {
 
 	@PostMapping("/add")
 	@ApiOperation(value = "상품 추가")
-	public Object saveProduct(@Valid @RequestBody Product product) {
+	public Object saveProduct(@RequestBody Product product) {
 		BasicResponse result = new BasicResponse();
 
 		try {

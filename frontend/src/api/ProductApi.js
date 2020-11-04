@@ -7,14 +7,8 @@ const axios = require("axios");
 const requestAddProduct = (data, callback, errorCallback) => {
   axios({
     method: "post",
-    url: BASE_URL + "/kakaoPay",
-    data: {
-      userId: data.userId,
-      productNo: data.productNo,
-      itemName: data.itemName,
-      quantity: data.quantity,
-      totalAmount: data.totalAmount,
-    },
+    url: BASE_URL + "/product/add",
+    data: {},
   })
     .then(function(response) {
       callback(response);
