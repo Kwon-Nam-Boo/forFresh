@@ -5,6 +5,7 @@ import Join from "./views/user/Join";
 import Detail from "./views/Detail";
 import Post from "./views/Post";
 import FindPassword from "./views/user/FindPassWord";
+import AddProduct from "./components/product/AddProduct";
 export default [
   {
     path: "/",
@@ -40,5 +41,10 @@ export default [
     path: "/findpassword",
     name: "FindPassword",
     component: FindPassword,
+  },
+  {
+    path: "/addproduct",
+    name: "AddProduct",
+    component: AddProduct,
   },
 ];
