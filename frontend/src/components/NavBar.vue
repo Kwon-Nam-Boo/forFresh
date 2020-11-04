@@ -7,7 +7,7 @@
           src="@/assets/logo.png"
           height="30"
           width="120"
-          @click="$router.push('/').catch(() => {})"
+          @click="$router.push('/home').catch(() => {})"
           style="cursor: pointer"
         />
       </v-toolbar-title>

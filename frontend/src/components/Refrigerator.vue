@@ -62,12 +62,12 @@
               >
                 <v-list class="pa-1 ma-0">
                   <v-list-item-group>
-                    <v-list-item class='pa-0'>
+                    <v-list-item class='pa-0' @click="moveDetail">
                       <v-avatar class="mx-auto" size='40'>
                         <img :src="require(`@/assets/img/${food.img}`)">
                       </v-avatar>
                     </v-list-item>
-                    <v-list-item class='foodname pa-0' dense>
+                    <v-list-item class='foodname pa-0' dense @click="moveDetail">
                       <p class='ma-auto'>{{food.name}}</p>
                     </v-list-item>
                   </v-list-item-group>
@@ -126,7 +126,10 @@ export default {
     closeDialog() {
       this.select = 0;
       this.deleteDialog = false;
-    }
+    },
+    moveDetail() {
+      this.$router.push('/detail');
+    },
   }
 };
 </script>
