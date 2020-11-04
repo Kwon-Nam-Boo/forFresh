@@ -169,7 +169,7 @@ public class FoodlistDaoImpl implements FoodlistDao {
     }
 
     @Override
-    public List<Foodlist> findByRefrigNo(int refrigNo) {
+    public List<FoodlistExpiration> findByRefrigNo(int refrigNo) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -205,6 +205,12 @@ public class FoodlistDaoImpl implements FoodlistDao {
         conn.disconnect();
 
         return result.toString();
+    }
+
+    @Override
+    public Optional<Foodlist> findByFoodNo(int foodNo) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     // @Override

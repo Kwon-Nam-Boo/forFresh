@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.forfresh.model.BasicResponse;
 import com.forfresh.model.dao.refrig.RefrigRegistDao;
 import com.forfresh.model.dao.refrig.RefrigShareDao;
+import com.forfresh.model.dao.refrig.FoodlistDao.FoodlistExpiration;
 import com.forfresh.model.dao.refrig.FoodlistDao;
 import com.forfresh.model.dto.refrig.Expiration;
 import com.forfresh.model.dto.refrig.Foodlist;
@@ -86,7 +87,7 @@ public class FoodController {
     public Object getRefirig(@RequestParam(required = true) Integer refrigNo) {
         BasicResponse result = new BasicResponse();
 
-        List<Foodlist> foodlist = foodlistDao.findByRefrigNo(refrigNo);
+        List<FoodlistExpiration> foodlist = foodlistDao.findByRefrigNo(refrigNo);
 
         if (!foodlist.isEmpty()) {
             result.status = true;
@@ -99,30 +100,29 @@ public class FoodController {
 
     }
 
-    // @PatchMapping("/changeFood")
-    // @ApiOperation(value = "음식 상태변경")
+    @PatchMapping("/changeFood")
+    @ApiOperation(value = "음식 이름변경")
 
-    // public Object updateFood(@RequestParam(required = true) final Integer
-    // refrigNo,
-    // @RequestParam(required = true) final String refrigName) {
+    public Object updateFood(@RequestParam(required = true) final Integer foodNo,
+    @RequestParam final String foodName) {
 
-    // Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
-    // BasicResponse result = new BasicResponse();
+        Optional<Foodlist> foodlistOpt = foodlistDao.findByFoodNo(foodNo);
+        BasicResponse result = new BasicResponse();
 
-    // if (refrigOpt.isPresent()) {
-    // RefrigRegist refrigRegist = refrigOpt.get();
-    // refrigRegist.setRefrigName(refrigName);
-    // refrigRegistDao.save(refrigRegist);
-    // result.status = true;
-    // result.data = "success";
-    // return new ResponseEntity<>(result, HttpStatus.OK);
-    // }
-    // else {
-    // result.status=false;
-    // result.data = "냉장고 이름 변경 실패";
-    // return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-    // }
-    // }
+        if (foodlistOpt.isPresent()) {
+            Foodlist foodlist = foodlistOpt.get();
+            foodlist.setFoodName(foodName);;
+            foodlistDao.save(foodlist);
+            result.status = true;
+            result.data = "success";
+            return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+        else {
+            result.status=false;
+            result.data = "냉장고 이름 변경 실패";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+    }
 
     @DeleteMapping("/deleteFood")
     @ApiOperation(value = "음식 삭제하기")
