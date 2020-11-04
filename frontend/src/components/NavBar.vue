@@ -72,6 +72,13 @@
             </v-list-item-icon>
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
+
+          <v-list-item @click="$router.push('/addproduct').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-cart-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>상품 등록</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
       <template v-slot:append>

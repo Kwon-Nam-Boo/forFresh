@@ -31,4 +31,5 @@ public class Product {
     private String imgUrl; 
     private LocalDateTime registDate;
     private Integer avgRate;
+    private String detailUrl;
 }

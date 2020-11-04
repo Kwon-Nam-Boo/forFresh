@@ -44,18 +44,7 @@
 
       <v-img position="center" :src="picture" />
       <br />
-      <v-file-input
-        v-model="imageData"
-        accept=".jpg, .jpeg, .png, .bmp"
-        show-size
-        label="썸네일 사진 추가"
-        @change="previewImage"
-        outlined
-      ></v-file-input>
-
-      <!-- <v-img position="center" :src="detailPicture" />
-      <br />
-      <v-file-input
+      <!-- <v-file-input
         v-model="imageData"
         accept=".jpg, .jpeg, .png, .bmp"
         show-size
@@ -63,8 +52,19 @@
         @change="previewImage"
         outlined
       ></v-file-input> -->
+      <input type="file" @change="previewImage" accept="image/*" />
+      <v-img position="center" :src="detailPicture" />
+      <br />
+      <!-- <v-file-input
+        v-model="detailImage"
+        accept=".jpg, .jpeg, .png, .bmp"
+        show-size
+        label="상세설명 사진 추가"
+        @change="detailPreviewImage"
+        outlined
+      ></v-file-input> -->
 
-      <!-- <input type="file" @change="previewImage" accept="image/*" /> -->
+      <input type="file" @change="detailPreviewImage" accept="image/*" />
       <!-- <p>
         Progress:{{ uploadValue.toFixed() + "%" }}
         <progress value="uploadValue" max="100"></progress>
@@ -131,6 +131,9 @@ export default {
       imageData: "",
       picture: null,
       uploadValue: 0,
+      detailImage: "",
+      detailPicture: null,
+      detailValue: 0,
     };
   },
   created() {
@@ -142,18 +145,22 @@ export default {
       this.picture = null;
       this.imageData = event.target.files[0];
     },
+    detailPreviewImage(event) {
+      this.detailValue = 0;
+      this.detailPicture = null;
+      this.detailImage = event.target.files[0];
+    },
     async addProduct() {
-      // ProductApi.requestAddProduct(
-      //   formData,
-      //   (res) => {},
-      //   (error) => {}
-      // );
+      // 첫번째 썸네일 사진 보내기
+      var self = this;
+      var tempNo = self.$store.getters.getNoByName(this.categoryName);
+
       this.picture = null;
       const storageRef = firebase
         .storage()
         .ref(`${this.imageData.name}`)
         .put(this.imageData);
-      storageRef.on(
+      await storageRef.on(
         `state_changed`,
         (snapshot) => {
           this.uploadValue =
@@ -169,6 +176,61 @@ export default {
           });
         }
       );
+      // 첫번째 상세설명 사진 보내기
+      this.detailPicture = null;
+      const storageRef2 = firebase
+        .storage()
+        .ref(`${this.detailImage.name}`)
+        .put(this.detailImage);
+      await storageRef2.on(
+        `state_changed`,
+        (snapshot) => {
+          this.detailValue =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          console.log(error.message);
+        },
+        () => {
+          this.detailValue = 100;
+          storageRef2.snapshot.ref.getDownloadURL().then((url) => {
+            this.detailPicture = url;
+            // DB 저장용 SPRING REQUEST
+            // this.$store.state.gameitems[this.itemList[i]]
+
+            alert("등록에 성공했습니다.");
+          });
+        }
+      );
+      await ProductApi.requestAddProduct(
+        {
+          productNo: "",
+          categoryNo: tempNo,
+          productName: this.productName,
+          productPrice: this.productPrice,
+          stock: this.stock,
+          description: this.description,
+          imgUrl: this.picture,
+          detailUrl: this.detailPicture,
+        },
+        (res) => {
+          console.log("db등록성공");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      this.categoryName = null;
+      this.productName = "";
+      this.productPrice = "";
+      this.stock = "";
+      this.description = "";
+      this.imageData = "";
+      this.picture = null;
+      this.uploadValue = 0;
+      this.detailImage = "";
+      this.detailPicture = null;
+      this.detailValue = 0;
     },
 
     reset() {

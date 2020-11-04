@@ -8,7 +8,16 @@ const requestAddProduct = (data, callback, errorCallback) => {
   axios({
     method: "post",
     url: BASE_URL + "/product/add",
-    data: {},
+    data: {
+      productNo: data.productNo,
+      categoryNo: data.categoryNo,
+      productName: data.productName,
+      productPrice: data.productPrice,
+      stock: data.stock,
+      description: data.description,
+      imgUrl: data.picture,
+      detailUrl: data.detailPicture,
+    },
   })
     .then(function(response) {
       callback(response);

@@ -94,6 +94,7 @@ public class ProductController {
 		findProduct.get().setProductName(product.getProductName());
 		findProduct.get().setProductPrice(product.getProductPrice());
 		findProduct.get().setStock(product.getStock());
+		findProduct.get().setDetailUrl(product.getDetailUrl());
 		productDao.save(findProduct.get());
 
 		return new ResponseEntity<Product>(findProduct.get(), HttpStatus.OK);
