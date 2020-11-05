@@ -6,6 +6,10 @@ import Detail from "./views/Detail";
 import Post from "./views/Post";
 import FindPassword from "./views/user/FindPassWord";
 import AddProduct from "./components/product/AddProduct";
+import ProductMain from "./views/product/ProductMain";
+import ProductCategory from "./views/product/ProductCategory";
+import ProductSearch from "./views/product/ProductSearch";
+
 export default [
   {
     path: "/",
@@ -46,5 +50,20 @@ export default [
     path: "/addproduct",
     name: "AddProduct",
     component: AddProduct,
+  },
+  {
+    path: "/productmain",
+    name: "ProductMain",
+    component: ProductMain,
+  },
+  {
+    path: "/productcategory/:categroy",
+    name: "ProductCategory",
+    component: ProductCategory,
+  },
+  {
+    path: "/ProductSearch/:item",
+    name: "ProductSearch",
+    component: ProductSearch,
   },
 ];

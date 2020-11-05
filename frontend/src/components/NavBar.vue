@@ -73,6 +73,13 @@
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
 
+          <v-list-item @click="$router.push('/ProductMain').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-cart</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>장보기</v-list-item-title>
+          </v-list-item>
+
           <v-list-item @click="$router.push('/addproduct').catch(() => {})">
             <v-list-item-icon>
               <v-icon>mdi-cart-plus</v-icon>
