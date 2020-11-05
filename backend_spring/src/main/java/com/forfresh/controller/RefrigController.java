@@ -113,8 +113,9 @@ public class RefrigController {
 
     public Object updateRefrig(@RequestParam(required = true) final Integer refrigNo,
     @RequestParam(required = true) final String refrigName, @RequestParam(required = true) final String userId) {
-		Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
+        Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
         BasicResponse result = new BasicResponse();
+
         if (refrigOpt.isPresent() && refrigOpt.get().getUserId().equals(userId)) {
             RefrigRegist refrigRegist = refrigOpt.get();
             refrigRegist.setRefrigName(refrigName);

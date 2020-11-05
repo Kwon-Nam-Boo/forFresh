@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-bar :viewType="navbarType" />
-    <v-col align="center" md="4" offset-md="4" class="my-10">
+    <v-col  md="4" offset-md="4" class="my-10">
       <!-- <v-img
         class="white--text align-end"
         width="600"
@@ -19,14 +19,14 @@
       >
         {{ alertMessage }}
       </v-alert>
-      <v-card class="mx-auto my-5" max-width="500">
-        <v-card-text class="text--primary" style="">로그인</v-card-text>
+      <v-card class="mx-auto my-5" max-width="500" >
+        <v-card-text class="text--primary" style="font-size:3vh;" align=center>로그인</v-card-text>
         <div class="px-10">
           <v-text-field
             class="mt-10"
             v-model="email"
             label="이메일"
-            outlined
+            
             hide-details
           ></v-text-field>
           <div align="left" class="error-text" v-if="error.email">
@@ -38,9 +38,10 @@
             v-model="password"
             type="password"
             label="비밀번호"
-            outlined
+            
             hide-details
             @keydown.enter="onLogin"
+            
           ></v-text-field>
           <div align="left" class="error-text" v-if="error.password">
             <b>{{ error.password }}</b>
@@ -49,26 +50,37 @@
           <v-btn
             class="mt-13"
             block
-            color="btncolor"
+            color="#88dba3"
             @click="onLogin"
             :disabled="!isSubmit"
             :class="{ disabled: !isSubmit }"
             >로그인</v-btn
           >
-          <v-btn
+          <v-row style="margin-left:70%">
+          <a @click="$router.push('/findpassword').catch(() => {})" style="color:black;  margin:5px; font-size:2vh">비밀번호찾기</a>
+          </v-row>
+          
+          <v-row style="margin-left:10%">
+          <p >forfresh는 처음인가요?</p>
+          <a @click="$router.push('/join').catch(() => {})" style="color:#88dba3; margin-left:7%">회원가입</a>
+          </v-row>
+          
+          
+        
+          <!-- <v-btn
             class="mt-5"
             block
-            color="btncolor"
+            color="#88dba3"
             @click="$router.push('/join').catch(() => {})"
-            >회원가입</v-btn
-          >
-          <v-btn
+            >회원가입</v-btn>
+           -->
+          <!-- <v-btn
             class="mt-5"
             block
-            color="btncolor"
+            color="#88dba3"
             @click="$router.push('/findpassword').catch(() => {})"
             >비밀번호 찾기</v-btn
-          >
+          >  -->
           <br />
           <br />
         </div>
@@ -215,5 +227,8 @@ export default {
 .error-text {
   color: #e53935;
   font-size: 12px;
+}
+.my-10{
+  color: #9DC8C8;
 }
 </style>

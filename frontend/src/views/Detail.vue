@@ -1,13 +1,16 @@
 <template>
   <div>
+   
     <!-- <nav-bar :title="title"></nav-bar> -->
-    <div>
-         <img>
-         <p>{{name}}</p>
+    <div class="food">
+         <v-avatar class="mx-auto" size='90'>
+          <img :src=food.img>
+        </v-avatar>
+         <p style="margin-left:45%;font-weight: bold ;">{{food.name}}</p>
     </div>
     <div >
       <div class="expire">
-        <p style="margin-left:3%;"> 유통기한 </p>
+        <p style="margin-left:3%;font-weight: bold ;"> 유통기한 10.31 까지</p>
         <div id="inspire" style=" margin-top:10%">
           <v-progress-linear value="30" height="25" color="#9DC8C8" rounded></v-progress-linear>
         </div>
@@ -15,12 +18,14 @@
         <p style=" font-size:12px;  margin-right:5%">10월 31일</p>
       </div>
         <div>
-        <p style="margin-left:3%">영양성분</p> 
+        <p style="margin-left:3%;font-weight: bold ;">영양성분</p> 
         <Doughnut v-if="loaded" :chartData="chartData" :options="options" style="height:30vh;width:30vw; margin-left:65%"/>
         </div>
-        <p style="margin-left:3%">수량</p>
-        
+        <p style="margin-left:3%;font-weight: bold ;">수량</p>
     </div>
+    <div id="inspire">
+        <v-btn depressed color="#e2efef" style="width:30%">삭제하기</v-btn>
+      </div>
 
 
   </div>
@@ -38,11 +43,10 @@ export default {
     return {
       title:"상세페이지",
       tab: null,
-      items: [
-        'ExpirationDate', 'Entrees', 'Deserts', 'Cocktails',
-      ],
+      food: {num:1,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
       loaded:false,
       chartData: null,
+      Expiration:{date:10.31}
     }
   },
   created() {
@@ -87,5 +91,17 @@ export default {
 .expire{
   margin-bottom: 5%;
 }
+.mx-auto{
+  display: flex;
+  height: 50vh;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5%;
+  margin-top: 10%;
+}
 
+#inspire{
+   margin-left: 70%;
+   
+}
 </style>

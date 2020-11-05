@@ -1,7 +1,8 @@
 <template>
   <nav>
     <v-toolbar dense color="">
-      <v-toolbar-title class="grey--text">
+      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-toolbar-title class="grey--text" style="margin-left:15%">
         <v-img
           class="mt-2 mb-2"
           src="@/assets/logo.png"
@@ -16,7 +17,7 @@
 
       <v-spacer></v-spacer>
       <!-- 알람 -->
-      <v-menu offset-y>
+      <!-- <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             icon
@@ -45,15 +46,78 @@
             <v-list-item-title>{{ alarm }}</v-list-item-title>
           </v-list-item>
         </v-list>
-      </v-menu>
+        
+      </v-menu> -->
 
-      <v-app-bar-nav-icon
-        color="#88dba3"
-        @click="drawer = true"
-      ></v-app-bar-nav-icon>
+      <v-btn icon v-if="!isAlarm" @click="alarmDrawer = true">
+        <v-icon color="#88dba3">mdi-bell-outline</v-icon>
+      </v-btn>
+      <v-btn icon v-if="isAlarm" @click="alarmDrawer = true">
+        <v-badge
+          color="red"
+          dot
+          left
+          overlap
+        >
+          <v-icon color="#88dba3">mdi-bell</v-icon>
+        </v-badge>
+      </v-btn>
+
+     
     </v-toolbar>
+   
 
-    <v-navigation-drawer v-model="drawer" temporary right app>
+    <v-navigation-drawer v-model="alarmDrawer"  temporary right app >
+      <v-list subheader>
+        <v-subheader style="background-color:#e2efef">냉장고 공유</v-subheader>
+        <v-list-item-group
+          v-model="alarmGroup"
+        >
+          <v-list-item v-for="alarm in alarmList" :key="alarm" >
+            <v-img src="@/assets/fridge.png" height="30"
+          width="20" style="margin-right:5%"/>
+            <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
+            <v-btn 
+              fab
+              dark
+              width="20"
+              height="20"
+              color="#9DC8C8"
+            >
+            <v-icon dark>
+              mdi-minus
+            </v-icon>
+            </v-btn>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+       <v-divider></v-divider>
+        <v-list subheader>
+        <v-subheader style="background-color:#e2efef">유통기한 임박</v-subheader>
+        <v-list-item-group
+          v-model="alarmGroup"
+        >
+          <v-list-item v-for="food in foodList" :key="food">
+            <v-img src="@/assets/fridge.png" height="30"
+          width="20" style="margin-right:5%"/>
+            <v-list-item-title>{{ food }}</v-list-item-title>
+            <v-btn 
+              fab
+              dark
+              width="20"
+              height="20"
+              color="red"
+            >
+            <v-icon dark>
+              mdi-minus
+            </v-icon>
+            </v-btn>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-navigation-drawer v-model="drawer" temporary  app>
       <v-list nav dense>
         <v-list-item-group
           v-model="group"
@@ -88,7 +152,8 @@
 <script>
 import UserApi from "../api/UserApi";
 import PayButton from "../components/payment/Paytest";
-
+import AlarmApi from "../api/AlarmApi";
+import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
@@ -103,10 +168,10 @@ export default {
       isAlarm: true,
       alarmDrawer: false,
       alarmGroup: null,
-      alarmList: {
-        alarm1: "알람1",
-        alarm2: "알람2",
-      },
+      alarmList: [],
+      foodList:{
+        food1: "우유 유통기한 임박",
+      }
     };
   },
   created() {
@@ -145,19 +210,77 @@ export default {
       );
     }
   },
+  async mounted() {
+    const alarms = await this.getShare();
+    for(var alarm of alarms){
+      var data1 = {
+        refrigNo: alarm.refrigNo
+      }
+      var refInfo = await this.getRefByNo(data1);
+      var nickName = await this.getUserInfo(refInfo.userId);
+      refInfo.nickName = nickName;
+      console.log(refInfo);
+      this.alarmList.push(refInfo);
+    }
+  },
   methods:{
     logout(){
       // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제 
       storage.removeItem("jwt-auth-token");
       storage.removeItem("login_user");
       this.$router.push('/').catch(()=>{});
-    }   
+    },
+    getShare(){
+      return new Promise(resolve => {
+        const data = {
+          userId: storage.getItem("login_user")
+        }
+        AlarmApi.getShare(
+          data,
+          (res) => {
+            resolve(res.data.object);
+          },
+          (error) => {
+            
+          });
+      });
+    },
+    getRefByNo(data){
+      return new Promise(resolve => {
+        RefApi.getRefByNo(
+        data,
+        (res) => {
+          resolve(res.data.object);
+        },
+        (error) => {
+
+        }
+      )
+      });
+    },
+    getUserInfo(data){
+      return new Promise(resolve => {
+        UserApi.getUserInfo(
+          data,
+          (res) => {
+            resolve(res.data.object.nickName);
+          },
+          (error) => {
+
+          }
+        )
+      });
+    },
   },
 };
 </script>
 <style scoped>
-.v-btn {
-  height: 24px;
-  width: 24px;
+  .v-btn{
+    height:24px;
+    width:24px;
+  }
+  .v-subheader {
+    font-size: 2.3vh;
+   
 }
 </style>

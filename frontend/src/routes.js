@@ -53,4 +53,7 @@ export default [
     name: "PageNotFound",
     component: PageNotFound,
   },
-];
+]
+
+
+
