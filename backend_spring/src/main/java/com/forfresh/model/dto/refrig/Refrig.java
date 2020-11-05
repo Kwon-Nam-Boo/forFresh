@@ -1,28 +1,22 @@
-package com.forfresh.model.dto.user;
+package com.forfresh.model.dto.refrig;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
-public class User {
+
+public class Refrig {
+
     @Id
     private String userId;
-    
-    private String password;
-    private String nickName;
-    private String phone;
-    private String addr1;
-    private String addr2;
-    private String addr3;
+    private String refrigName;
     
 }

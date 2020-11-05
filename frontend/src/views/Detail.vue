@@ -70,7 +70,7 @@ export default {
 
 }
 </script>
-<style>
+<style scoped>
 #inspire{
   width: 80%;
   margin: 0 auto;
