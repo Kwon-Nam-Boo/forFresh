@@ -1,14 +1,15 @@
 <template>
   <nav>
     <v-toolbar dense color="">
-      <v-toolbar-title class="grey--text">
+      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-toolbar-title class="grey--text" style="margin-left:15%">
         <v-img
           class="mt-2 mb-2"
           src="@/assets/logo.png"
           height="30"
           width="120"
           @click="$router.push('/').catch(() => {})"
-          style="cursor: pointer"
+          style="cursor: pointer; "
         />
       </v-toolbar-title>
 
@@ -16,7 +17,7 @@
 
       <v-spacer></v-spacer>
       <!-- 알람 -->
-      <v-menu offset-y>
+      <!-- <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             icon
@@ -45,15 +46,78 @@
             <v-list-item-title>{{ alarm }}</v-list-item-title>
           </v-list-item>
         </v-list>
-      </v-menu>
+        
+      </v-menu> -->
 
-      <v-app-bar-nav-icon
-        color="#88dba3"
-        @click="drawer = true"
-      ></v-app-bar-nav-icon>
+      <v-btn icon v-if="!isAlarm" @click="alarmDrawer = true">
+        <v-icon color="#88dba3">mdi-bell-outline</v-icon>
+      </v-btn>
+      <v-btn icon v-if="isAlarm" @click="alarmDrawer = true">
+        <v-badge
+          color="red"
+          dot
+          left
+          overlap
+        >
+          <v-icon color="#88dba3">mdi-bell</v-icon>
+        </v-badge>
+      </v-btn>
+
+     
     </v-toolbar>
+   
 
-    <v-navigation-drawer v-model="drawer" temporary right app>
+    <v-navigation-drawer v-model="alarmDrawer"  temporary right app >
+      <v-list subheader>
+        <v-subheader style="background-color:#e2efef">냉장고 공유</v-subheader>
+        <v-list-item-group
+          v-model="alarmGroup"
+        >
+          <v-list-item v-for="alarm in alarmList" :key="alarm" >
+            <v-img src="@/assets/fridge.png" height="30"
+          width="20" style="margin-right:5%"/>
+            <v-list-item-title>{{ alarm }}</v-list-item-title>
+            <v-btn 
+              fab
+              dark
+              width="20"
+              height="20"
+              color="#9DC8C8"
+            >
+            <v-icon dark>
+              mdi-minus
+            </v-icon>
+            </v-btn>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+       <v-divider></v-divider>
+        <v-list subheader>
+        <v-subheader style="background-color:#e2efef">유통기한 임박</v-subheader>
+        <v-list-item-group
+          v-model="alarmGroup"
+        >
+          <v-list-item v-for="food in foodList" :key="food">
+            <v-img src="@/assets/fridge.png" height="30"
+          width="20" style="margin-right:5%"/>
+            <v-list-item-title>{{ food }}</v-list-item-title>
+            <v-btn 
+              fab
+              dark
+              width="20"
+              height="20"
+              color="red"
+            >
+            <v-icon dark>
+              mdi-minus
+            </v-icon>
+            </v-btn>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-navigation-drawer v-model="drawer" temporary  app>
       <v-list nav dense>
         <v-list-item-group
           v-model="group"
@@ -104,9 +168,14 @@ export default {
       alarmDrawer: false,
       alarmGroup: null,
       alarmList: {
-        alarm1: "알람1",
-        alarm2: "알람2",
+        alarm1: "111님이 냉장고를 공유했습니다",
+        alarm2: "222님이 냉장고를 공유했습니다",
+        
+
       },
+      foodList:{
+        food1: "우유 유통기한 임박",
+      }
     };
   },
   created() {
@@ -156,8 +225,15 @@ export default {
 };
 </script>
 <style scoped>
-.v-btn {
-  height: 24px;
-  width: 24px;
+  .v-btn{
+    height:24px;
+    width:24px;
+  }
+  .v-subheader {
+    font-size: 2.3vh;
+   
+}
+.v-list-item-title{
+
 }
 </style>
