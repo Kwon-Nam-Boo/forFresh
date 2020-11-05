@@ -76,6 +76,7 @@ public class ProductController {
 		try {
 			result.status = true;
 			Product pd = productDao.save(product);
+			result.data = pd.getProductNo().toString();
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			result.status = false;
