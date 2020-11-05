@@ -42,15 +42,15 @@ export default [
     path: "/findpassword",
     name: "FindPassword",
     component: FindPassword,
+  },  
+  {
+    path: "/error",
+    name: "Error",
+    component: Error,
   },
   {
     path: "/*",
     name: "PageNotFound",
     component: PageNotFound,
-  },
-  {
-    path: "/error",
-    name: "Error",
-    component: Error,
   },
 ];
