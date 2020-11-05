@@ -195,7 +195,7 @@ public class FoodlistDaoImpl implements FoodlistDao {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         
-        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
         String returnLine;
         StringBuffer result = new StringBuffer();
