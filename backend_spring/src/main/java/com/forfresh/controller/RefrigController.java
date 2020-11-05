@@ -112,12 +112,11 @@ public class RefrigController {
     @ApiOperation(value = "냉장고 이름변경")
 
     public Object updateRefrig(@RequestParam(required = true) final Integer refrigNo,
-    @RequestParam(required = true) final String refrigName) {
-
+    @RequestParam(required = true) final String refrigName, @RequestParam(required = true) final String userId) {
         Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
         BasicResponse result = new BasicResponse();
 
-        if (refrigOpt.isPresent()) {
+        if (refrigOpt.isPresent() && refrigOpt.get().getUserId().equals(userId)) {
             RefrigRegist refrigRegist = refrigOpt.get();
             refrigRegist.setRefrigName(refrigName);
             refrigRegistDao.save(refrigRegist);
@@ -134,10 +133,29 @@ public class RefrigController {
 	
 	@DeleteMapping("/deleteRefrig")
     @ApiOperation(value = "냉장고 삭제하기")
-    public Object deleteRefrig(@RequestParam(required = true) final Integer refrigNo){
+    public Object deleteRefrig(@RequestParam(required = true) final Integer refrigNo, @RequestParam(required = true) final String userId){
+		
+		Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
+		BasicResponse result = new BasicResponse();
 
-		refrigRegistDao.deleteByRefrigNo(refrigNo);
-		return new ResponseEntity<>(null, HttpStatus.OK);    
+		if(refrigOpt.get().getUserId() == userId) {
+			refrigRegistDao.deleteByRefrigNo(refrigNo);
+			result.status = true;
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		else{
+			Optional<RefrigShare> refrigShareOpt = refrigShareDao.findByRefrigNoAndSharedIdAndAccept(refrigNo, userId, 1); 
+			if(refrigShareOpt.isPresent()){
+				refrigShareDao.deleteByRefrigNo(refrigNo);
+				result.status = true;
+				return new ResponseEntity<>(result, HttpStatus.OK);
+			}
+			else{
+				result.status=false;
+				result.data = "냉장고 삭제 실패";
+				return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+			}
+		}    
     }
     
 }

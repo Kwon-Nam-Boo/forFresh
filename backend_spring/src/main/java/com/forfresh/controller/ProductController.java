@@ -3,9 +3,10 @@ package com.forfresh.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -67,8 +68,9 @@ public class ProductController {
 
 	@PostMapping("/add")
 	@ApiOperation(value = "상품 추가")
-	public Object saveProduct(@RequestBody Product product) {
+	public Object saveProduct(@Valid @RequestBody Product product) {
 		BasicResponse result = new BasicResponse();
+
 		try {
 			result.status = true;
 			Product pd = productDao.save(product);
@@ -141,7 +143,6 @@ public class ProductController {
 			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	
 	@DeleteMapping("/shop/delete")
 	@ApiOperation(value = "장바구니 리스트에서 상품 삭제")

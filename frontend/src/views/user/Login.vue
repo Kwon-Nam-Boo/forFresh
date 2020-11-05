@@ -186,7 +186,7 @@ export default {
             // this.$router.push({ path: "/home" }).catch(() => {});
             if (res.data.status) {
               this.statusMessage = res.data.object.userId + "님 환영합니다.";
-              console.dir(res.headers["jwt-auth-token"]);
+              // console.dir(res.headers["jwt-auth-token"]);
               this.setInfo(
                 "성공",
                 res.headers["jwt-auth-token"],

@@ -64,7 +64,7 @@
                   <v-list-item-group>
                     <v-list-item class='pa-0'>
                       <v-avatar class="mx-auto" size='40'>
-                        <img :src=food.img>
+                        <img src=food.img>
                       </v-avatar>
                     </v-list-item>
                     <v-list-item class='foodname pa-0' dense>
@@ -96,7 +96,7 @@ export default {
         ['위험','red'], ['보통','blue'], ['신선','green'],
       ],
       foodList: [
-        {num:1,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
+        {num:1,img:"@/assets/tofu.png", name:'두부'},
         {num:2,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
         {num:3,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
         {num:4,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
