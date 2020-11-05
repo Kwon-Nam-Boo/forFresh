@@ -137,7 +137,19 @@
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
 
-          <PayButton />
+          <v-list-item @click="$router.push('/ProductMain').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-cart</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>장보기</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item @click="$router.push('/addproduct').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-cart-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>상품 등록</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
@@ -151,14 +163,11 @@
 
 <script>
 import UserApi from "../api/UserApi";
-import PayButton from "../components/payment/Paytest";
 
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
-  components: {
-    PayButton,
-  },
+  components: {},
   data() {
     return {
       userInfo: {},
@@ -214,13 +223,13 @@ export default {
       );
     }
   },
-  methods:{
-    logout(){
-      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제 
+  methods: {
+    logout() {
+      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제
       storage.removeItem("jwt-auth-token");
       storage.removeItem("login_user");
-      this.$router.push('/').catch(()=>{});
-    }   
+      this.$router.push("/").catch(() => {});
+    },
   },
 };
 </script>

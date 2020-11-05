@@ -3,8 +3,6 @@ package com.forfresh.controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -56,6 +54,10 @@ public class ProductController {
 	public ResponseEntity<List<Product>> getProductList(@RequestParam("categoryNo") Integer categoryNo,
 			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
 		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo, pageable);
+		for (int i = 0; i < productList.get().size(); i++) {
+			int productNo = productList.get().get(i).getProductNo();
+			productList.get().get(i).setAvgRate(productCommentDao.productAvgRate(productNo));
+		}
 		return new ResponseEntity<List<Product>>(productList.get(), HttpStatus.OK);
 	}
 
@@ -68,12 +70,13 @@ public class ProductController {
 
 	@PostMapping("/add")
 	@ApiOperation(value = "상품 추가")
-	public Object saveProduct(@Valid @RequestBody Product product) {
+	public Object saveProduct(@RequestBody Product product) {
 		BasicResponse result = new BasicResponse();
 
 		try {
 			result.status = true;
 			Product pd = productDao.save(product);
+			result.data = pd.getProductNo().toString();
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			result.status = false;
@@ -88,11 +91,11 @@ public class ProductController {
 		findProduct.get().setAvgRate(product.getAvgRate());
 		findProduct.get().setCategoryNo(product.getCategoryNo());
 		findProduct.get().setDescription(product.getDescription());
-		findProduct.get().setDetailImgs(product.getDetailImgs());
 		findProduct.get().setImgUrl(product.getImgUrl());
 		findProduct.get().setProductName(product.getProductName());
 		findProduct.get().setProductPrice(product.getProductPrice());
 		findProduct.get().setStock(product.getStock());
+		findProduct.get().setDetailUrl(product.getDetailUrl());
 		productDao.save(findProduct.get());
 
 		return new ResponseEntity<Product>(findProduct.get(), HttpStatus.OK);
