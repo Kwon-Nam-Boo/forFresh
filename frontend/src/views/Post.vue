@@ -8,24 +8,34 @@
       <v-img position="center" :src="receiptPicture" />
       <v-button @click="getDummy">등록</v-button>
     </div>
-    <div style="height:90%; margin-top: 20%">
-      <table style="margin:0px auto; width:70%">
+    <div style="height:30%; margin-top: 20%">
+      <table style="margin:0px auto; width:70%; height: 30%">
         <thead>
           <th>상품명</th>
           <th>금액</th>
           <th>수량</th>
         </thead>
         <tbody>
-
+            
+            <tr v-for="food in foods" :key="food.food_no">
+              <td>
+                {{ food.name }}
+              </td>
+              <td>{{ food.price }}</td>
+              <td>
+                {{ food.no }}
+              </td>
+              
+            </tr>
         </tbody>
       </table>
 
     </div>
-    <div >
-      <v-app id="inspire">
+  
+      <div id="inspire">
         <v-btn depressed color="#e2efef" style="width:30%">등록하기</v-btn>
-      </v-app>
-    </div>
+      </div>
+    
 
 
   </div>

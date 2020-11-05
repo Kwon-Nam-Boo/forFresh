@@ -20,14 +20,14 @@
         {{ alertMessage }}
       </v-alert>
       <v-card class="mx-auto my-5" max-width="500">
-        <v-card-text class="display-1 text--primary">Sign Up</v-card-text>
+        <v-card-text class="display-1 text--primary">회원가입</v-card-text>
         <div class="px-10">
           <v-text-field
             class="mt-10"
             :disabled="authStatus"
             v-model="email"
             label="이메일*"
-            outlined
+            
             hide-details
           ></v-text-field>
           <div align="left" class="error-text" v-if="error.email">
@@ -55,6 +55,7 @@
                   v-bind="attrs"
                   v-on="on"
                   @click="sendMail()"
+                  style="margin-left:55%;"
                 >
                   이메일 인증
                 </v-btn>
@@ -67,12 +68,12 @@
                   class="mt-10"
                   v-model="userInputCode"
                   label="코드 입력*"
-                  outlined
+                  
                   hide-details
                 ></v-text-field>
                 <v-btn
                   color="green darken-1"
-                  outlined
+                  
                   text
                   @click="authorizeCode()"
                 >
@@ -94,7 +95,7 @@
             v-model="password"
             type="password"
             label="비밀번호*"
-            outlined
+            
             hide-details
           ></v-text-field>
           <div align="left" class="error-text" v-if="error.password">
@@ -106,7 +107,7 @@
             v-model="passwordRe"
             type="password"
             label="비밀번호 확인*"
-            outlined
+            
             hide-details
           ></v-text-field>
           <div align="left" class="error-text" v-if="error.passwordRe">
@@ -117,13 +118,13 @@
             class="mt-10"
             v-model="nickname"
             label="닉네임*"
-            outlined
+            
             hide-details
           ></v-text-field>
           <div align="left" class="error-text" v-if="error.nickname">
             <b>{{ error.nickname }}</b>
           </div>
-          <v-btn class="my-5" v-if="!nickNameChkStatus" @click="checkNickName()"
+          <v-btn class="my-5" v-if="!nickNameChkStatus" @click="checkNickName()" style="margin-left:60%;"
             >중복 검사</v-btn
           >
           <v-btn
@@ -134,7 +135,7 @@
             <v-icon dark right>{{ svgPath }}</v-icon>
           </v-btn>
           <p class="text-red">* 표시는 필수로 작성해야합니다.</p>
-          <v-btn class="my-10" block color="btncolor" @click="onJoin()"
+          <v-btn class="my-10" block color="#88dba3" @click="onJoin()"
             >회원가입</v-btn
           >
           <v-divider></v-divider>
@@ -341,5 +342,9 @@ export default {
 .error-text {
   color: #e53935;
   font-size: 12px;
+}
+.text-red{
+  font-size: 2vh;
+  margin-right: 30%;
 }
 </style>
