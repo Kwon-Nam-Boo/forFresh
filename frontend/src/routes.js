@@ -5,6 +5,8 @@ import Join from "./views/user/Join";
 import Detail from "./views/Detail";
 import Post from "./views/Post";
 import FindPassword from "./views/user/FindPassWord";
+import PageNotFound from "./views/error/PageNotFound";
+import Error from "./views/error/Error";
 export default [
   {
     path: "/",
@@ -40,5 +42,15 @@ export default [
     path: "/findpassword",
     name: "FindPassword",
     component: FindPassword,
+  },
+  {
+    path: "/*",
+    name: "PageNotFound",
+    component: PageNotFound,
+  },
+  {
+    path: "/error",
+    name: "Error",
+    component: Error,
   },
 ];
