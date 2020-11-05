@@ -26,8 +26,10 @@ public class Foodlist {
     private int refrigNo;
     private int categoryNo;
     private String foodName;
-    private int status;
+    private String status;
     private String registDate;
+    private int stock;
+    private int price;
 
 }
 

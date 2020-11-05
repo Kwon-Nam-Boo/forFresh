@@ -3,6 +3,7 @@ package com.forfresh.model.dao.refrig;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -168,7 +169,7 @@ public class FoodlistDaoImpl implements FoodlistDao {
     }
 
     @Override
-    public List<Foodlist> findByRefrigNo(int refrigNo) {
+    public List<FoodlistExpiration> findByRefrigNo(int refrigNo) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -188,12 +189,12 @@ public class FoodlistDaoImpl implements FoodlistDao {
 
     @Override
     public String getItemInfo(String foodName) throws IOException {
-        String request = "/getItemInfo/" + foodName;
-        String requestUrl = root + request;
-        URL url = new URL(requestUrl);
+        String addUrl = "/getItemInfo/"+foodName+"/";
+        String finalUrl = root + addUrl;
+        URL url = new URL(finalUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-
+        
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
         String returnLine;
@@ -205,5 +206,40 @@ public class FoodlistDaoImpl implements FoodlistDao {
 
         return result.toString();
     }
+
+    @Override
+    public Optional<Foodlist> findByFoodNo(int foodNo) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    // @Override
+    // public String getItemInfo(String foodName) throws IOException {
+    //     String addUrl = "/getItemInfo";
+    //     String finalUrl = root + addUrl;
+    //     URL url = new URL(finalUrl);
+    //     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    //     conn.setDoOutput(true);
+    //     conn.setRequestMethod("POST");
+    //     conn.setRequestProperty("Content-Type", "application/json");
+        
+    //     // Request Body에 Data를 담기위해 OutputStream 객체를 생성.
+    //     OutputStream os = conn.getOutputStream();
+    //     // Request Body에 Data 셋팅.
+    //     os.write(foodName.getBytes());        
+    //     // Request Body에 Data 입력.
+    //     os.flush();
+
+    //     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+    //     String returnLine;
+    //     StringBuffer result = new StringBuffer();
+    //     while ((returnLine = br.readLine()) != null) {
+    //         result.append(returnLine + "\n");
+    //     }
+    //     conn.disconnect();
+
+    //     return result.toString();
+    // }
     
 }

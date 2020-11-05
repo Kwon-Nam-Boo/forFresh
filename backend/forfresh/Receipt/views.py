@@ -7,13 +7,16 @@ from django.http.response import JsonResponse, HttpResponse
 
 @api_view(['GET'])
 def getItemInfo(request, foodName):
-    foodName1 = foodName
+    data = list(foodName)
+    print(data)
     try:
         return JsonResponse({
-            "foodName" : foodName1,
+            "foodName" : data,
             'category' : 1,
             'status' : "냉동",
         })
     except:
         return JsonResponse({
+            "fff":111
         })
+
