@@ -197,7 +197,37 @@ export default {
             this.detailPicture = url;
             // DB 저장용 SPRING REQUEST
             // this.$store.state.gameitems[this.itemList[i]]
-
+            console.log(this.picture);
+            console.log(this.detailPicture);
+            ProductApi.requestAddProduct(
+              {
+                productNo: "",
+                categoryNo: tempNo,
+                productName: this.productName,
+                productPrice: this.productPrice,
+                stock: this.stock,
+                description: this.description,
+                imgUrl: this.picture,
+                detailUrl: this.detailPicture,
+              },
+              (res) => {
+                console.log("db등록성공");
+              },
+              (error) => {
+                console.log(error);
+              }
+            );
+            this.categoryName = null;
+            this.productName = "";
+            this.productPrice = "";
+            this.stock = "";
+            this.description = "";
+            this.imageData = "";
+            this.picture = null;
+            this.uploadValue = 0;
+            this.detailImage = "";
+            this.detailPicture = null;
+            this.detailValue = 0;
             alert("등록에 성공했습니다.");
           });
         }
