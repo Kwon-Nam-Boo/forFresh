@@ -173,94 +173,65 @@ export default {
           this.uploadValue = 100;
           storageRef.snapshot.ref.getDownloadURL().then((url) => {
             this.picture = url;
-          });
-        }
-      );
-      // 첫번째 상세설명 사진 보내기
-      this.detailPicture = null;
-      const storageRef2 = firebase
-        .storage()
-        .ref(`${this.detailImage.name}`)
-        .put(this.detailImage);
-      await storageRef2.on(
-        `state_changed`,
-        (snapshot) => {
-          this.detailValue =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error.message);
-        },
-        () => {
-          this.detailValue = 100;
-          storageRef2.snapshot.ref.getDownloadURL().then((url) => {
-            this.detailPicture = url;
-            // DB 저장용 SPRING REQUEST
-            // this.$store.state.gameitems[this.itemList[i]]
-            console.log(this.picture);
-            console.log(this.detailPicture);
-            ProductApi.requestAddProduct(
-              {
-                productNo: "",
-                categoryNo: tempNo,
-                productName: this.productName,
-                productPrice: this.productPrice,
-                stock: this.stock,
-                description: this.description,
-                imgUrl: this.picture,
-                detailUrl: this.detailPicture,
-              },
-              (res) => {
-                console.log("db등록성공");
+            // 두번째 상세설명 사진 보내기
+            this.detailPicture = null;
+            const storageRef2 = firebase
+              .storage()
+              .ref(`${this.detailImage.name}`)
+              .put(this.detailImage);
+            storageRef2.on(
+              `state_changed`,
+              (snapshot) => {
+                this.detailValue =
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
               },
               (error) => {
-                console.log(error);
+                console.log(error.message);
+              },
+              () => {
+                this.detailValue = 100;
+                storageRef2.snapshot.ref.getDownloadURL().then((url) => {
+                  this.detailPicture = url;
+                  // DB 저장용 SPRING REQUEST
+                  // this.$store.state.gameitems[this.itemList[i]]
+                  console.log(this.picture);
+                  console.log(this.detailPicture);
+                  ProductApi.requestAddProduct(
+                    {
+                      productNo: "",
+                      categoryNo: tempNo,
+                      productName: this.productName,
+                      productPrice: this.productPrice,
+                      stock: this.stock,
+                      description: this.description,
+                      imgUrl: this.picture,
+                      detailUrl: this.detailPicture,
+                    },
+                    (res) => {
+                      console.log("db등록성공");
+                    },
+                    (error) => {
+                      console.log(error);
+                    }
+                  );
+                  this.categoryName = null;
+                  this.productName = "";
+                  this.productPrice = "";
+                  this.stock = "";
+                  this.description = "";
+                  this.imageData = "";
+                  this.picture = null;
+                  this.uploadValue = 0;
+                  this.detailImage = "";
+                  this.detailPicture = null;
+                  this.detailValue = 0;
+                  alert("등록에 성공했습니다.");
+                });
               }
             );
-            this.categoryName = null;
-            this.productName = "";
-            this.productPrice = "";
-            this.stock = "";
-            this.description = "";
-            this.imageData = "";
-            this.picture = null;
-            this.uploadValue = 0;
-            this.detailImage = "";
-            this.detailPicture = null;
-            this.detailValue = 0;
-            alert("등록에 성공했습니다.");
           });
         }
       );
-      await ProductApi.requestAddProduct(
-        {
-          productNo: "",
-          categoryNo: tempNo,
-          productName: this.productName,
-          productPrice: this.productPrice,
-          stock: this.stock,
-          description: this.description,
-          imgUrl: this.picture,
-          detailUrl: this.detailPicture,
-        },
-        (res) => {
-          console.log("db등록성공");
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      this.categoryName = null;
-      this.productName = "";
-      this.productPrice = "";
-      this.stock = "";
-      this.description = "";
-      this.imageData = "";
-      this.picture = null;
-      this.uploadValue = 0;
-      this.detailImage = "";
-      this.detailPicture = null;
-      this.detailValue = 0;
     },
 
     reset() {

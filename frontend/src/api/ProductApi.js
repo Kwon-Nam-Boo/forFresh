@@ -15,8 +15,8 @@ const requestAddProduct = (data, callback, errorCallback) => {
       productPrice: data.productPrice,
       stock: data.stock,
       description: data.description,
-      imgUrl: data.picture,
-      detailUrl: data.detailPicture,
+      imgUrl: data.imgUrl,
+      detailUrl: data.detailUrl,
     },
   })
     .then(function(response) {
