@@ -2,7 +2,10 @@
   <v-card class="ml-1 mr-1 my-12" max-width="374">
     <v-img
       height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      :src="`${product.imgUrl}`"
+      @click="
+        $router.push('/productdetail/' + `${product.productNo}`).catch(() => {})
+      "
     ></v-img>
 
     <v-card-title>{{ product.description }}</v-card-title>
@@ -47,7 +50,9 @@ export default {
     };
   },
   props: ["product"],
-  created() {},
+  created() {
+    console.log(this.product);
+  },
   methods: {},
 };
 </script>

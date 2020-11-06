@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ categoryNo }}
     <ProductCtegoryItem
       v-for="(item, i) in list"
       :product="list[i]"
