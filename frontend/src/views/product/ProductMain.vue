@@ -1,17 +1,27 @@
 <template>
   <div>
-    <v-form class="mx-2 mt-7" onsubmit="return false;">
-      <v-text-field
-        rounded
-        solo
-        dense
-        label="식품 검색"
-        append-icon="mdi-magnify"
-      ></v-text-field>
-    </v-form>
-    <!-- @keydown.enter="searchSummoner" -->
-
     <CategoryList @categoryList="category" />
+
+    <!-- onsubmit="return false;" -->
+    <v-container>
+      <v-row>
+        <v-col cols="8">
+          <v-text-field
+            rounded
+            solo
+            dense
+            label="식품 검색"
+            v-model="keyword"
+          ></v-text-field
+        ></v-col>
+        <v-col cols="2">
+          <v-btn color="#88dba3" @click="searchProduct()"
+            >검색
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
     <Advertise />
     <RecommendFood />
   </div>
@@ -31,6 +41,7 @@ export default {
     return {
       title: "상품페이지",
       category: "",
+      keyword: "",
     };
   },
   created() {
@@ -40,6 +51,7 @@ export default {
     categoryList(category) {
       this.category = category;
     },
+    searchProduct() {},
   },
 };
 </script>
