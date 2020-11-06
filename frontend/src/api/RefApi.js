@@ -112,15 +112,16 @@ const getReceiptData = (data, callback, errorCallback) => {
   console.log(data)
   axios({
       method: "GET",
-      url: BASE_URL + "/getReceiptData",
+      url: BASE_URL + "/food/getOCR",
       params: {
-        userId: data.receiptUrl,
+        receiptUrl: data.receiptUrl,
       },
       headers: {
           "jwt-auth-token": storage.getItem("jwt-auth-token"),
       },
     })
       .then(function(response) {
+        console.log(response)
         callback(response);
       })
       .catch(function(error) {

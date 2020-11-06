@@ -18,8 +18,8 @@ public interface FoodlistDao extends JpaRepository<Foodlist, String> {
 
     // SELECT * FROM food_list JOIN expiration ON food_list.category_no = expiration.category_no;
 
-    @Query(value="SELECT *"
-    + " e.category as category"
+    @Query(value="SELECT f.*"
+    + ", e.category as category"
     + ", e.expire_date as expireDate"
     + " FROM food_list as f JOIN expiration as e ON f.category_no = e.category_no",nativeQuery=true)
     List<FoodlistExpiration> findByRefrigNo(@Param("refrigNo") int refrigNo); 
@@ -40,6 +40,7 @@ public interface FoodlistDao extends JpaRepository<Foodlist, String> {
     Optional<Foodlist> findByRefrigNoAndFoodName(int refrigNo, String foodName);
     Optional<Foodlist> findByFoodNo(int foodNo);
     String getItemInfo(String foodName) throws IOException;
+    String getReceiptInfo(String receiptUrl) throws IOException;
 
     @Transactional
     void deleteByFoodNo(int foodNo);

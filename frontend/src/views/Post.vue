@@ -95,7 +95,6 @@ export default {
       });
     },
     async getDummy() {
-      console.log(this.imageData)
       var self = this;
       const fb1 = await this.upload(this.imageData);
       this.receiptPicture = null;
