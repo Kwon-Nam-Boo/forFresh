@@ -3,33 +3,25 @@
     <v-tabs v-model="tab" dark background-color="#88dba3" show-arrows>
       <v-tabs-slider color="lighten-5"></v-tabs-slider>
 
-      <v-tab v-for="(item, i) in items" :key="i">
+      <v-tab v-for="(item, i) in items" :key="i" @click="changePage(i)">
         {{ item }}
       </v-tab>
     </v-tabs>
-    <v-tabs-items v-model="tab">
+    <!-- <v-tabs-items v-model="tab">
       <v-tab-item v-for="(item, i) in items" :key="i">
         <ProductHome v-if="i == 0" />
         <ProductCategory v-else :categoryNo="i - 1" />
       </v-tab-item>
-    </v-tabs-items>
+    </v-tabs-items> -->
   </v-card>
 </template>
 <script>
-import ProductHome from "../product/ProductHome";
-import ProductCategory from "../product/ProductCategory";
-
 export default {
-  components: {
-    ProductHome,
-    ProductCategory,
-  },
+  components: {},
   data() {
     return {
       tab: null,
-      category: "",
       items: [
-        "홈",
         "돼지고기",
         "쇠고기",
         "닭고기",
@@ -57,9 +49,7 @@ export default {
       ],
     };
   },
-  created() {
-    this.$emit("category", this.category);
-  },
+  created() {},
   methods: {
     changePage(no) {
       this.$router.push("/productcategory/" + no).catch(() => {});

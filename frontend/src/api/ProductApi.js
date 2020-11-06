@@ -43,12 +43,32 @@ const requestProductByCategory = (data, callback, errorCallback) => {
       errorCallback(error);
     });
 };
+
+const requestProductDetail = (data, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/product/detail",
+    params: {
+      productNo: data.productNo,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const ProductApi = {
   requestAddProduct: (data, callback, errorCallback) =>
     requestAddProduct(data, callback, errorCallback),
 
   requestProductByCategory: (data, callback, errorCallback) =>
     requestProductByCategory(data, callback, errorCallback),
+
+  requestProductDetail: (data, callback, errorCallback) =>
+    requestProductDetail(data, callback, errorCallback),
 };
 
 export default ProductApi;

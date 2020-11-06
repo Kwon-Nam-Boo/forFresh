@@ -51,7 +51,7 @@ export default {
   },
   props: ["product"],
   created() {
-    console.log(this.product);
+    // console.log(this.product);
   },
   methods: {},
 };

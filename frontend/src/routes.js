@@ -9,6 +9,7 @@ import AddProduct from "./components/product/AddProduct";
 import ProductMain from "./views/product/ProductMain";
 import ProductDetail from "./views/product/ProductDetail";
 import ProductSearch from "./views/product/ProductSearch";
+import ProductCategory from "./views/product/ProductCategory";
 
 export default [
   {
@@ -65,5 +66,11 @@ export default [
     path: "/productdetail/:productno",
     name: "ProductDetail",
     component: ProductDetail,
+  },
+
+  {
+    path: "/productcategory/:categoryno",
+    name: "ProductCategory",
+    component: ProductCategory,
   },
 ];
