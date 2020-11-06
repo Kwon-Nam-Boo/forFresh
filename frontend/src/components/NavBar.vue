@@ -126,6 +126,19 @@
             <v-list-item-title>장보기</v-list-item-title>
           </v-list-item>
 
+          <v-list-item
+            @click="
+              $router
+                .push('/shoppinglist/' + `${userInfo.email}`)
+                .catch(() => {})
+            "
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-shopping</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>장바구니</v-list-item-title>
+          </v-list-item>
+
           <v-list-item @click="$router.push('/addproduct').catch(() => {})">
             <v-list-item-icon>
               <v-icon>mdi-cart-plus</v-icon>

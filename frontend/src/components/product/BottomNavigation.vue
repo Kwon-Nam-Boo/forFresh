@@ -1,5 +1,5 @@
 <template>
-  <v-card class="overflow-hidden mx-auto" height="200" max-width="500">
+  <div>
     <v-bottom-navigation
       absolute
       hide-on-scroll
@@ -24,15 +24,7 @@
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
     </v-bottom-navigation>
-
-    <v-responsive
-      id="hide-on-scroll-example"
-      class="overflow-y-auto"
-      max-height="600"
-    >
-      <v-responsive height="1500"></v-responsive>
-    </v-responsive>
-  </v-card>
+  </div>
 </template>
 
 <script>

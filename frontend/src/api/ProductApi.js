@@ -49,7 +49,25 @@ const requestProductDetail = (data, callback, errorCallback) => {
     method: "get",
     url: BASE_URL + "/product/detail",
     params: {
-      productNo: data.productNo,
+      productNo: data,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
+const requestSearchProduct = (data, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/product/search",
+    params: {
+      productName: data.productName,
+      page: data.page,
+      size: data.size,
     },
   })
     .then(function(response) {
@@ -69,6 +87,9 @@ const ProductApi = {
 
   requestProductDetail: (data, callback, errorCallback) =>
     requestProductDetail(data, callback, errorCallback),
+
+  requestSearchProduct: (data, callback, errorCallback) =>
+    requestSearchProduct(data, callback, errorCallback),
 };
 
 export default ProductApi;

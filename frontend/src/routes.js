@@ -10,7 +10,7 @@ import ProductMain from "./views/product/ProductMain";
 import ProductDetail from "./views/product/ProductDetail";
 import ProductSearch from "./views/product/ProductSearch";
 import ProductCategory from "./views/product/ProductCategory";
-
+import ShoppingList from "./views/product/ShoppingList";
 export default [
   {
     path: "/",
@@ -58,7 +58,7 @@ export default [
     component: ProductMain,
   },
   {
-    path: "/productsearch/:item",
+    path: "/productsearch/:keyword",
     name: "ProductSearch",
     component: ProductSearch,
   },
@@ -72,5 +72,10 @@ export default [
     path: "/productcategory/:categoryno",
     name: "ProductCategory",
     component: ProductCategory,
+  },
+  {
+    path: "/shoppinglist/:email",
+    name: "ShoppingList",
+    component: ShoppingList,
   },
 ];
