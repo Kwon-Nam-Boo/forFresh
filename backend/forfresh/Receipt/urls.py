@@ -5,4 +5,6 @@ app_name = 'Receipt'
 
 urlpatterns = [
     path('getItemInfo/<str:foodName>/', views.getItemInfo),
+    path('getReceiptInfo/', views.getReceiptInfo),
+
 ]

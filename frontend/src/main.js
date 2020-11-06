@@ -16,7 +16,6 @@ const BASE_URL = "http://" + hostname + "/api";
 export default BASE_URL;
 
 Vue.config.productionTip = false;
-
 firebase.initializeApp({
   apiKey: "AIzaSyDNTrL7pTJ259mmU1qc8a4u6rlZNAQMYYE",
   authDomain: "forfresh-ea84c.firebaseapp.com",

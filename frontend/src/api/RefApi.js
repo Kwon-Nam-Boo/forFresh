@@ -108,6 +108,26 @@ const editRef = (data, callback, errorCallback) => {
         errorCallback(error);
       });
 };
+const getReceiptData = (data, callback, errorCallback) => {
+  console.log(data)
+  axios({
+      method: "GET",
+      url: BASE_URL + "/food/getOCR",
+      params: {
+        receiptUrl: data.receiptUrl,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+        console.log(response)
+        callback(response);
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
 
 
 const RefApi = {
@@ -121,6 +141,8 @@ const RefApi = {
         deleteRef(data, callback, errorCallback),
     editRef: (data, callback, errorCallback) =>
         editRef(data, callback, errorCallback),
+    getReceiptData: (data, callback, errorCallback) =>
+        getReceiptData(data, callback, errorCallback),
 };
 
 export default RefApi;
