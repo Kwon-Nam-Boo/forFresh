@@ -47,7 +47,8 @@ export default {
   },
   methods: {
     changePage(no) {
-      this.$router.push("/home/" + no).catch(() => {});
+      this.$router.push("/productcategory/" + no).catch(() => {});
+      // location.reload();
     },
   },
 };
