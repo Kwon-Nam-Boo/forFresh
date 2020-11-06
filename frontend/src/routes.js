@@ -62,7 +62,7 @@ export default [
     component: ProductCategory,
   },
   {
-    path: "/ProductSearch/:item",
+    path: "/productsearch/:item",
     name: "ProductSearch",
     component: ProductSearch,
   },
