@@ -26,10 +26,29 @@ const requestAddProduct = (data, callback, errorCallback) => {
       errorCallback(error);
     });
 };
-
+const requestProductByCategory = (data, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/product/list",
+    params: {
+      categoryNo: data.categoryNo,
+      page: data.page,
+      size: data.size,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
 const ProductApi = {
   requestAddProduct: (data, callback, errorCallback) =>
     requestAddProduct(data, callback, errorCallback),
+
+  requestProductByCategory: (data, callback, errorCallback) =>
+    requestProductByCategory(data, callback, errorCallback),
 };
 
 export default ProductApi;

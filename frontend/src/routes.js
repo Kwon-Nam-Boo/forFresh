@@ -7,7 +7,7 @@ import Post from "./views/Post";
 import FindPassword from "./views/user/FindPassWord";
 import AddProduct from "./components/product/AddProduct";
 import ProductMain from "./views/product/ProductMain";
-import ProductCategory from "./views/product/ProductCategory";
+
 import ProductSearch from "./views/product/ProductSearch";
 
 export default [
@@ -55,11 +55,6 @@ export default [
     path: "/productmain",
     name: "ProductMain",
     component: ProductMain,
-  },
-  {
-    path: "/productcategory/:categroy",
-    name: "ProductCategory",
-    component: ProductCategory,
   },
   {
     path: "/productsearch/:item",
