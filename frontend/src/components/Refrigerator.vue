@@ -48,9 +48,9 @@
           <v-card 
             class="ma-4"
             outlined
-            v-for="item in items2"
-            :key="item[0]">
-            <v-card-text :class="item[1]+'--text pb-3'">{{item[0]}}</v-card-text>
+            v-for="item2 in items2"
+            :key="item2[0]">
+            <v-card-text :class="item2[1]+'--text pb-3'">{{item2[0]}}</v-card-text>
             <v-slide-group
               class="pb-3"
               show-arrows
@@ -58,17 +58,18 @@
               <v-slide-item
                 class="ma-1"
                 v-for="food in foodList"
-                :key="food.num"
+                :key="food.foodNo"
               >
-                <v-list class="pa-1 ma-0">
+                <v-list class="pa-1 ma-0" v-if="food.status == item">
                   <v-list-item-group>
                     <v-list-item class='pa-0' @click="moveDetail">
                       <v-avatar class="mx-auto" size='40'>
-                        <img :src="require(`@/assets/img/${food.img}`)">
+                        <!-- <img :src="require(`@/assets/img/${food.img}`)"> -->
+                        <img :src="require(`@/assets/img/tofu.png`)">
                       </v-avatar>
                     </v-list-item>
                     <v-list-item class='foodname pa-0' dense @click="moveDetail">
-                      <p class='ma-auto'>{{food.name}}</p>
+                      <p class='ma-auto'>{{food.foodName}}</p>
                     </v-list-item>
                   </v-list-item-group>
                 </v-list>
@@ -82,7 +83,9 @@
 
 <script>
 import deleteFood from './DeleteFood'
+import FoodApi from '../api/FoodApi'
 export default {
+  props:['refrigNo'],
   components:{
     deleteFood,
   },
@@ -96,14 +99,7 @@ export default {
         ['위험','red'], ['보통','blue'], ['신선','green'],
       ],
       foodList: [
-        {num:1,img:"tofu.png", name:'두부'},
-        {num:2,img:"tofu.png", name:'두부'},
-        {num:3,img:"tofu.png", name:'두부'},
-        {num:4,img:"tofu.png", name:'두부'},
-        {num:5,img:"tofu.png", name:'두부'},
-        {num:6,img:"tofu.png", name:'두부'},
-        {num:7,img:"tofu.png", name:'두부'},
-        {num:8,img:"tofu.png", name:'두부'},
+
 
       ],
       options:[
@@ -112,6 +108,20 @@ export default {
       select: '0',
       deleteDialog: false,
     }
+  },
+  created() {
+    const data = {
+      refrigNo: this.refrigNo
+    }
+    FoodApi.getFoodList(
+      data,
+      (res) => {
+        this.foodList = res.data.object;
+      },
+      (error) => {
+
+      }
+    )
   },
   watch: {
     select: function() {

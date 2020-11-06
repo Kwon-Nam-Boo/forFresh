@@ -49,7 +49,7 @@
           color="="
           flat
         >
-          <Refrigerator></Refrigerator>
+          <Refrigerator :refrigNo="item.refrigNo"></Refrigerator>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -159,12 +159,14 @@ export default {
     DeleteRefrigerator,
     EditRefrigerator,
   },
-  created() {
+  async created() {
     this.$emit('updateTitle', '메인페이지');
-    this.getRef();
-    // if(this.$session.get('userinfo')){
-
-    // }
+    this.items = await this.getRef();
+    if(this.items==[]||this.items==""||this.items==null){
+      this.isNoItem = true;
+    } else {
+      this.isNoItem = false;
+    }
   },
   data() {
     return {
@@ -199,20 +201,20 @@ export default {
       this.isEditRef=false;
     },
     getRef() {
-      const data = {
-        userId: storage.getItem("login_user"),
-      }
-      RefApi.getRef(
-        data,
-        (res) => {
-          this.isNoItem = false;
-          this.items = res.data.object;
-        },
-        (error) => {
-          this.isNoItem = true;
-          this.items = [];
+      return new Promise(resolve => {
+        const data = {
+          userId: storage.getItem("login_user"),
         }
-      )
+        RefApi.getRef(
+          data,
+          (res) => {
+            resolve(res.data.object);
+          },
+          (error) => {
+            resolve([]);
+          }
+        )
+      });
     }
   }
 };

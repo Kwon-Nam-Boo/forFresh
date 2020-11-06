@@ -73,7 +73,7 @@
         <v-list-item-group
           v-model="alarmGroup"
         >
-          <v-list-item v-for="alarm in alarmList" :key="alarm" >
+          <v-list-item v-for="(alarm,i) in alarmList" :key="i" >
             <v-img src="@/assets/fridge.png" height="30"
           width="20" style="margin-right:5%"/>
             <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
@@ -219,7 +219,6 @@ export default {
       var refInfo = await this.getRefByNo(data1);
       var nickName = await this.getUserInfo(refInfo.userId);
       refInfo.nickName = nickName;
-      console.log(refInfo);
       this.alarmList.push(refInfo);
     }
   },

@@ -3,6 +3,7 @@ package com.forfresh.model.dao.refrig;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Column;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,10 +19,18 @@ public interface FoodlistDao extends JpaRepository<Foodlist, String> {
 
     // SELECT * FROM food_list JOIN expiration ON food_list.category_no = expiration.category_no;
 
-    @Query(value="SELECT *"
-    + " e.category as category"
+    @Query(value="SELECT f.food_no as foodNo"
+    + ", f.refrig_no as refrigNo"
+    + ", f.category_no as categoryNo"
+    + ", f.food_name as foodName"
+    + ", f.status as status"
+    + ", f.price as price"
+    + ", f.stock as stock"
+    + ", f.regist_date as registDate"
+    + ", e.category as category"
     + ", e.expire_date as expireDate"
-    + " FROM food_list as f JOIN expiration as e ON f.category_no = e.category_no",nativeQuery=true)
+    + " FROM food_list as f JOIN expiration as e ON f.category_no = e.category_no"
+    + " WHERE f.refrig_no = :refrigNo",nativeQuery=true)
     List<FoodlistExpiration> findByRefrigNo(@Param("refrigNo") int refrigNo); 
 
     public static interface FoodlistExpiration{
