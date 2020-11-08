@@ -86,8 +86,8 @@ export default {
     itemsPerPage: 4,
     items: [
       {
-        name: "Frozen Yogurt",
-        calories: 159,
+        name: "배송정보",
+        calories: "순차배송",
         fat: 6.0,
         carbs: 24,
         protein: 4.0,

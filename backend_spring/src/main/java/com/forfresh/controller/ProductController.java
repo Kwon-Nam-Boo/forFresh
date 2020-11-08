@@ -57,6 +57,7 @@ public class ProductController {
 		for (int i = 0; i < productList.get().size(); i++) {
 			int productNo = productList.get().get(i).getProductNo();
 			productList.get().get(i).setAvgRate(productCommentDao.productAvgRate(productNo));
+			productList.get().get(i).setCommentCnt(productCommentDao.countByProductNo(productNo));
 		}
 		return new ResponseEntity<List<Product>>(productList.get(), HttpStatus.OK);
 	}
@@ -65,6 +66,8 @@ public class ProductController {
 	@ApiOperation(value = "상품 상세정보 조회")
 	public ResponseEntity<Product> getProductDetail(@RequestParam("productNo") Integer productNo) {
 		Optional<Product> product = productDao.findById(productNo);
+		product.get().setAvgRate(productCommentDao.productAvgRate(productNo));
+		product.get().setCommentCnt(productCommentDao.countByProductNo(productNo));
 		return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
 	}
 

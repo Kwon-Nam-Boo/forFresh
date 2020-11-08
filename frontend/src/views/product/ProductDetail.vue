@@ -11,7 +11,7 @@
         <div>가격 : {{ productInfo.productPrice }}</div>
         <v-row align="center" class="mx-0">
           <v-rating
-            :value="`${productInfo.avgRage}`"
+            :value="productInfo.avgRate"
             color="amber"
             dense
             half-increments
@@ -19,7 +19,9 @@
             size="14"
           ></v-rating>
 
-          <div class="grey--text ml-4">{{ productInfo.avgRage }} (댓글수)</div>
+          <div class="grey--text ml-4">
+            {{ productInfo.avgRate }}점 {{ productInfo.commentCnt }}
+          </div>
           <v-chip-group
             class="ml-5"
             v-model="selection"
@@ -29,7 +31,7 @@
             <v-chip><v-icon>mdi-shopping</v-icon></v-chip>
           </v-chip-group>
 
-          <div class="grey--text">장바구니</div>
+          <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
         </v-row>
       </v-card-text>
     </v-card>
@@ -103,6 +105,9 @@ export default {
         easing: this.easing,
       };
     },
+  },
+  methods: {
+    buyProduct() {},
   },
 };
 </script>

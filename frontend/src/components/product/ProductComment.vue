@@ -40,9 +40,14 @@
   </div>
 </template>
 <script>
+import UserApi from "../../api/UserApi";
+import ProductApi from "../../api/ProductApi";
+const storage = window.sessionStorage;
+
 export default {
   data() {
     return {
+      userInfo: {},
       // rules: [(value) => (value || "").length > 0 || "상품평을 입력하세요"],
       userComment: "",
       items: [
@@ -82,7 +87,22 @@ export default {
     };
   },
 
-  created() {},
+  created() {
+    UserApi.getUserInfo(
+      storage.getItem("login_user"),
+      (res) => {
+        this.userInfo = {
+          email: res.data.object.userId,
+          nickname: res.data.object.nickName,
+          phone: res.data.object.phone,
+          addr1: res.data.object.addr1,
+          addr2: res.data.object.addr2,
+          addr3: res.data.object.addr3,
+        };
+      },
+      (error) => {}
+    );
+  },
   methods: {
     saveComment() {
       if (this.userComment > 0) {
