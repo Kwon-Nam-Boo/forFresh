@@ -126,13 +126,7 @@
             <v-list-item-title>장보기</v-list-item-title>
           </v-list-item>
 
-          <v-list-item
-            @click="
-              $router
-                .push('/shoppinglist/' + `${userInfo.email}`)
-                .catch(() => {})
-            "
-          >
+          <v-list-item @click="$router.push('/shoppinglist').catch(() => {})">
             <v-list-item-icon>
               <v-icon>mdi-shopping</v-icon>
             </v-list-item-icon>
@@ -196,7 +190,6 @@ export default {
             addr2: res.data.object.addr2,
             addr3: res.data.object.addr3,
           };
-          this.$emit("getUserInfo", this.userInfo);
         },
         (error) => {
           //  console.log(error);

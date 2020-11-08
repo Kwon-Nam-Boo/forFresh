@@ -127,9 +127,9 @@ public class ProductController {
 	// ****************** shoppingLIST CRUD (장바구니)
 	@GetMapping("/shop/list")
 	@ApiOperation(value = "사용자 장바구니 리스트 조회")
-	public ResponseEntity<List<ShopListProduct>> getUserShopList(@RequestParam("userId") String userId,
-			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
-		List<ShopListProduct> shopList = shoppingListDao.findByUserId(userId, pageable);
+	public ResponseEntity<List<ShopListProduct>> getUserShopList(@RequestParam("userId") String userId
+			) {
+		List<ShopListProduct> shopList = shoppingListDao.findByUserId(userId);
 		return new ResponseEntity<List<ShopListProduct>>(shopList, HttpStatus.OK);
 	}
 

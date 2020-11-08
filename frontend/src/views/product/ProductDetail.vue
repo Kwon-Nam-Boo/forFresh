@@ -8,7 +8,7 @@
 
       <v-card-text>
         <div class="my-4 subtitle-1">{{ productInfo.productName }}</div>
-
+        <div>가격 : {{ productInfo.productPrice }}</div>
         <v-row align="center" class="mx-0">
           <v-rating
             :value="`${productInfo.avgRage}`"
@@ -45,7 +45,7 @@
       <v-img :src="`${productInfo.detailUrl}`"></v-img>
     </v-card>
     <!-- <v-card id="comments" class="target"> -->
-    <ProductComment :userInfo="userInfo" id="comments" class="target" />
+    <ProductComment id="comments" class="target" />
     <!-- </v-card> -->
     <QnaInfoForm id="qna" class="target" />
     <BottomNavigation />
@@ -76,7 +76,6 @@ export default {
       easings: Object.keys(easings),
     };
   },
-  props: ["userInfo"],
 
   created() {
     this.$emit("updateTitle", this.title);

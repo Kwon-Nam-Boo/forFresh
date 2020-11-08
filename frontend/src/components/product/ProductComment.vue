@@ -81,7 +81,7 @@ export default {
       ],
     };
   },
-  props: ["userInfo"],
+
   created() {},
   methods: {
     saveComment() {

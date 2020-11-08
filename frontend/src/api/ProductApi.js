@@ -78,6 +78,22 @@ const requestSearchProduct = (data, callback, errorCallback) => {
     });
 };
 
+const requestUserShoppingList = (email, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/product/shop/list",
+    params: {
+      userId: email,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const ProductApi = {
   requestAddProduct: (data, callback, errorCallback) =>
     requestAddProduct(data, callback, errorCallback),
@@ -90,6 +106,9 @@ const ProductApi = {
 
   requestSearchProduct: (data, callback, errorCallback) =>
     requestSearchProduct(data, callback, errorCallback),
+
+  requestUserShoppingList: (email, callback, errorCallback) =>
+    requestUserShoppingList(email, callback, errorCallback),
 };
 
 export default ProductApi;

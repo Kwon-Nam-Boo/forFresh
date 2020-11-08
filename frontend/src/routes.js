@@ -74,7 +74,7 @@ export default [
     component: ProductCategory,
   },
   {
-    path: "/shoppinglist/:email",
+    path: "/shoppinglist",
     name: "ShoppingList",
     component: ShoppingList,
   },
