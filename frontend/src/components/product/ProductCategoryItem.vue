@@ -33,7 +33,7 @@
           <v-chip><v-icon>mdi-shopping</v-icon></v-chip>
         </v-chip-group>
 
-        <div class="grey--text">장바구니</div>
+        <div class="grey--text">장바구니 담기</div>
       </v-row>
     </v-card-text>
 

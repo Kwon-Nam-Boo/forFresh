@@ -191,7 +191,12 @@ export default {
           this.userInfo = {
             email: res.data.object.userId,
             nickname: res.data.object.nickName,
+            phone: res.data.object.phone,
+            addr1: res.data.object.addr1,
+            addr2: res.data.object.addr2,
+            addr3: res.data.object.addr3,
           };
+          this.$emit("getUserInfo", this.userInfo);
         },
         (error) => {
           //  console.log(error);

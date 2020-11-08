@@ -1,9 +1,10 @@
 <template>
   <v-app>
-    <nav-bar v-if="title" :title="title"></nav-bar>
+    <nav-bar v-if="title" :title="title" @getUserInfo="getUserInfo"></nav-bar>
     <router-view
       :key="$route.fullPath"
       @updateTitle="updateTitle"
+      :userInfo="userInfo"
     ></router-view>
   </v-app>
 </template>
@@ -17,8 +18,13 @@ export default {
   },
   data: () => ({
     title: null,
+    userInfo: {},
   }),
   methods: {
+    getUserInfo(user) {
+      // console.log(user);
+      this.userInfo = user;
+    },
     updateTitle(title) {
       this.title = title;
     },

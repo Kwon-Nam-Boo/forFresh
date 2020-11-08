@@ -1,5 +1,23 @@
 <template>
   <div>
+    <v-container>
+      <v-row>
+        <v-col cols="9">
+          <v-text-field
+            rounded
+            solo
+            dense
+            label="식품 검색"
+            v-model="keyword"
+          ></v-text-field
+        ></v-col>
+        <v-col cols="2">
+          <v-btn color="#88dba3" @click="searchProduct()" fab small>
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
     <ProductCtegoryItem
       v-for="(item, i) in list"
       :product="list[i]"
@@ -55,6 +73,9 @@ export default {
     this.$emit("updateTitle", this.title);
   },
   methods: {
+    searchProduct() {
+      this.$router.push("/productsearch/" + this.keyword).catch(() => {});
+    },
     onScroll(e) {
       if (typeof window === "undefined") return;
       const top = window.pageYOffset || e.target.scrollTop || 0;

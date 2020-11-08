@@ -52,7 +52,12 @@
         @change="previewImage"
         outlined
       ></v-file-input> -->
-      <input type="file" @change="previewImage" accept="image/*" />
+      <input
+        type="file"
+        @change="previewImage"
+        accept="image/*"
+        style="width: 300px"
+      />
       <v-img position="center" :src="detailPicture" />
       <br />
       <!-- <v-file-input
@@ -64,7 +69,12 @@
         outlined
       ></v-file-input> -->
 
-      <input type="file" @change="detailPreviewImage" accept="image/*" />
+      <input
+        type="file"
+        @change="detailPreviewImage"
+        accept="image/*"
+        style="width: 300px"
+      />
       <!-- <p>
         Progress:{{ uploadValue.toFixed() + "%" }}
         <progress value="uploadValue" max="100"></progress>

@@ -45,8 +45,9 @@
       <v-img :src="`${productInfo.detailUrl}`"></v-img>
     </v-card>
     <!-- <v-card id="comments" class="target"> -->
-    <ProductComment id="comments" class="target" />
+    <ProductComment :userInfo="userInfo" id="comments" class="target" />
     <!-- </v-card> -->
+    <QnaInfoForm id="qna" class="target" />
     <BottomNavigation />
   </div>
 </template>
@@ -56,12 +57,13 @@ import BottomNavigation from "../../components/product/BottomNavigation";
 import CategoryList from "../../components/product/CategoryList";
 import * as easings from "vuetify/es5/services/goto/easing-patterns";
 import ProductComment from "../../components/product/ProductComment";
-
+import QnaInfoForm from "../../components/product/QnaInfoForm";
 export default {
   components: {
     BottomNavigation,
     CategoryList,
     ProductComment,
+    QnaInfoForm,
   },
   data() {
     return {
@@ -74,17 +76,18 @@ export default {
       easings: Object.keys(easings),
     };
   },
-  created() {
-    this.$emit("updateTitle", "상품페이지");
+  props: ["userInfo"],
 
+  created() {
+    this.$emit("updateTitle", this.title);
     ProductApi.requestProductDetail(
       this.$route.params.productno,
       (res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.productInfo = res.data;
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       }
     );
   },
