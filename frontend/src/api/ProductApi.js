@@ -94,6 +94,22 @@ const requestUserShoppingList = (email, callback, errorCallback) => {
     });
 };
 
+const deleteShopList = (data, callback, errorCallback) => {
+  axios({
+    method: "DELETE",
+    url: BASE_URL + "/product/shop/delete",
+    params: {
+      shoplistNo: data,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const ProductApi = {
   requestAddProduct: (data, callback, errorCallback) =>
     requestAddProduct(data, callback, errorCallback),
@@ -109,6 +125,9 @@ const ProductApi = {
 
   requestUserShoppingList: (email, callback, errorCallback) =>
     requestUserShoppingList(email, callback, errorCallback),
+
+  deleteShopList: (data, callback, errorCallback) =>
+    deleteShopList(data, callback, errorCallback),
 };
 
 export default ProductApi;

@@ -17,16 +17,21 @@
             ></v-checkbox>
           </v-col>
           <v-col>
-            <v-btn absolute right class="mt-3">선택 삭제</v-btn>
+            <v-btn absolute right class="mt-3" @click="delShopList()"
+              >선택 삭제</v-btn
+            >
           </v-col>
         </v-row>
       </v-container>
       <hr />
       <v-container>
-        <v-row v-for="item in shopList" :key="item.productNo">
+        <v-row v-for="item in shopList" :key="item.shoplistNo">
           <!-- <v-checkbox v-model="selected" :value="item.productNo" ></v-checkbox> -->
           <v-col cols="1">
-            <v-checkbox v-model="selected" :value="item.productNo"></v-checkbox>
+            <v-checkbox
+              v-model="selected"
+              :value="item.shoplistNo"
+            ></v-checkbox>
           </v-col>
           <v-col cols="6">
             <v-img max-width="200px" :src="item.imgUrl"></v-img>
@@ -69,6 +74,7 @@ export default {
       initStatus: false,
       shopList: [],
       selectedAllCopy: [],
+      sum: 0,
     };
   },
 
@@ -80,7 +86,7 @@ export default {
         this.shopList = res.data;
         for (var i = 0; i < this.shopList.length; i++) {
           this.shopList[i].stock = 1;
-          this.selected.push(this.shopList[i].productNo);
+          this.selected.push(this.shopList[i].shoplistNo);
         }
         this.selectedAllCopy = this.selected;
         // console.log(this.shopList);
@@ -98,6 +104,18 @@ export default {
         this.allselect = [];
       }
       this.initStatus = !this.initStatus;
+    },
+    delShopList() {
+      // console.log(this.selected);
+      for (var i = 0; i < this.selected.length; i++) {
+        ProductApi.deleteShopList(
+          this.selected[i],
+          (res) => {
+            location.reload(true);
+          },
+          (error) => {}
+        );
+      }
     },
   },
 };
