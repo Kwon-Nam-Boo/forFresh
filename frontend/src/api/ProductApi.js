@@ -17,6 +17,7 @@ const requestAddProduct = (data, callback, errorCallback) => {
       description: data.description,
       imgUrl: data.imgUrl,
       detailUrl: data.detailUrl,
+      registDate: "0000-00-00",
     },
   })
     .then(function(response) {
@@ -110,6 +111,41 @@ const deleteShopList = (data, callback, errorCallback) => {
     });
 };
 
+const requestUserShoppingListNo = (data, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/product/shop/search",
+    params: {
+      userId: data.userId,
+      productNo: data.productNo,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
+const addUserShopList = (data, callback, errorCallback) => {
+  axios({
+    method: "post",
+    url: BASE_URL + "/product/shop/add",
+    data: {
+      shoplistNo: "0",
+      userId: data.userId,
+      productNo: data.productNo,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const ProductApi = {
   requestAddProduct: (data, callback, errorCallback) =>
     requestAddProduct(data, callback, errorCallback),
@@ -128,6 +164,12 @@ const ProductApi = {
 
   deleteShopList: (data, callback, errorCallback) =>
     deleteShopList(data, callback, errorCallback),
+
+  addUserShopList: (data, callback, errorCallback) =>
+    addUserShopList(data, callback, errorCallback),
+
+  requestUserShoppingListNo: (data, callback, errorCallback) =>
+    requestUserShoppingListNo(data, callback, errorCallback),
 };
 
 export default ProductApi;

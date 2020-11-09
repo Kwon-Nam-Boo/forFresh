@@ -24,13 +24,14 @@ public interface ShoppingListDao extends JpaRepository<ShoppingList, Integer>{
 			+ ", p.img_url as imgUrl"
 			+ ", p.regist_date as registDate"
 			+ ", p.avg_rate as avgRate"
-			+ ", p.detail_url as detailImgs"
+			+ ", p.detail_url as detailUrl"
+			+ ", p.comment_cnt as commentCnt"
 			+ " FROM shopping_list as s JOIN product as p ON s.product_no = p.product_no  WHERE s.user_id = :userId",nativeQuery=true)
 	List<ShopListProduct> findByUserId(@Param("userId") String userId); 
 	
 	public static interface ShopListProduct{
-		Integer getShoplistNo(); 
-		Integer getProductNo();
+		Integer getShoplistNo();
+		Integer getProductNo(); 
 		Integer getCategoryNo();
 		String getProductName();
 		Integer getProductPrice();
@@ -39,7 +40,8 @@ public interface ShoppingListDao extends JpaRepository<ShoppingList, Integer>{
 		String getImgUrl();
 		LocalDateTime getRegistDate();
 		Integer getAvgRate();
-		String getDetailImgs();
+		String getDetailUrl();
+		Integer getCommentCnt();
 	}
 	
 	Optional<ShoppingList> findByUserIdAndProductNo(String userId, Integer productNo);

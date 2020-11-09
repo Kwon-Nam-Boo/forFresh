@@ -34,6 +34,7 @@
         >
           <v-chip><v-icon>mdi-shopping</v-icon></v-chip>
         </v-chip-group>
+        {{ selection }}
         <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
       </v-row>
     </v-card-text>
@@ -43,16 +44,60 @@
 </template>
 
 <script>
+import ProductApi from "../../api/ProductApi";
+const storage = window.sessionStorage;
+
 export default {
   components: {},
   data() {
     return {
-      selection: 1,
+      selection: null,
+      shoplistNo: "",
     };
   },
   props: ["product"],
   created() {
     // console.log(this.product);
+  },
+  watch: {
+    selection: function () {
+      if (this.selection == 0) {
+        ProductApi.addUserShopList(
+          {
+            userId: storage.getItem("login_user"),
+            productNo: this.product.productNo,
+          },
+          (res) => {
+            console.log(res.data);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else if (this.selection == null) {
+        ProductApi.requestUserShoppingListNo(
+          {
+            userId: storage.getItem("login_user"),
+            productNo: this.product.productNo,
+          },
+          (res) => {
+            this.shoplistNo = res.data.shoplistNo;
+            ProductApi.deleteShopList(
+              this.shoplistNo,
+              (res) => {
+                //삭제 성공
+              },
+              (error) => {
+                // 삭제 실패
+              }
+            );
+          },
+          (error) => {
+            // shoplistNo 가져오기 실패
+          }
+        );
+      }
+    },
   },
   methods: {
     buyProduct() {},

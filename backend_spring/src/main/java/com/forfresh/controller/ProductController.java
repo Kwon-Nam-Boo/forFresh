@@ -47,18 +47,22 @@ public class ProductController {
 
 	@Autowired
 	ShoppingListDao shoppingListDao;
+	
 
 	// ****************** product CRUD (상품)
+
 	@GetMapping("/list")
 	@ApiOperation(value = "카테고리별 상품 리스트 조회")
-	public ResponseEntity<List<Product>> getProductList(@RequestParam("categoryNo") Integer categoryNo,
+	public ResponseEntity<List<Product>> getProductList(@RequestParam("userId")String userId,@RequestParam("categoryNo") Integer categoryNo,
 			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
+//		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo,userId, pageable);
 		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo, pageable);
-		for (int i = 0; i < productList.get().size(); i++) {
-			int productNo = productList.get().get(i).getProductNo();
-			productList.get().get(i).setAvgRate(productCommentDao.productAvgRate(productNo));
-			productList.get().get(i).setCommentCnt(productCommentDao.countByProductNo(productNo));
-		}
+//		System.out.println(productList.get().get(0).getProductName());
+//		for (int i = 0; i < productList.get().size(); i++) {
+//			int productNo = productList.get().get(i).getProductNo();
+//			productList.get().get(i).setAvgRate(productCommentDao.productAvgRate(productNo));
+//			productList.get().get(i).setCommentCnt(productCommentDao.countByProductNo(productNo));
+//		}
 		return new ResponseEntity<List<Product>>(productList.get(), HttpStatus.OK);
 	}
 
@@ -66,8 +70,8 @@ public class ProductController {
 	@ApiOperation(value = "상품 상세정보 조회")
 	public ResponseEntity<Product> getProductDetail(@RequestParam("productNo") Integer productNo) {
 		Optional<Product> product = productDao.findById(productNo);
-		product.get().setAvgRate(productCommentDao.productAvgRate(productNo));
-		product.get().setCommentCnt(productCommentDao.countByProductNo(productNo));
+//		product.get().setAvgRate(productCommentDao.productAvgRate(productNo));
+//		product.get().setCommentCnt(productCommentDao.countByProductNo(productNo));
 		return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
 	}
 
@@ -134,6 +138,14 @@ public class ProductController {
 			) {
 		List<ShopListProduct> shopList = shoppingListDao.findByUserId(userId);
 		return new ResponseEntity<List<ShopListProduct>>(shopList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/shop/search")
+	@ApiOperation(value = "사용자 장바구니 단일 조회")
+	public ResponseEntity<ShoppingList> searchUserShopList(@RequestParam("userId") String userId,
+			@RequestParam("productNo") Integer productNo	) {
+		Optional<ShoppingList> shopList = shoppingListDao.findByUserIdAndProductNo(userId,productNo);
+		return new ResponseEntity<ShoppingList>(shopList.get(), HttpStatus.OK);
 	}
 
 	@PostMapping("/shop/add")
