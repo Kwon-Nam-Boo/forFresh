@@ -4,7 +4,7 @@ import requests
 import os
 
 # 1. ocr적용한 데이터를 json형식으로 받아온다
-def ocr():
+def ocr(receiptUrl):
     # 본인의 APIGW Invoke URL
     URL = "https://fbdeed6741fc4821a3980bbb7b0d966f.apigw.ntruss.com/custom/v1/4576/b9eb5486a776fe6d124e50c85724ce6245748e8dcec0fd967e2ae275ba74e47d/general"
     KEY = "VUxMdFFLYXdibWlLTUNUQ2p2YUhXcFJObHZGQWx2Y2U="
@@ -22,7 +22,7 @@ def ocr():
                 "format": "jpg",
                 #"data": img.decode('utf-8')
                 "data": None,
-                "url": "https://kr.object.ncloudstorage.com/refrigerator/test03.jpg"
+                "url": receiptUrl
             }
         ]
     }
