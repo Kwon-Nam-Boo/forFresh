@@ -117,6 +117,9 @@ export default {
       data,
       (res) => {
         this.foodList = res.data.object;
+        var date0 = new Date(this.foodList[3].registDate);
+        date0.setDate(date0.getDate()+Number(this.foodList[3].expireDate));
+        console.log(date0 - new Date());
       },
       (error) => {
 
