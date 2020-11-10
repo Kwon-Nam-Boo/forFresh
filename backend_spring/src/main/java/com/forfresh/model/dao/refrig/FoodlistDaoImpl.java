@@ -21,8 +21,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FoodlistDaoImpl implements FoodlistDao {
 
-    static String root = "http://localhost:8081/Receipt";
-    // static String root = "http://k3a407.p.ssafy.io:8081";
+    //static String root = "http://localhost:8081/Receipt";
+    static String root = "http://k3a407.p.ssafy.io:8082/Receipt";
 
     @Override
     public List<Foodlist> findAll() {
