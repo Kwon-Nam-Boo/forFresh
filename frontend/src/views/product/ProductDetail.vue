@@ -28,7 +28,9 @@
             active-class="deep-purple accent-4 white--text"
             column
           >
-            <v-chip><v-icon>mdi-shopping</v-icon></v-chip>
+            <v-chip @click="changeStatus()"
+              ><v-icon>mdi-shopping</v-icon></v-chip
+            >
           </v-chip-group>
 
           <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
@@ -47,7 +49,12 @@
       <v-img :src="`${productInfo.detailUrl}`"></v-img>
     </v-card>
     <!-- <v-card id="comments" class="target"> -->
-    <ProductComment id="comments" class="target" />
+    <ProductComment
+      id="comments"
+      class="target"
+      :items="commentInfo"
+      :commentCnt="productInfo.commentCnt"
+    />
     <!-- </v-card> -->
     <QnaInfoForm id="qna" class="target" />
     <BottomNavigation />
@@ -72,15 +79,16 @@ export default {
   data() {
     return {
       title: "상품 상세보기",
-      selection: 1,
+      shoplistNo: "",
+      selection: null,
       productInfo: {},
+      commentInfo: [],
       duration: 500,
       offset: 0,
       easing: "easeInOutCubic",
       easings: Object.keys(easings),
     };
   },
-
   created() {
     this.$emit("updateTitle", this.title);
     ProductApi.requestProductDetail(
@@ -89,8 +97,19 @@ export default {
         productNo: this.$route.params.productno,
       },
       (res) => {
-        // console.log(res.data);
-        this.productInfo = res.data;
+        this.productInfo = res.data.object;
+        if (res.data.data != null) {
+          this.selection = 0;
+        }
+      },
+      (error) => {
+        // console.log(error);
+      }
+    );
+    ProductApi.requestProductCommentList(
+      this.$route.params.productno,
+      (res) => {
+        this.commentInfo = res.data;
       },
       (error) => {
         // console.log(error);
@@ -113,6 +132,45 @@ export default {
   },
   methods: {
     buyProduct() {},
+    changeStatus() {
+      // console.log("들어왓다.");
+      if (this.selection == null) {
+        ProductApi.addUserShopList(
+          {
+            userId: storage.getItem("login_user"),
+            productNo: this.productInfo.productNo,
+          },
+          (res) => {
+            // console.log(res.data);
+          },
+          (error) => {
+            // console.log(error);
+          }
+        );
+      } else {
+        ProductApi.requestUserShoppingListNo(
+          {
+            userId: storage.getItem("login_user"),
+            productNo: this.productInfo.productNo,
+          },
+          (res) => {
+            this.shoplistNo = res.data.shoplistNo;
+            ProductApi.deleteShopList(
+              this.shoplistNo,
+              (res) => {
+                //장바구니 삭제 성공
+              },
+              (error) => {
+                //장바구니 삭제 실패
+              }
+            );
+          },
+          (error) => {
+            // shoplistNo 가져오기 실패
+          }
+        );
+      }
+    },
   },
 };
 </script>
