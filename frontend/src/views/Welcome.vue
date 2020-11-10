@@ -11,10 +11,11 @@
         down: () => swipe('Down')}"
   >
     <v-carousel-item
-      v-for="(color, i) in colors"
-      :key="color"
+      v-for="(pic, i) in pics"
+      :key="i"
+      :src="pic.src"
     >
-      <v-sheet
+      <!-- <v-sheet
         :color="color"
         height="100%"
         tile
@@ -28,7 +29,7 @@
             Slide {{ i + 1 }}
           </div>
         </v-row>
-      </v-sheet>
+      </v-sheet> -->
     </v-carousel-item>
   </v-carousel> 
 </template>
@@ -42,16 +43,10 @@ export default {
   data() {
     return {
       model: 0,
-      colors: [
-        'primary',
-        'secondary',
-        'yellow darken-2',
-        'red',
-        'orange',
-      ],
+      
       pics:[
-        require("@/assets/slide1.PNG"),
-        require("@/assets/slide2.PNG"),
+        {src:"@/assets/slide1.png"},
+        {src:"@/assets/slide2.png"},
       ]
     };
   },

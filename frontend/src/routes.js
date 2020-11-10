@@ -54,11 +54,7 @@ export default [
     name: "Error",
     component: Error,
   },
-  {
-    path: "/*",
-    name: "PageNotFound",
-    component: PageNotFound,
-  },
+  
   {
     path: "/addproduct",
     name: "AddProduct",
@@ -89,5 +85,10 @@ export default [
     path: "/shoppinglist",
     name: "ShoppingList",
     component: ShoppingList,
+  },
+  {
+    path: "/*",
+    name: "PageNotFound",
+    component: PageNotFound,
   },
 ];
