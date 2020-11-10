@@ -35,7 +35,15 @@
           <v-chip @click="changeStatus()"><v-icon>mdi-shopping</v-icon></v-chip>
         </v-chip-group>
 
-        <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
+        <v-btn
+          v-if="product.stock > 0"
+          absolute
+          right
+          rounded
+          @click="buyProduct()"
+          >구매하기</v-btn
+        >
+        <v-btn v-else disabled>품 절</v-btn>
       </v-row>
     </v-card-text>
 

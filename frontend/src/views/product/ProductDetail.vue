@@ -7,8 +7,17 @@
       <v-card-title>{{ productInfo.description }}</v-card-title>
 
       <v-card-text>
-        <div class="my-4 subtitle-1">{{ productInfo.productName }}</div>
-        <div>가격 : {{ productInfo.productPrice }}</div>
+        <div class="my-0 subtitle-1">분류 : {{ productInfo.productName }}</div>
+
+        <v-row>
+          <v-col class="pt-0">
+            <div>가격 : {{ productInfo.productPrice }}원</div>
+          </v-col>
+          <v-col class="pt-0">
+            <div>수량 : {{ productInfo.stock }} 남음</div>
+          </v-col>
+        </v-row>
+
         <v-row align="center" class="mx-0">
           <v-rating
             :value="productInfo.avgRate"
@@ -33,7 +42,15 @@
             >
           </v-chip-group>
 
-          <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
+          <v-btn
+            v-if="productInfo.stock > 0"
+            absolute
+            right
+            rounded
+            @click="buyProduct()"
+            >구매하기</v-btn
+          >
+          <v-btn v-else disabled>품 절</v-btn>
         </v-row>
       </v-card-text>
     </v-card>
