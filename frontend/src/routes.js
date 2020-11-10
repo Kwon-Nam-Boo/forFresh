@@ -7,9 +7,10 @@ import Post from "./views/Post";
 import FindPassword from "./views/user/FindPassWord";
 import AddProduct from "./components/product/AddProduct";
 import ProductMain from "./views/product/ProductMain";
-import ProductCategory from "./views/product/ProductCategory";
+import ProductDetail from "./views/product/ProductDetail";
 import ProductSearch from "./views/product/ProductSearch";
-
+import ProductCategory from "./views/product/ProductCategory";
+import ShoppingList from "./views/product/ShoppingList";
 export default [
   {
     path: "/",
@@ -57,13 +58,24 @@ export default [
     component: ProductMain,
   },
   {
-    path: "/productcategory/:categroy",
+    path: "/productsearch/:keyword",
+    name: "ProductSearch",
+    component: ProductSearch,
+  },
+  {
+    path: "/productdetail/:productno",
+    name: "ProductDetail",
+    component: ProductDetail,
+  },
+
+  {
+    path: "/productcategory/:categoryno",
     name: "ProductCategory",
     component: ProductCategory,
   },
   {
-    path: "/productsearch/:item",
-    name: "ProductSearch",
-    component: ProductSearch,
+    path: "/shoppinglist",
+    name: "ShoppingList",
+    component: ShoppingList,
   },
 ];

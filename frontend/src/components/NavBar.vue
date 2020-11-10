@@ -126,6 +126,13 @@
             <v-list-item-title>장보기</v-list-item-title>
           </v-list-item>
 
+          <v-list-item @click="$router.push('/shoppinglist').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-shopping</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>장바구니</v-list-item-title>
+          </v-list-item>
+
           <v-list-item @click="$router.push('/addproduct').catch(() => {})">
             <v-list-item-icon>
               <v-icon>mdi-cart-plus</v-icon>
@@ -178,6 +185,10 @@ export default {
           this.userInfo = {
             email: res.data.object.userId,
             nickname: res.data.object.nickName,
+            phone: res.data.object.phone,
+            addr1: res.data.object.addr1,
+            addr2: res.data.object.addr2,
+            addr3: res.data.object.addr3,
           };
         },
         (error) => {
