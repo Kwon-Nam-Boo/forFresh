@@ -127,7 +127,7 @@ export default {
       commentNo: "",
     };
   },
-  props: ["commentInfo", "commentCnt", "items"],
+  props: ["commentInfo", "commentCnt", "items", "productNo"],
   created() {
     UserApi.getUserInfo(
       storage.getItem("login_user"),
