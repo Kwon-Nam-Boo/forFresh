@@ -1,6 +1,9 @@
 package com.forfresh.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,29 +54,57 @@ public class ProductController {
 
 	// ****************** product CRUD (상품)
 
-	@GetMapping("/list")
-	@ApiOperation(value = "카테고리별 상품 리스트 조회")
-	public ResponseEntity<List<Product>> getProductList(@RequestParam("userId")String userId,@RequestParam("categoryNo") Integer categoryNo,
-			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
-//		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo,userId, pageable);
-		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo, pageable);
-//		System.out.println(productList.get().get(0).getProductName());
-//		for (int i = 0; i < productList.get().size(); i++) {
-//			int productNo = productList.get().get(i).getProductNo();
-//			productList.get().get(i).setAvgRate(productCommentDao.productAvgRate(productNo));
-//			productList.get().get(i).setCommentCnt(productCommentDao.countByProductNo(productNo));
-//		}
-		return new ResponseEntity<List<Product>>(productList.get(), HttpStatus.OK);
-	}
+	   @GetMapping("/list")
+	   @ApiOperation(value = "카테고리별 상품 리스트 조회")
+	   public ResponseEntity<List<Map<String, Object>>> getProductList(@RequestParam("userId") String userId,
+	         @RequestParam("categoryNo") Integer categoryNo, @RequestParam("page") Long page,
+	         @RequestParam("size") Long size, final Pageable pageable) {
+//	      Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo,userId, pageable);
+	      Optional<List<Object>> productList = productDao.findByplease(categoryNo, userId, pageable);
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "상품 상세정보 조회")
-	public ResponseEntity<Product> getProductDetail(@RequestParam("productNo") Integer productNo) {
-		Optional<Product> product = productDao.findById(productNo);
-//		product.get().setAvgRate(productCommentDao.productAvgRate(productNo));
-//		product.get().setCommentCnt(productCommentDao.countByProductNo(productNo));
-		return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
-	}
+	      List<Map<String, Object>> sendData = new ArrayList<Map<String, Object>>();
+	      for (int i = 0; i < productList.get().size(); i++) {
+	         Object[] temp = (Object[]) productList.get().get(i);
+	         Map<String, Object> map = new HashMap<String, Object>();
+	         map.put("shoplistNo", temp[0]);
+	         map.put("productNo", temp[1]);
+	         map.put("categoryNo", temp[2]);
+	         map.put("productName", temp[3]);
+	         map.put("productPrice", temp[4]);
+	         map.put("stock", temp[5]);
+	         map.put("description", temp[6]);
+	         map.put("imgUrl", temp[7]);
+	         map.put("registDate", temp[8]);
+	         map.put("avgRate", temp[9]);
+	         map.put("detailUrl", temp[10]);
+	         map.put("commentCnt", temp[11]);
+	         sendData.add(map);
+	      }
+
+	      return new ResponseEntity<List<Map<String, Object>>>(sendData, HttpStatus.OK);
+	   }
+
+	   @GetMapping("/detail")
+	   @ApiOperation(value = "상품 상세정보 조회")
+	   public ResponseEntity<Object> getProductDetail(@RequestParam("userId") String userId,
+	         @RequestParam("productNo") Integer productNo) {
+	      BasicResponse result = new BasicResponse();
+	      Optional<Product> product = productDao.findById(productNo);
+	      product.get().setAvgRate(productCommentDao.productAvgRate(productNo));
+	      product.get().setCommentCnt(productCommentDao.countByProductNo(productNo));
+	      try {
+	         result.status = true;
+	         result.data = shoppingListDao.findByUserIdAndProductNo(userId, productNo).get().getShoplistNo().toString();
+	         result.object = product;
+	         return new ResponseEntity<Object>(result, HttpStatus.OK);
+
+	      } catch (Exception e) {
+	         result.status=true;
+	         result.object=product;
+	         return new ResponseEntity<Object>(result, HttpStatus.OK);
+	      }
+
+	   }
 
 	@PostMapping("/add")
 	@ApiOperation(value = "상품 추가")
