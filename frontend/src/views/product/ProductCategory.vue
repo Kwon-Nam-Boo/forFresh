@@ -39,6 +39,7 @@ import ProductCtegoryItem from "../../components/product/ProductCategoryItem";
 import InfiniteLoading from "vue-infinite-loading";
 import ProductApi from "../../api/ProductApi";
 import CategoryList from "../../components/product/CategoryList";
+const storage = window.sessionStorage;
 export default {
   components: {
     ProductCtegoryItem,
@@ -70,6 +71,7 @@ export default {
     infiniteHandler($state) {
       ProductApi.requestProductByCategory(
         {
+          userId: storage.getItem("login_user"),
           categoryNo: this.$route.params.categoryno,
           page: this.page,
           size: this.size,

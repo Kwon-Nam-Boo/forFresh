@@ -57,7 +57,7 @@ export default {
   },
   props: ["product"],
   created() {
-    // console.log(this.product);
+    this.selection = this.product.shoplistNo;
   },
   watch: {
     selection: function () {
@@ -68,10 +68,10 @@ export default {
             productNo: this.product.productNo,
           },
           (res) => {
-            console.log(res.data);
+            // console.log(res.data);
           },
           (error) => {
-            console.log(error);
+            // console.log(error);
           }
         );
       } else if (this.selection == null) {
@@ -85,10 +85,10 @@ export default {
             ProductApi.deleteShopList(
               this.shoplistNo,
               (res) => {
-                //삭제 성공
+                //장바구니 삭제 성공
               },
               (error) => {
-                // 삭제 실패
+                //장바구니 삭제 실패
               }
             );
           },

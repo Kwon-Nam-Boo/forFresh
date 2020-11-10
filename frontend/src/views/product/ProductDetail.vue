@@ -60,6 +60,8 @@ import CategoryList from "../../components/product/CategoryList";
 import * as easings from "vuetify/es5/services/goto/easing-patterns";
 import ProductComment from "../../components/product/ProductComment";
 import QnaInfoForm from "../../components/product/QnaInfoForm";
+const storage = window.sessionStorage;
+
 export default {
   components: {
     BottomNavigation,
@@ -82,7 +84,10 @@ export default {
   created() {
     this.$emit("updateTitle", this.title);
     ProductApi.requestProductDetail(
-      this.$route.params.productno,
+      {
+        userId: storage.getItem("login_user"),
+        productNo: this.$route.params.productno,
+      },
       (res) => {
         // console.log(res.data);
         this.productInfo = res.data;

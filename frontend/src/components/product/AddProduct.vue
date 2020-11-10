@@ -170,7 +170,7 @@ export default {
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           },
           (error) => {
-            console.log(error.message);
+            // console.log(error.message);
           },
           () => {
             this.uploadValue = 100;

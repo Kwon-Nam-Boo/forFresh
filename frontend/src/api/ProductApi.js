@@ -17,7 +17,7 @@ const requestAddProduct = (data, callback, errorCallback) => {
       description: data.description,
       imgUrl: data.imgUrl,
       detailUrl: data.detailUrl,
-      registDate: "0000-00-00",
+      registDate: "",
     },
   })
     .then(function(response) {
@@ -32,6 +32,7 @@ const requestProductByCategory = (data, callback, errorCallback) => {
     method: "get",
     url: BASE_URL + "/product/list",
     params: {
+      userId: data.userId,
       categoryNo: data.categoryNo,
       page: data.page,
       size: data.size,
@@ -50,7 +51,8 @@ const requestProductDetail = (data, callback, errorCallback) => {
     method: "get",
     url: BASE_URL + "/product/detail",
     params: {
-      productNo: data,
+      userId: data.userId,
+      productNo: data.productNo,
     },
   })
     .then(function(response) {
