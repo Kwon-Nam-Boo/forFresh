@@ -65,20 +65,16 @@
         <v-list-item-group
           v-model="alarmGroup"
         >
-          <v-list-item v-for="(alarm,i) in alarmList" :key="i" >
-            <v-img src="@/assets/fridge.png" height="30"
-          width="20" style="margin-right:5%"/>
-            <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
-            <v-btn 
-              fab
-              dark
-              width="20"
-              style="margin-right: 5%"
-            />
-            <v-list-item-title>{{ alarm }}</v-list-item-title>
-            <v-btn fab dark width="20" height="20" color="#9DC8C8">
-              <v-icon dark> mdi-minus </v-icon>
-            </v-btn>
+          <v-list-item v-for="(alarm,i) in alarmList" :key="i">
+            <div>
+              <v-img src="@/assets/fridge.png" height="30"
+                 width="20" style="margin-right:5%"/>
+              <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
+              <v-btn fab dark width="20" height="20" color="#9DC8C8">
+                <v-icon dark> mdi-minus </v-icon>
+              </v-btn>
+            </div>
+            
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -152,6 +148,11 @@
         </div>
       </template>
     </v-navigation-drawer>
+    <v-dialog
+      v-model="isSharedRef"
+    >
+      <SharedRefrigerator @close="closeDialog" @getRef="getRef"></SharedRefrigerator>
+    </v-dialog>
   </nav>
 </template>
 
@@ -160,16 +161,20 @@ import UserApi from "../api/UserApi";
 import PayButton from "../components/payment/Paytest";
 import AlarmApi from "../api/AlarmApi";
 import RefApi from "../api/RefApi";
+import SharedRefrigerator from "./SharedRefrigerator";
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
-  components: {},
+  components: {
+    SharedRefrigerator,
+  },
   data() {
     return {
       userInfo: {},
       drawer: false,
       group: null,
       isAlarm: true,
+      isSharedRef: false,
       alarmDrawer: false,
       alarmGroup: null,
       alarmList: [],
