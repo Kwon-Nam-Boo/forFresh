@@ -148,6 +148,77 @@ const addUserShopList = (data, callback, errorCallback) => {
     });
 };
 
+const addUserComment = (data, callback, errorCallback) => {
+  axios({
+    method: "post",
+    url: BASE_URL + "/product/comment/add",
+    data: {
+      pcommentNo: "0",
+      userId: data.userId,
+      productNo: data.productNo,
+      userRate: data.userRate,
+      commentDetail: data.commentDetail,
+      registDate: "",
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
+const requestProductCommentList = (data, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/product/comment/list",
+    params: {
+      productNo: data,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
+const deleteUserComment = (data, callback, errorCallback) => {
+  axios({
+    method: "DELETE",
+    url: BASE_URL + "/product/comment/delete",
+    params: {
+      pcommentNo: data,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
+const updateUserComment = (data, callback, errorCallback) => {
+  axios({
+    method: "put",
+    url: BASE_URL + "/product/comment/update",
+    data: {
+      pcommentNo: data.pcommentNo,
+      userRate: data.userRate,
+      commentDetail: data.commentDetail,
+    },
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const ProductApi = {
   requestAddProduct: (data, callback, errorCallback) =>
     requestAddProduct(data, callback, errorCallback),
@@ -172,6 +243,18 @@ const ProductApi = {
 
   requestUserShoppingListNo: (data, callback, errorCallback) =>
     requestUserShoppingListNo(data, callback, errorCallback),
+
+  addUserComment: (data, callback, errorCallback) =>
+    addUserComment(data, callback, errorCallback),
+
+  requestProductCommentList: (data, callback, errorCallback) =>
+    requestProductCommentList(data, callback, errorCallback),
+
+  deleteUserComment: (data, callback, errorCallback) =>
+    deleteUserComment(data, callback, errorCallback),
+
+  updateUserComment: (data, callback, errorCallback) =>
+    updateUserComment(data, callback, errorCallback),
 };
 
 export default ProductApi;

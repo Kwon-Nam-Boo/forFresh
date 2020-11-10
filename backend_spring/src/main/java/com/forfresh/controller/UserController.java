@@ -136,7 +136,6 @@ public class UserController {
 		findUser.get().setAddr1(user.getAddr1());
 		findUser.get().setAddr2(user.getAddr2());
 		findUser.get().setAddr3(user.getAddr3());
-		findUser.get().setNickName(user.getNickName());
 		findUser.get().setPhone(user.getPhone());
 		userService.updateById(findUser.get());
 		
