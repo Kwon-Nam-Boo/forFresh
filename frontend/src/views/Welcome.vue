@@ -50,7 +50,8 @@ export default {
         'orange',
       ],
       pics:[
-        require("")
+        require("../assets/slide1.PNG"),
+        require("../assets/slide2.PNG"),
       ]
     };
   },
