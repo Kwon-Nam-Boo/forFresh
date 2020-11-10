@@ -61,15 +61,15 @@ public class FoodController {
     @Autowired
     FoodlistDao foodlistDao;
 
-    @PostMapping("/register")
+    @PostMapping("/regist")
     @ApiOperation(value = "음식 넣기")
     public Object save(@RequestParam(required = true) Integer refrigNo,
-            @RequestParam(required = true) List<String> foodNameList) {
+            @RequestParam(required = true) List<String> foods) {
         BasicResponse result = new BasicResponse();
-        for (int i = 0; i < foodNameList.size(); i++) {
+        for (int i = 0; i < foods.size(); i++) {
             Foodlist foodlist = new Foodlist();
             foodlist.setRefrigNo(refrigNo);
-            String foodName = foodNameList.get(i);
+            String foodName = foods.get(i);
             foodlist.setFoodName(foodName);
 
             foodlist.setCategoryNo(111);

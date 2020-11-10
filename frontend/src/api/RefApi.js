@@ -109,7 +109,6 @@ const editRef = (data, callback, errorCallback) => {
       });
 };
 const getReceiptData = (data, callback, errorCallback) => {
-  console.log(data)
   axios({
       method: "GET",
       url: BASE_URL + "/food/getOCR",
@@ -121,7 +120,6 @@ const getReceiptData = (data, callback, errorCallback) => {
       },
     })
       .then(function(response) {
-        console.log(response)
         callback(response);
       })
       .catch(function(error) {
@@ -129,6 +127,24 @@ const getReceiptData = (data, callback, errorCallback) => {
       });
 };
 
+const registFood = (data, callback, errorCallback) => {
+  axios({
+      method: "GET",
+      url: BASE_URL + "/food/regist",
+      params: {
+        foods: data.foods,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+        callback(response);
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
 
 const RefApi = {
     addRef: (data, callback, errorCallback) =>
@@ -143,6 +159,8 @@ const RefApi = {
         editRef(data, callback, errorCallback),
     getReceiptData: (data, callback, errorCallback) =>
         getReceiptData(data, callback, errorCallback),
+    registFood: (data, callback, errorCallback) =>
+        registFood(data, callback, errorCallback),
 };
 
 export default RefApi;
