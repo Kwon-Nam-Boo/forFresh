@@ -84,6 +84,7 @@
 <script>
 import deleteFood from './DeleteFood'
 import FoodApi from '../api/FoodApi'
+const storage = window.sessionStorage;
 export default {
   props:['refrigNo'],
   components:{
@@ -129,6 +130,7 @@ export default {
   watch: {
     select: function() {
       if(this.select==1){
+        storage.setItem('RefNoForAddFood',this.refrigNo);
         this.$router.push('/post');
       } else if(this.select==2){
         this.deleteDialog = true;
