@@ -2,13 +2,9 @@ package com.forfresh.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,25 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.forfresh.model.BasicResponse;
-import com.forfresh.model.dao.refrig.RefrigRegistDao;
-import com.forfresh.model.dao.refrig.RefrigShareDao;
-import com.forfresh.model.dao.refrig.FoodlistDao.FoodlistExpiration;
 import com.forfresh.model.dao.refrig.FoodlistDao;
-import com.forfresh.model.dto.refrig.Expiration;
+import com.forfresh.model.dao.refrig.FoodlistDao.FoodlistExpiration;
 import com.forfresh.model.dto.refrig.Foodlist;
-import com.forfresh.model.dto.refrig.RefrigRegist;
-import com.forfresh.model.dto.refrig.RefrigShare;
-import com.forfresh.model.dto.refrig.Refrig;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -111,6 +100,33 @@ public class FoodController {
         if (!foodlist.isEmpty()) {
             result.status = true;
             result.object = foodlist;
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            result.status = false;
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+    }
+    
+    @PostMapping("/postest")
+    @ApiOperation(value = "테스트를 위해 만들었다")
+    public List<Object> findAllObjects(@RequestBody List<Map<String, Object>> list){
+        BasicResponse result = new BasicResponse();
+        System.out.println(list);
+        return null;
+
+    }
+
+    @GetMapping("/getFood/{foodNo}")
+    @ApiOperation(value = "FoodNo로 food 조회")
+    public Object getFoodNo(@PathVariable int foodNo) {
+        BasicResponse result = new BasicResponse();
+
+        Optional<FoodlistExpiration> food = foodlistDao.findByFoodNoDetail(foodNo);
+
+        if (food.isPresent()) {
+            result.status = true;
+            result.object = food;
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {
             result.status = false;

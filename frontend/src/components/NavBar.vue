@@ -65,16 +65,10 @@
         <v-list-item-group
           v-model="alarmGroup"
         >
-          <v-list-item v-for="(alarm,i) in alarmList" :key="i">
-            <div>
-              <v-img src="@/assets/fridge.png" height="30"
-                 width="20" style="margin-right:5%"/>
-              <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
-              <v-btn fab dark width="20" height="20" color="#9DC8C8">
-                <v-icon dark> mdi-minus </v-icon>
-              </v-btn>
-            </div>
-            
+          <v-list-item v-for="(alarm,i) in alarmList" :key="i" @click="goShared(alarm)">
+            <v-img src="@/assets/fridge.png" height="30"
+                width="20" style="margin-right:5%"/>
+            <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -151,7 +145,7 @@
     <v-dialog
       v-model="isSharedRef"
     >
-      <SharedRefrigerator @close="closeDialog" @getRef="getRef"></SharedRefrigerator>
+      <SharedRefrigerator @close="closeDialog" :alarm="SharedAlarm"></SharedRefrigerator>
     </v-dialog>
   </nav>
 </template>
@@ -181,6 +175,7 @@ export default {
       foodList:{
         food1: "우유 유통기한 임박",
       },
+      SharedAlarm: null,
     };
   },
   created() {
@@ -225,7 +220,8 @@ export default {
   },
   async mounted() {
     const alarms = await this.getShare();
-    for(var alarm of alarms){
+    if(alarms != null){
+      for(var alarm of alarms){
       var data1 = {
         refrigNo: alarm.refrigNo
       }
@@ -233,6 +229,7 @@ export default {
       var nickName = await this.getUserInfo(refInfo.userId);
       refInfo.nickName = nickName;
       this.alarmList.push(refInfo);
+    } 
     }
   },
   methods:{
@@ -253,7 +250,7 @@ export default {
             resolve(res.data.object);
           },
           (error) => {
-            
+            resolve(null);
           });
       });
     },
@@ -282,6 +279,13 @@ export default {
           }
         )
       });
+    },
+    goShared(alarm){
+      this.SharedAlarm = alarm;
+      this.isSharedRef = true;
+    },
+    closeDialog() {
+      this.isSharedRef=false;
     },
   },
 };

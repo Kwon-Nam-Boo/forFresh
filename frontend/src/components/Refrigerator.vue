@@ -57,18 +57,18 @@
             >
               <v-slide-item
                 class="ma-1"
-                v-for="food in foodList"
-                :key="food.foodNo"
+                v-for="(food, i) in foodList"
+                :key="i"
               >
-                <v-list class="pa-1 ma-0" v-if="food.status == item">
+                <v-list class="pa-1 ma-0" v-if="food.status == item && dateList[i] <= item2[2] && dateList[i] > item2[3]">
                   <v-list-item-group>
-                    <v-list-item class='pa-0' @click="moveDetail">
+                    <v-list-item class='pa-0' @click="moveDetail(food.foodNo)">
                       <v-avatar class="mx-auto" size='40'>
                         <!-- <img :src="require(`@/assets/img/${food.img}`)"> -->
                         <img :src="require(`@/assets/img/tofu.png`)">
                       </v-avatar>
                     </v-list-item>
-                    <v-list-item class='foodname pa-0' dense @click="moveDetail">
+                    <v-list-item class='foodname pa-0' dense @click="moveDetail(food.foodNo)">
                       <p class='ma-auto'>{{food.foodName}}</p>
                     </v-list-item>
                   </v-list-item-group>
@@ -97,12 +97,10 @@ export default {
         '냉장', '냉동',
       ],
       items2: [
-        ['위험','red'], ['보통','blue'], ['신선','green'],
+        ['위험', 'red', 2, -100000], ['보통', 'blue', 4, 2], ['신선', 'green', 100000, 4],
       ],
-      foodList: [
-
-
-      ],
+      foodList: [],
+      dateList: [],
       options:[
         {text:'추가하기', val:'1'}, {text:'삭제하기', val:'2'}
       ],
@@ -118,9 +116,11 @@ export default {
       data,
       (res) => {
         this.foodList = res.data.object;
-        var date0 = new Date(this.foodList[3].registDate);
-        date0.setDate(date0.getDate()+Number(this.foodList[3].expireDate));
-        console.log(date0 - new Date());
+        for(var food of this.foodList){
+          var dateCur = new Date(food.registDate);
+          dateCur.setDate(dateCur.getDate()+Number(food.expireDate));
+          this.dateList.push((dateCur - new Date())/1000/60/60/24);
+        }
       },
       (error) => {
 
@@ -142,7 +142,8 @@ export default {
       this.select = 0;
       this.deleteDialog = false;
     },
-    moveDetail() {
+    moveDetail(foodNo) {
+      storage.setItem('foodNo', foodNo);
       this.$router.push('/detail');
     },
   }
