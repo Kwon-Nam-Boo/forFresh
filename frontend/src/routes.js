@@ -5,6 +5,8 @@ import Join from "./views/user/Join";
 import Detail from "./views/Detail";
 import Post from "./views/Post";
 import FindPassword from "./views/user/FindPassWord";
+import PageNotFound from "./views/error/PageNotFound";
+import Error from "./views/error/Error";
 import AddProduct from "./components/product/AddProduct";
 import ProductMain from "./views/product/ProductMain";
 import ProductDetail from "./views/product/ProductDetail";
@@ -46,6 +48,11 @@ export default [
     path: "/findpassword",
     name: "FindPassword",
     component: FindPassword,
+  },  
+  {
+    path: "/error",
+    name: "Error",
+    component: Error,
   },
   {
     path: "/addproduct",
@@ -77,5 +84,10 @@ export default [
     path: "/shoppinglist",
     name: "ShoppingList",
     component: ShoppingList,
+  },
+  {
+    path: "/*",
+    name: "PageNotFound",
+    component: PageNotFound,
   },
 ];

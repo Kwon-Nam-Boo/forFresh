@@ -1,11 +1,11 @@
 <template>
   <v-card>
-    <v-btn icon style="float: right;" @click="closeDialog" >
-      <v-icon>mdi-close</v-icon>
-    </v-btn>
     <v-alert :type="alertType" v-if="alertMessage">
       {{alertMessage}}
     </v-alert>
+    <v-btn icon style="float: right;" @click="closeDialog" >
+      <v-icon>mdi-close</v-icon>
+    </v-btn>
     <v-card-title class="headline lighten-2 green--text">
       냉장고 삭제하기
     </v-card-title>

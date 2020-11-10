@@ -138,7 +138,7 @@ public class RefrigController {
 		Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
 		BasicResponse result = new BasicResponse();
 
-		if(refrigOpt.get().getUserId() == userId) {
+		if(refrigOpt.get().getUserId().equals(userId)) {
 			refrigRegistDao.deleteByRefrigNo(refrigNo);
 			result.status = true;
 			return new ResponseEntity<>(result, HttpStatus.OK);

@@ -1,5 +1,29 @@
 <template>
   <v-main>
+    <!-- 냉장고가 없을 때 -->
+    <v-container 
+      class="text-center fill-height"
+      v-if="isNoItem"
+    >
+      <v-row class="align-center">
+        <v-col>
+          <img src="@/assets/img/isnoitem.png" width="200">
+          <h1 class="display-2 primary--text">
+            냉장고가 없어요!
+          </h1>
+          <p>냉장고를 추가해주세요</p>
+          <v-btn
+            dark
+            large
+            color="#88dba3"
+            @click="addRef"
+          >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        </v-col>
+      </v-row>
+
+    </v-container>
     <!-- 냉장고 고르기 탭 -->
     <v-tabs
       v-model="tab"
@@ -25,12 +49,13 @@
           color="="
           flat
         >
-          <Refrigerator></Refrigerator>
+          <Refrigerator :refrigNo="item.refrigNo"></Refrigerator>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
     <v-speed-dial
       v-model="fab"
+      v-if="!isNoItem"
       bottom
       right
       fixed
@@ -134,12 +159,14 @@ export default {
     DeleteRefrigerator,
     EditRefrigerator,
   },
-  created() {
+  async created() {
     this.$emit('updateTitle', '메인페이지');
-    this.getRef();
-    // if(this.$session.get('userinfo')){
-
-    // }
+    this.items = await this.getRef();
+    if(this.items==[]||this.items==""||this.items==null){
+      this.isNoItem = true;
+    } else {
+      this.isNoItem = false;
+    }
   },
   data() {
     return {
@@ -147,6 +174,7 @@ export default {
       tab: null,
       fab: false,
       items: [],
+      isNoItem: false,
       isAddRef: false,
       isShareRef: false,
       isDeleteRef: false,
@@ -173,18 +201,20 @@ export default {
       this.isEditRef=false;
     },
     getRef() {
-      const data = {
-        userId: storage.getItem("login_user"),
-      }
-      RefApi.getRef(
-        data,
-        (res) => {
-          this.items=res.data.object;
-        },
-        (error) => {
-          console.log(error);
+      return new Promise(resolve => {
+        const data = {
+          userId: storage.getItem("login_user"),
         }
-      )
+        RefApi.getRef(
+          data,
+          (res) => {
+            resolve(res.data.object);
+          },
+          (error) => {
+            resolve([]);
+          }
+        )
+      });
     }
   }
 };
