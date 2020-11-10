@@ -129,20 +129,40 @@ const getReceiptData = (data, callback, errorCallback) => {
       });
 };
 
+const getRefByNo = (data, callback, errorCallback) => {
+  axios({
+      method: "GET",
+      url: BASE_URL + "/refrig/getRefrig/"+data.refrigNo,
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
+
 
 const RefApi = {
     addRef: (data, callback, errorCallback) =>
-        addRef(data, callback, errorCallback),
+      addRef(data, callback, errorCallback),
     getRef: (data, callback, errorCallback) =>
-        getRef(data, callback, errorCallback),
+      getRef(data, callback, errorCallback),
     shareRef: (data, callback, errorCallback) =>
-        shareRef(data, callback, errorCallback),
+      shareRef(data, callback, errorCallback),
     deleteRef: (data, callback, errorCallback) =>
-        deleteRef(data, callback, errorCallback),
+      deleteRef(data, callback, errorCallback),
     editRef: (data, callback, errorCallback) =>
-        editRef(data, callback, errorCallback),
+      editRef(data, callback, errorCallback),
+    getRefByNo: (data, callback, errorCallback) =>
+      getRefByNo(data, callback, errorCallback),
     getReceiptData: (data, callback, errorCallback) =>
-        getReceiptData(data, callback, errorCallback),
+      getReceiptData(data, callback, errorCallback),
 };
 
 export default RefApi;
