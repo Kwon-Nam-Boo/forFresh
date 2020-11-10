@@ -8,7 +8,7 @@
           src="@/assets/logo.png"
           height="30"
           width="120"
-          @click="$router.push('/').catch(() => {})"
+          @click="$router.push('/home').catch(() => {})"
           style="cursor: pointer"
         />
       </v-toolbar-title>
@@ -61,12 +61,17 @@
 
     <v-navigation-drawer v-model="alarmDrawer" temporary right app>
       <v-list subheader>
-        <v-subheader style="background-color: #e2efef">냉장고 공유</v-subheader>
-        <v-list-item-group v-model="alarmGroup">
-          <v-list-item v-for="alarm in alarmList" :key="alarm">
-            <v-img
-              src="@/assets/fridge.png"
-              height="30"
+        <v-subheader style="background-color:#e2efef">냉장고 공유</v-subheader>
+        <v-list-item-group
+          v-model="alarmGroup"
+        >
+          <v-list-item v-for="(alarm,i) in alarmList" :key="i" >
+            <v-img src="@/assets/fridge.png" height="30"
+          width="20" style="margin-right:5%"/>
+            <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
+            <v-btn 
+              fab
+              dark
               width="20"
               style="margin-right: 5%"
             />
@@ -152,7 +157,9 @@
 
 <script>
 import UserApi from "../api/UserApi";
-
+import PayButton from "../components/payment/Paytest";
+import AlarmApi from "../api/AlarmApi";
+import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
@@ -165,11 +172,8 @@ export default {
       isAlarm: true,
       alarmDrawer: false,
       alarmGroup: null,
-      alarmList: {
-        alarm1: "111님이 냉장고를 공유했습니다",
-        alarm2: "222님이 냉장고를 공유했습니다",
-      },
-      foodList: {
+      alarmList: [],
+      foodList:{
         food1: "우유 유통기한 임박",
       },
     };
@@ -214,12 +218,65 @@ export default {
       );
     }
   },
-  methods: {
-    logout() {
-      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제
+  async mounted() {
+    const alarms = await this.getShare();
+    for(var alarm of alarms){
+      var data1 = {
+        refrigNo: alarm.refrigNo
+      }
+      var refInfo = await this.getRefByNo(data1);
+      var nickName = await this.getUserInfo(refInfo.userId);
+      refInfo.nickName = nickName;
+      this.alarmList.push(refInfo);
+    }
+  },
+  methods:{
+    logout(){
+      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제 
       storage.removeItem("jwt-auth-token");
       storage.removeItem("login_user");
-      this.$router.push("/").catch(() => {});
+      this.$router.push('/').catch(()=>{});
+    },
+    getShare(){
+      return new Promise(resolve => {
+        const data = {
+          userId: storage.getItem("login_user")
+        }
+        AlarmApi.getShare(
+          data,
+          (res) => {
+            resolve(res.data.object);
+          },
+          (error) => {
+            
+          });
+      });
+    },
+    getRefByNo(data){
+      return new Promise(resolve => {
+        RefApi.getRefByNo(
+        data,
+        (res) => {
+          resolve(res.data.object);
+        },
+        (error) => {
+
+        }
+      )
+      });
+    },
+    getUserInfo(data){
+      return new Promise(resolve => {
+        UserApi.getUserInfo(
+          data,
+          (res) => {
+            resolve(res.data.object.nickName);
+          },
+          (error) => {
+
+          }
+        )
+      });
     },
   },
 };

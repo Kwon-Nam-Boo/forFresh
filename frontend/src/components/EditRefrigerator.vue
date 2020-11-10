@@ -26,6 +26,7 @@
         color="primary"
         text
         @click="editRef"
+        :disabled="!isSubmit"
       >
         편집하기
       </v-btn>
@@ -43,6 +44,15 @@ export default {
       refrigName: "",
       alertType: false,
       alertMessage: "",
+      isSubmit: false,
+    }
+  },
+  watch: {
+    refrigName: function() {
+      if(this.refrigName.length > 0)
+        this.isSubmit = true;
+      else
+        this.isSubmit = false;
     }
   },
   methods: {
@@ -72,6 +82,7 @@ export default {
       this.refrigName = "";
       this.alertType = false;
       this.alertMessage = "";
+      this.isSubmit = false;
       this.$emit('close');
     },
   }
