@@ -195,6 +195,7 @@ export default {
           },
           (res) => {
             // console.log(res.data);
+            location.reload();
             this.dialog = false;
           },
           (error) => {

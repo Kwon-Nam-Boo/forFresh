@@ -57,13 +57,25 @@
       :productNo="productInfo.productNo"
     />
     <!-- </v-card> -->
+    <v-btn
+      v-scroll="onScroll"
+      v-show="fab"
+      fab
+      dark
+      fixed
+      bottom
+      right
+      color="#88dba3"
+      @click="toTop"
+    >
+      <v-icon>mdi-chevron-up</v-icon>
+    </v-btn>
     <QnaInfoForm id="qna" class="target" />
-    <BottomNavigation />
   </div>
 </template>
 <script>
 import ProductApi from "../../api/ProductApi";
-import BottomNavigation from "../../components/product/BottomNavigation";
+
 import CategoryList from "../../components/product/CategoryList";
 import * as easings from "vuetify/es5/services/goto/easing-patterns";
 import ProductComment from "../../components/product/ProductComment";
@@ -72,7 +84,6 @@ const storage = window.sessionStorage;
 
 export default {
   components: {
-    BottomNavigation,
     CategoryList,
     ProductComment,
     QnaInfoForm,
@@ -80,6 +91,7 @@ export default {
   data() {
     return {
       title: "상품 상세보기",
+      fab: false,
       shoplistNo: "",
       selection: null,
       productInfo: {},
@@ -133,6 +145,14 @@ export default {
   },
   methods: {
     buyProduct() {},
+    onScroll(e) {
+      if (typeof window === "undefined") return;
+      const top = window.pageYOffset || e.target.scrollTop || 0;
+      this.fab = top > 20;
+    },
+    toTop() {
+      this.$vuetify.goTo(0);
+    },
     changeStatus() {
       // console.log("들어왓다.");
       if (this.selection == null) {

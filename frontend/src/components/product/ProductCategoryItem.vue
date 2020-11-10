@@ -12,7 +12,7 @@
 
     <v-card-text>
       <div class="my-4 subtitle-1">{{ product.productName }}</div>
-      <div>가격 : {{ product.productPrice }}</div>
+      <div>가격 : {{ product.productPrice }}원</div>
       <v-row align="center" class="mx-0">
         <v-rating
           :value="product.avgRate"
