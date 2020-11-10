@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- <h1>kakaoPay api 이용하기</h1> -->
-    <button @click="payment()">카카오페이로 결제하기</button>
+    <button @click="payment()">
+      <v-img :src="require(`@/assets/payment_icon_yellow_small.png`)"></v-img>
+    </button>
   </div>
 </template>
 
