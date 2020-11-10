@@ -54,6 +54,7 @@
       class="target"
       :items="commentInfo"
       :commentCnt="productInfo.commentCnt"
+      :productNo="productInfo.productNo"
     />
     <!-- </v-card> -->
     <QnaInfoForm id="qna" class="target" />
