@@ -9,7 +9,28 @@ from . import categoryModel
 
 @api_view(['GET'])
 def getItemInfo(request, foodName):
-    json_data = ocr.ocr()
+    # json_data = ocr.ocr()
+    # food_list = ocr.firstStep(json_data)
+    # food_list = ocr.deleteComma(food_list)
+    # food_list = ocr.twoLineBill(food_list)
+    # food_list = ocr.concat(food_list)
+    # ocrList = ocr.delete(food_list)
+    # ocrList = ocr.makeList(ocrList)
+    # data = list(categoryModel.categorization(ocrList))
+    data="잘넘어갔음크크크크"
+    print(data)
+    {"data": data}
+    try:
+        return JsonResponse({"data":data}, safe=False, json_dumps_params={'ensure_ascii': False})
+    except:
+        return JsonResponse({
+            "fff":111
+        })
+
+@api_view(['POST'])
+def getReceiptInfo(request):
+    receiptUrl=request.body.decode('utf-8')
+    json_data = ocr.ocr(receiptUrl)
     food_list = ocr.firstStep(json_data)
     food_list = ocr.deleteComma(food_list)
     food_list = ocr.twoLineBill(food_list)
@@ -17,8 +38,6 @@ def getItemInfo(request, foodName):
     ocrList = ocr.delete(food_list)
     ocrList = ocr.makeList(ocrList)
     data = list(categoryModel.categorization(ocrList))
-    print(data)
-    {"data": data}
     try:
         return JsonResponse({"data":data}, safe=False, json_dumps_params={'ensure_ascii': False})
     except:

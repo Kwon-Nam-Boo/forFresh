@@ -82,6 +82,25 @@ public class FoodController {
 
     }
 
+    @GetMapping("/getOCR")
+    @ApiOperation(value = "ocr 데이터 가져오기")
+    public Object getOCR(@RequestParam(required = true) String receiptUrl) throws IOException {
+        BasicResponse result = new BasicResponse();
+		
+        String receiptInfo = null;
+        receiptInfo =  foodlistDao.getReceiptInfo(receiptUrl);
+
+		if(receiptInfo != null) {
+			result.status = true;
+			result.object = receiptInfo;
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		else {
+			result.status=false;
+			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+		}
+    }
+
     @GetMapping("/getFood")
     @ApiOperation(value = "냉장고No로 food 조회")
     public Object getRefirig(@RequestParam(required = true) Integer refrigNo) {
