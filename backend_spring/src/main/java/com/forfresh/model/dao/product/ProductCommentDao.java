@@ -12,8 +12,10 @@ import com.forfresh.model.dto.product.ProductComment;
 
 public interface ProductCommentDao extends JpaRepository<ProductComment, Integer>{
 	
-	Optional<List<ProductComment>> findByProductNo(Integer productNo, Pageable pageable);
+	Optional<List<ProductComment>> findByProductNo(Integer productNo);
 	
 	@Query(value="select avg(user_rate) from product_comment where product_no = :productNo",nativeQuery= true)
 	Integer productAvgRate(@Param("productNo") Integer productNo);
+	
+	Integer countByProductNo(@Param("productNo") Integer productNo);
 }

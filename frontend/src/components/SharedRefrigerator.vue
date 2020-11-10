@@ -7,28 +7,31 @@
       <v-icon>mdi-close</v-icon>
     </v-btn>
     <v-card-title class="headline lighten-2 green--text">
-      냉장고 이름 편집하기
+      공유요청받은 냉장고
     </v-card-title>
     <v-row>
-      <v-text-field
-        class="mt-5 ma-5"
-        v-model="refrigName"
-        label="냉장고 이름"
-        outlined
-        hide-details
-      ></v-text-field>
+      <v-card-text class="mt-5 ma-5">
+        공유받은 냉장고라면 내 냉장고에서만 삭제되며,
+        직접만든 냉장고라면 모든 유저에게서 이 냉장고가 삭제됩니다.
+      </v-card-text>
     </v-row>
     <v-divider></v-divider>
 
     <v-card-actions>
-      <v-spacer></v-spacer>
       <v-btn
         color="primary"
         text
-        @click="editRef"
-        :disabled="!isSubmit"
+        @click="deleteRef"
       >
-        편집하기
+        수락하기
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn
+        color="red accent-3"
+        text
+        @click="deleteRef"
+      >
+        거절하기
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -41,48 +44,35 @@ export default {
   props:['item'],
   data(){
     return{
-      refrigName: "",
       alertType: false,
       alertMessage: "",
-      isSubmit: false,
-    }
-  },
-  watch: {
-    refrigName: function() {
-      if(this.refrigName.length > 0)
-        this.isSubmit = true;
-      else
-        this.isSubmit = false;
     }
   },
   methods: {
-    editRef() {
+    deleteRef() {
       const data={
         refrigNo: this.item.refrigNo,
         userId: storage.getItem("login_user"),
-        refrigName: this.refrigName,
       };
-      RefApi.editRef(
+      RefApi.deleteRef(
         data,
         (res) => {
           this.$emit('getRef');
           this.alertType = "success";
-          this.alertMessage = "냉장고 이름 편집이 완료되었습니다.";
+          this.alertMessage = "냉장고 삭제가 완료되었습니다.";
           setTimeout(()=>{
             this.closeDialog();
           },2000)
         },
         (error) => {
           this.alertType = "error";
-          this.alertMessage = "냉장고 이름 편집 중 에러가 발생하였습니다.";
+          this.alertMessage = "냉장고 삭제 중 에러가 발생하였습니다.";
         }
       );
     },
     closeDialog() {
-      this.refrigName = "";
       this.alertType = false;
       this.alertMessage = "";
-      this.isSubmit = false;
       this.$emit('close');
     },
   }

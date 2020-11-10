@@ -95,6 +95,7 @@ public class UserController {
 	@GetMapping("/user/search")
 	@ApiOperation(value = "단일 회원 조회")
 	public Object getUser(@RequestParam("userId") String userId) {
+		System.out.println(userId);
 		Optional<User> user = userService.findById(userId);
 		BasicResponse result = new BasicResponse();
 		if(user.isPresent()) {
@@ -136,7 +137,6 @@ public class UserController {
 		findUser.get().setAddr1(user.getAddr1());
 		findUser.get().setAddr2(user.getAddr2());
 		findUser.get().setAddr3(user.getAddr3());
-		findUser.get().setNickName(user.getNickName());
 		findUser.get().setPhone(user.getPhone());
 		userService.updateById(findUser.get());
 		
