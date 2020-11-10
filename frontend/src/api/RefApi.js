@@ -146,6 +146,48 @@ const getRefByNo = (data, callback, errorCallback) => {
         errorCallback(error);
       });
 };
+const shareAllow = (data, callback, errorCallback) => {
+  axios({
+      method: "PATCH",
+      url: BASE_URL + "/refrig/share/allow",
+      params: {
+        userId: data.userId,
+        refrigNo: data.refrigNo,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
+const shareRefuse = (data, callback, errorCallback) => {
+  axios({
+      method: "Delete",
+      url: BASE_URL + "/refrig/share",
+      params: {
+        userId: data.userId,
+        refrigNo: data.refrigNo,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
 
 
 const RefApi = {
@@ -163,6 +205,10 @@ const RefApi = {
       getRefByNo(data, callback, errorCallback),
     getReceiptData: (data, callback, errorCallback) =>
       getReceiptData(data, callback, errorCallback),
+    shareAllow: (data, callback, errorCallback) =>
+      shareAllow(data, callback, errorCallback),
+    shareRefuse: (data, callback, errorCallback) =>
+      shareRefuse(data, callback, errorCallback),
 };
 
 export default RefApi;
