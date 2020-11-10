@@ -1,9 +1,10 @@
 package com.forfresh.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -49,31 +50,71 @@ public class ProductController {
 
 	@Autowired
 	ShoppingListDao shoppingListDao;
+	
 
 	// ****************** product CRUD (상품)
-	@GetMapping("/list")
-	@ApiOperation(value = "카테고리별 상품 리스트 조회")
-	public ResponseEntity<List<Product>> getProductList(@RequestParam("categoryNo") Integer categoryNo,
-			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
-		Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo, pageable);
-		return new ResponseEntity<List<Product>>(productList.get(), HttpStatus.OK);
-	}
 
-	@GetMapping("/detail")
-	@ApiOperation(value = "상품 상세정보 조회")
-	public ResponseEntity<Product> getProductDetail(@RequestParam("productNo") Integer productNo) {
-		Optional<Product> product = productDao.findById(productNo);
-		return new ResponseEntity<Product>(product.get(), HttpStatus.OK);
-	}
+	   @GetMapping("/list")
+	   @ApiOperation(value = "카테고리별 상품 리스트 조회")
+	   public ResponseEntity<List<Map<String, Object>>> getProductList(@RequestParam("userId") String userId,
+	         @RequestParam("categoryNo") Integer categoryNo, @RequestParam("page") Long page,
+	         @RequestParam("size") Long size, final Pageable pageable) {
+//	      Optional<List<Product>> productList = productDao.findByCategoryNo(categoryNo,userId, pageable);
+	      Optional<List<Object>> productList = productDao.findByplease(categoryNo, userId, pageable);
+
+	      List<Map<String, Object>> sendData = new ArrayList<Map<String, Object>>();
+	      for (int i = 0; i < productList.get().size(); i++) {
+	         Object[] temp = (Object[]) productList.get().get(i);
+	         Map<String, Object> map = new HashMap<String, Object>();
+	         map.put("shoplistNo", temp[0]);
+	         map.put("productNo", temp[1]);
+	         map.put("categoryNo", temp[2]);
+	         map.put("productName", temp[3]);
+	         map.put("productPrice", temp[4]);
+	         map.put("stock", temp[5]);
+	         map.put("description", temp[6]);
+	         map.put("imgUrl", temp[7]);
+	         map.put("registDate", temp[8]);
+	         map.put("avgRate", temp[9]);
+	         map.put("detailUrl", temp[10]);
+	         map.put("commentCnt", temp[11]);
+	         sendData.add(map);
+	      }
+
+	      return new ResponseEntity<List<Map<String, Object>>>(sendData, HttpStatus.OK);
+	   }
+
+	   @GetMapping("/detail")
+	   @ApiOperation(value = "상품 상세정보 조회")
+	   public ResponseEntity<Object> getProductDetail(@RequestParam("userId") String userId,
+	         @RequestParam("productNo") Integer productNo) {
+	      BasicResponse result = new BasicResponse();
+	      Optional<Product> product = productDao.findById(productNo);
+	      product.get().setAvgRate(productCommentDao.productAvgRate(productNo));
+	      product.get().setCommentCnt(productCommentDao.countByProductNo(productNo));
+	      try {
+	         result.status = true;
+	         result.data = shoppingListDao.findByUserIdAndProductNo(userId, productNo).get().getShoplistNo().toString();
+	         result.object = product;
+	         return new ResponseEntity<Object>(result, HttpStatus.OK);
+
+	      } catch (Exception e) {
+	         result.status=true;
+	         result.object=product;
+	         return new ResponseEntity<Object>(result, HttpStatus.OK);
+	      }
+
+	   }
 
 	@PostMapping("/add")
 	@ApiOperation(value = "상품 추가")
-	public Object saveProduct(@Valid @RequestBody Product product) {
+	public Object saveProduct(@RequestBody Product product) {
 		BasicResponse result = new BasicResponse();
 
 		try {
 			result.status = true;
 			Product pd = productDao.save(product);
+			result.data = pd.getProductNo().toString();
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			result.status = false;
@@ -88,11 +129,11 @@ public class ProductController {
 		findProduct.get().setAvgRate(product.getAvgRate());
 		findProduct.get().setCategoryNo(product.getCategoryNo());
 		findProduct.get().setDescription(product.getDescription());
-		findProduct.get().setDetailImgs(product.getDetailImgs());
 		findProduct.get().setImgUrl(product.getImgUrl());
 		findProduct.get().setProductName(product.getProductName());
 		findProduct.get().setProductPrice(product.getProductPrice());
 		findProduct.get().setStock(product.getStock());
+		findProduct.get().setDetailUrl(product.getDetailUrl());
 		productDao.save(findProduct.get());
 
 		return new ResponseEntity<Product>(findProduct.get(), HttpStatus.OK);
@@ -124,10 +165,18 @@ public class ProductController {
 	// ****************** shoppingLIST CRUD (장바구니)
 	@GetMapping("/shop/list")
 	@ApiOperation(value = "사용자 장바구니 리스트 조회")
-	public ResponseEntity<List<ShopListProduct>> getUserShopList(@RequestParam("userId") String userId,
-			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
-		List<ShopListProduct> shopList = shoppingListDao.findByUserId(userId, pageable);
+	public ResponseEntity<List<ShopListProduct>> getUserShopList(@RequestParam("userId") String userId
+			) {
+		List<ShopListProduct> shopList = shoppingListDao.findByUserId(userId);
 		return new ResponseEntity<List<ShopListProduct>>(shopList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/shop/search")
+	@ApiOperation(value = "사용자 장바구니 단일 조회")
+	public ResponseEntity<ShoppingList> searchUserShopList(@RequestParam("userId") String userId,
+			@RequestParam("productNo") Integer productNo	) {
+		Optional<ShoppingList> shopList = shoppingListDao.findByUserIdAndProductNo(userId,productNo);
+		return new ResponseEntity<ShoppingList>(shopList.get(), HttpStatus.OK);
 	}
 
 	@PostMapping("/shop/add")

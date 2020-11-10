@@ -7,6 +7,12 @@ import Post from "./views/Post";
 import FindPassword from "./views/user/FindPassWord";
 import PageNotFound from "./views/error/PageNotFound";
 import Error from "./views/error/Error";
+import AddProduct from "./components/product/AddProduct";
+import ProductMain from "./views/product/ProductMain";
+import ProductDetail from "./views/product/ProductDetail";
+import ProductSearch from "./views/product/ProductSearch";
+import ProductCategory from "./views/product/ProductCategory";
+import ShoppingList from "./views/product/ShoppingList";
 export default [
   {
     path: "/",
@@ -53,7 +59,35 @@ export default [
     name: "PageNotFound",
     component: PageNotFound,
   },
-]
+  {
+    path: "/addproduct",
+    name: "AddProduct",
+    component: AddProduct,
+  },
+  {
+    path: "/productmain",
+    name: "ProductMain",
+    component: ProductMain,
+  },
+  {
+    path: "/productsearch/:keyword",
+    name: "ProductSearch",
+    component: ProductSearch,
+  },
+  {
+    path: "/productdetail/:productno",
+    name: "ProductDetail",
+    component: ProductDetail,
+  },
 
-
-
+  {
+    path: "/productcategory/:categoryno",
+    name: "ProductCategory",
+    component: ProductCategory,
+  },
+  {
+    path: "/shoppinglist",
+    name: "ShoppingList",
+    component: ShoppingList,
+  },
+];

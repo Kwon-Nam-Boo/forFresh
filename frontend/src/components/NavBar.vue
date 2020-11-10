@@ -2,7 +2,7 @@
   <nav>
     <v-toolbar dense color="">
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-toolbar-title class="grey--text" style="margin-left:15%">
+      <v-toolbar-title class="grey--text" style="margin-left: 15%">
         <v-img
           class="mt-2 mb-2"
           src="@/assets/logo.png"
@@ -53,21 +53,13 @@
         <v-icon color="#88dba3">mdi-bell-outline</v-icon>
       </v-btn>
       <v-btn icon v-if="isAlarm" @click="alarmDrawer = true">
-        <v-badge
-          color="red"
-          dot
-          left
-          overlap
-        >
+        <v-badge color="red" dot left overlap>
           <v-icon color="#88dba3">mdi-bell</v-icon>
         </v-badge>
       </v-btn>
-
-     
     </v-toolbar>
-   
 
-    <v-navigation-drawer v-model="alarmDrawer"  temporary right app >
+    <v-navigation-drawer v-model="alarmDrawer" temporary right app>
       <v-list subheader>
         <v-subheader style="background-color:#e2efef">냉장고 공유</v-subheader>
         <v-list-item-group
@@ -81,43 +73,38 @@
               fab
               dark
               width="20"
-              height="20"
-              color="#9DC8C8"
-            >
-            <v-icon dark>
-              mdi-minus
-            </v-icon>
+              style="margin-right: 5%"
+            />
+            <v-list-item-title>{{ alarm }}</v-list-item-title>
+            <v-btn fab dark width="20" height="20" color="#9DC8C8">
+              <v-icon dark> mdi-minus </v-icon>
             </v-btn>
           </v-list-item>
         </v-list-item-group>
       </v-list>
-       <v-divider></v-divider>
-        <v-list subheader>
-        <v-subheader style="background-color:#e2efef">유통기한 임박</v-subheader>
-        <v-list-item-group
-          v-model="alarmGroup"
+      <v-divider></v-divider>
+      <v-list subheader>
+        <v-subheader style="background-color: #e2efef"
+          >유통기한 임박</v-subheader
         >
+        <v-list-item-group v-model="alarmGroup">
           <v-list-item v-for="food in foodList" :key="food">
-            <v-img src="@/assets/fridge.png" height="30"
-          width="20" style="margin-right:5%"/>
-            <v-list-item-title>{{ food }}</v-list-item-title>
-            <v-btn 
-              fab
-              dark
+            <v-img
+              src="@/assets/fridge.png"
+              height="30"
               width="20"
-              height="20"
-              color="red"
-            >
-            <v-icon dark>
-              mdi-minus
-            </v-icon>
+              style="margin-right: 5%"
+            />
+            <v-list-item-title>{{ food }}</v-list-item-title>
+            <v-btn fab dark width="20" height="20" color="red">
+              <v-icon dark> mdi-minus </v-icon>
             </v-btn>
           </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
-    <v-navigation-drawer v-model="drawer" temporary  app>
+    <v-navigation-drawer v-model="drawer" temporary app>
       <v-list nav dense>
         <v-list-item-group
           v-model="group"
@@ -137,7 +124,26 @@
             <v-list-item-title>Account</v-list-item-title>
           </v-list-item>
 
-          <PayButton />
+          <v-list-item @click="$router.push('/productmain').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-cart</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>장보기</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item @click="$router.push('/shoppinglist').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-shopping</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>장바구니</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item @click="$router.push('/addproduct').catch(() => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-cart-plus</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>상품 등록</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
@@ -157,9 +163,7 @@ import RefApi from "../api/RefApi";
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
-  components: {
-    PayButton,
-  },
+  components: {},
   data() {
     return {
       userInfo: {},
@@ -171,7 +175,7 @@ export default {
       alarmList: [],
       foodList:{
         food1: "우유 유통기한 임박",
-      }
+      },
     };
   },
   created() {
@@ -185,6 +189,10 @@ export default {
           this.userInfo = {
             email: res.data.object.userId,
             nickname: res.data.object.nickName,
+            phone: res.data.object.phone,
+            addr1: res.data.object.addr1,
+            addr2: res.data.object.addr2,
+            addr3: res.data.object.addr3,
           };
         },
         (error) => {
@@ -274,12 +282,13 @@ export default {
 };
 </script>
 <style scoped>
-  .v-btn{
-    height:24px;
-    width:24px;
-  }
-  .v-subheader {
-    font-size: 2.3vh;
-   
+.v-btn {
+  height: 24px;
+  width: 24px;
+}
+.v-subheader {
+  font-size: 2.3vh;
+}
+.v-list-item-title {
 }
 </style>
