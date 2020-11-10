@@ -49,6 +49,9 @@ export default {
         'red',
         'orange',
       ],
+      pics:[
+        require("")
+      ]
     };
   },
   methods: {
