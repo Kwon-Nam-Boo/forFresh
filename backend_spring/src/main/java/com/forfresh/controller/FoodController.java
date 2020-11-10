@@ -117,6 +117,24 @@ public class FoodController {
 
     }
 
+    @GetMapping("/getFood/{foodNo}")
+    @ApiOperation(value = "FoodNo로 food 조회")
+    public Object getFoodNo(@PathVariable int foodNo) {
+        BasicResponse result = new BasicResponse();
+
+        Optional<FoodlistExpiration> food = foodlistDao.findByFoodNoDetail(foodNo);
+
+        if (food.isPresent()) {
+            result.status = true;
+            result.object = food;
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            result.status = false;
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+
+    }
+
     @PatchMapping("/changeFood")
     @ApiOperation(value = "음식 이름변경")
 

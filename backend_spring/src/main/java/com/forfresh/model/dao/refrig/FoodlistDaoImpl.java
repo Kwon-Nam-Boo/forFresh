@@ -241,5 +241,11 @@ public class FoodlistDaoImpl implements FoodlistDao {
 
         return result.toString();
     }
+
+    @Override
+    public Optional<FoodlistExpiration> findByFoodNoDetail(int foodNo) {
+        // TODO Auto-generated method stub
+        return null;
+    }
     
 }
