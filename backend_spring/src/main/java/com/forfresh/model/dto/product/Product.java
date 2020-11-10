@@ -32,4 +32,5 @@ public class Product {
     private LocalDateTime registDate;
     private Integer avgRate;
     private String detailUrl;
+    private Integer commentCnt;
 }

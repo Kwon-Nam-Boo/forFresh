@@ -16,4 +16,6 @@ public interface ProductCommentDao extends JpaRepository<ProductComment, Integer
 	
 	@Query(value="select avg(user_rate) from product_comment where product_no = :productNo",nativeQuery= true)
 	Integer productAvgRate(@Param("productNo") Integer productNo);
+	
+	Integer countByProductNo(@Param("productNo") Integer productNo);
 }

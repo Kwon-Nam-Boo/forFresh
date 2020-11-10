@@ -17,6 +17,7 @@ export default {
   },
   data: () => ({
     title: null,
+    userInfo: {},
   }),
   methods: {
     updateTitle(title) {
