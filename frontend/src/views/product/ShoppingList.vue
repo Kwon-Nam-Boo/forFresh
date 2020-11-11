@@ -24,6 +24,7 @@
         </v-row>
       </v-container>
       <hr />
+      {{ selected }}
       <v-container>
         <v-row v-for="item in shopList" :key="item.shoplistNo">
           <!-- <v-checkbox v-model="selected" :value="item.productNo" ></v-checkbox> -->
@@ -50,7 +51,9 @@
               required
             ></v-text-field>
           </v-col>
-          <p class="ml-11">주문 금액 : {{ item.productPrice * item.stock }}</p>
+          <p class="ml-11">
+            상품 금액 : {{ item.productPrice * item.stock }} 원
+          </p>
         </v-row>
       </v-container>
       <!-- <v-checkbox v-model="selected" label="John" value="John"></v-checkbox>
@@ -58,12 +61,30 @@
     </v-card>
     <v-card class="mt-3">
       <v-card-title>결제 현황</v-card-title>
+      <v-container>
+        <v-row>
+          <v-col>
+            <p>총 상품 금액 : {{ total() }} 원</p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <p>배송비 : {{ post }} 원</p>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <p>주문 금액 : {{ productPlusPostTotal }} 원</p>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-card>
   </div>
 </template>
 <script>
 import ProductApi from "../../api/ProductApi";
 const storage = window.sessionStorage;
+
 export default {
   data() {
     return {
@@ -74,10 +95,13 @@ export default {
       initStatus: false,
       shopList: [],
       selectedAllCopy: [],
-      sum: 0,
+      originStock: [],
+      productTotal: 0,
+      post: 0,
+      productPlusPostTotal: 0,
     };
   },
-
+  watch: {},
   created() {
     this.$emit("updateTitle", this.title);
     ProductApi.requestUserShoppingList(
@@ -85,10 +109,15 @@ export default {
       (res) => {
         this.shopList = res.data;
         for (var i = 0; i < this.shopList.length; i++) {
+          this.originStock.push({
+            shoplistNo: this.shopList[i].shoplistNo,
+            stock: this.shopList[i].stock,
+          });
           this.shopList[i].stock = 1;
           this.selected.push(this.shopList[i].shoplistNo);
         }
         this.selectedAllCopy = this.selected;
+        // console.log(this.originStock);
         // console.log(this.shopList);
       },
       (error) => {}
@@ -117,6 +146,10 @@ export default {
         );
       }
     },
+    total(){
+      for(var i)
+      return this.productTotal;
+    }
   },
 };
 </script>

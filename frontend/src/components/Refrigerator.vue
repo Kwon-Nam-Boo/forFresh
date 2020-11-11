@@ -65,7 +65,7 @@
                     <v-list-item class='pa-0' @click="moveDetail(food.foodNo)">
                       <v-avatar class="mx-auto" size='40'>
                         <!-- <img :src="require(`@/assets/img/${food.img}`)"> -->
-                        <img :src="require(`@/assets/img/tofu.png`)">
+                        <img :src="require($store.foodCategoryList[food.categoryNo].img)">
                       </v-avatar>
                     </v-list-item>
                     <v-list-item class='foodname pa-0' dense @click="moveDetail(food.foodNo)">

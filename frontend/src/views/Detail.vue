@@ -6,7 +6,7 @@
          <v-avatar class="mx-auto" size='90'>
           <img :src="require(`@/assets/img/tofu.png`)">
         </v-avatar>
-         <p style="margin-left:45%;font-weight: bold ;">{{foodName}}</p>
+         <p style="margin-left:45%;font-weight: bold ;">{{food.foodName}}</p>
     </div>
     <div >
       <div class="expire">
@@ -28,18 +28,25 @@
         <p style="margin-left:3%;font-weight: bold ;">영양성분</p> 
         <Doughnut v-if="loaded" :chartData="chartData" :options="options" style="height:30vh;width:30vw; margin-left:65%"/>
         </div> -->
-        <p style="margin-left:3%;font-weight: bold ;">수량</p>
+        <p style="margin-left:3%;font-weight: bold ;">수량 : {{food.stock}}개</p>
+        <p style="margin-left:3%;font-weight: bold ;">단가 : {{food.price}}원</p>
     </div>
-    <div id="del">
-        <v-btn depressed color="#e2efef" style="width:30%">삭제하기</v-btn>
-      </div>
+
+    <v-row>
+      <v-col>
+        <v-btn depressed color="#e2efef" style="margin-left:25%; width:30%">홈</v-btn>
+      </v-col>
+      <v-col >
+        <v-btn depressed color="#e2efef" style="float:right; margin-right:25%; width:30%">삭제하기</v-btn>
+      </v-col>
+    </v-row>
 
 
   </div>
 </template>
 <script>
 // import NavBar from "../components/NavBar";
-import Doughnut from "../vuex/Doughnut.js";
+// import Doughnut from "../vuex/Doughnut.js";
 import FoodApi from "../api/FoodApi";
 const storage = window.sessionStorage;
 export default {
@@ -51,8 +58,12 @@ export default {
     return {
       title:"상세페이지",
       tab: null,
-      food: null,
-      foodName: "",
+      food: {
+        foodName: "",
+        stock: "",
+        price: "",
+        categoryNo: -1,
+      },
       loaded:false,
       chartData: null,
       expireDate: new Date(),
@@ -74,7 +85,6 @@ export default {
       data,
       (res) => {
         this.food = res.data.object;
-        this.foodName = this.food.foodName;
         this.regDate = new Date(this.food.registDate);
         this.expireDate = new Date(this.regDate);
         this.expireDate.setDate(this.expireDate.getDate()+Number(this.food.expireDate));
@@ -152,8 +162,5 @@ export default {
   align-items: center;
   margin-bottom: 5%;
   margin-top: 10%;
-}
-#del{
-  margin-left: 70%;
 }
 </style>
