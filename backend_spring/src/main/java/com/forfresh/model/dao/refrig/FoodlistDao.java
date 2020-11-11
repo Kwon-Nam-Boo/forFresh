@@ -1,17 +1,15 @@
 package com.forfresh.model.dao.refrig;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.Column;
 import javax.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
 
 import com.forfresh.model.dto.refrig.Foodlist;
 
@@ -62,9 +60,7 @@ public interface FoodlistDao extends JpaRepository<Foodlist, String> {
     
     Optional<Foodlist> findByRefrigNoAndFoodName(int refrigNo, String foodName);
     Optional<Foodlist> findByFoodNo(int foodNo);
-    String getItemInfo(String foods) throws IOException;
-    String getReceiptInfo(String receiptUrl) throws IOException;
-    String getCategoryInfo(String list) throws IOException;
+    
     
     @Transactional
     void deleteByFoodNo(int foodNo);
