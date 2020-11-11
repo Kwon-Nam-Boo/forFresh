@@ -132,7 +132,11 @@ const registFood = (data, callback, errorCallback) => {
       method: "GET",
       url: BASE_URL + "/food/regist",
       params: {
+        refrigNo : data.refrigNo,
         foods: data.foods,
+      },
+      headers: {
+        "jwt-auth-token": storage.getItem("jwt-auth-token"),
       },
     })
     .then(function(response) {
@@ -219,8 +223,6 @@ const RefApi = {
       getReceiptData(data, callback, errorCallback),
     registFood: (data, callback, errorCallback) =>
       registFood(data, callback, errorCallback),
-    getReceiptData: (data, callback, errorCallback) =>
-      getReceiptData(data, callback, errorCallback),
     shareAllow: (data, callback, errorCallback) =>
       shareAllow(data, callback, errorCallback),
     shareRefuse: (data, callback, errorCallback) =>

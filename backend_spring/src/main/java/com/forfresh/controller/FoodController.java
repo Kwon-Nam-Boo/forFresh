@@ -51,14 +51,14 @@ public class FoodController {
     @Autowired
     FoodlistDao foodlistDao;
 
-    @PostMapping("/regist")
+    @GetMapping("/regist")
     @ApiOperation(value = "음식 넣기")
     public Object save(@RequestParam(required = true) Integer refrigNo,
             @RequestParam(required = true) String foods) throws IOException {
         BasicResponse result = new BasicResponse();
 
-        String foodInfo = null;
-        foodInfo =  foodlistDao.getItemInfo(foods);
+        // String foodInfo = null;
+        // foodInfo =  foodlistDao.getItemInfo(foods);
 
         // for (int i = 0; i < foodInfo.size(); i++) {
         //     Foodlist foodlist = new Foodlist();
