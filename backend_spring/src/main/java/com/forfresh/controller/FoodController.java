@@ -1,11 +1,11 @@
 package com.forfresh.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.forfresh.model.BasicResponse;
@@ -26,6 +25,7 @@ import com.forfresh.model.dao.refrig.FoodlistDao;
 import com.forfresh.model.dao.refrig.FoodlistDao.FoodlistExpiration;
 import com.forfresh.model.dto.refrig.FoodItem;
 import com.forfresh.model.dto.refrig.Foodlist;
+import com.forfresh.service.FoodlistService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -52,23 +52,28 @@ public class FoodController {
     @Autowired
     FoodlistDao foodlistDao;
 
+    @Autowired
+    FoodlistService foodlistService;
+    
     @PostMapping("/regist")
     @ApiOperation(value = "음식 넣기")
     public Object save(@RequestBody(required = true) FoodItem foodItem) throws IOException {
         BasicResponse result = new BasicResponse();
         String foods = foodItem.getFoods();
-        String foodsInfo = null;
-        foodsInfo =  foodlistDao.getItemInfo(foods);
-        System.out.println(foodsInfo);
-        // for (int i = 0; i < foodInfo.size(); i++) {
-        //     Foodlist foodlist = new Foodlist();
-        //     foodlist.setRefrigNo(refrigNo);
-
-        //     foodlist.setCategoryNo(111);
-        //     foodlist.setStatus("status");;
-
-        //     foodlistDao.save(foodlist);
-        // }
+        JSONArray foodsInfo = null;
+        foodsInfo =  foodlistService.getItemInfo(foods);
+          
+        for (int i = 0; i < foodsInfo.length(); i++) {
+        	JSONObject foodObject = (JSONObject) foodsInfo.get(i);
+             Foodlist foodlist = new Foodlist();
+             foodlist.setRefrigNo(foodItem.getRefrigNo());
+             foodlist.setCategoryNo(Integer.parseInt(foodObject.get("category").toString()));
+             foodlist.setFoodName(foodObject.get("foodName").toString());
+             foodlist.setPrice(Integer.parseInt(foodObject.get("price").toString()));
+             foodlist.setStock(Integer.parseInt(foodObject.get("count").toString()));
+             foodlist.setStatus(foodObject.get("status").toString());
+             foodlistDao.save(foodlist);
+         }
         result.status = true;
         return new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -80,7 +85,7 @@ public class FoodController {
         BasicResponse result = new BasicResponse();
 		
         String receiptInfo = null;
-        receiptInfo =  foodlistDao.getReceiptInfo(receiptUrl);
+        receiptInfo =  foodlistService.getReceiptInfo(receiptUrl);
 
 		if(receiptInfo != null) {
 			result.status = true;
@@ -110,23 +115,6 @@ public class FoodController {
         }
     }
     
-    @PostMapping("/getCategory")
-    @ApiOperation(value = "해당 상품들의 카테고리와 저장상태를 ")
-    public Object findAllObjects(@RequestBody String list) throws IOException{
-    	 BasicResponse result = new BasicResponse();
-         String receiptInfo = null;
-         receiptInfo =  foodlistDao.getCategoryInfo(list);
-
- 		if(receiptInfo != null) {
- 			result.status = true;
- 			result.object = receiptInfo;
- 			return new ResponseEntity<>(result, HttpStatus.OK);
- 		}
- 		else {
- 			result.status=false;
- 			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
- 		}
-    }
 
     @GetMapping("/getFood/{foodNo}")
     @ApiOperation(value = "FoodNo로 food 조회")
@@ -154,7 +142,7 @@ public class FoodController {
 
         Optional<Foodlist> foodlistOpt = foodlistDao.findByFoodNo(foodNo);
         BasicResponse result = new BasicResponse();
-
+        
         if (foodlistOpt.isPresent()) {
             Foodlist foodlist = foodlistOpt.get();
             foodlist.setFoodName(foodName);;

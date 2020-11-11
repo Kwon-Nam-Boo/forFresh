@@ -38,7 +38,6 @@ def getReceiptInfo(request):
     food_list = ocr.concat(food_list)
     ocrList = ocr.delete(food_list)
     ocrList = ocr.makeList(ocrList)
-    #data = list(categoryModel.categorization(ocrList))
     try:
         return JsonResponse({"data":ocrList}, safe=False, json_dumps_params={'ensure_ascii': False})
     except:
