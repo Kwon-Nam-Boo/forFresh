@@ -129,9 +129,9 @@ const getReceiptData = (data, callback, errorCallback) => {
 
 const registFood = (data, callback, errorCallback) => {
   axios({
-      method: "GET",
+      method: "POST",
       url: BASE_URL + "/food/regist",
-      params: {
+      data: {
         refrigNo : data.refrigNo,
         foods: data.foods,
       },

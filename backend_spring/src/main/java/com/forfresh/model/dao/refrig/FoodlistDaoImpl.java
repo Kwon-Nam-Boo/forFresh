@@ -3,6 +3,7 @@ package com.forfresh.model.dao.refrig;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,7 +21,7 @@ import com.forfresh.model.dto.refrig.Foodlist;
 @Repository
 public class FoodlistDaoImpl implements FoodlistDao {
 
-    //static String root = "http://localhost:8081/Receipt";
+    // static String root = "http://localhost:8081/Receipt";
     static String root = "http://k3a407.p.ssafy.io:8082/Receipt";
 
     @Override
@@ -211,8 +212,10 @@ public class FoodlistDaoImpl implements FoodlistDao {
         
         // Request Body에 Data를 담기위해 OutputStream 객체를 생성.
         OutputStream os = conn.getOutputStream();
+        // ObjectOutputStream oss = new ObjectOutputStream(os);
         // Request Body에 Data 셋팅.
-        os.write(foods.getBytes());        
+        // oss.writeObject(foods);
+        os.write(foods.getBytes()); 
         // Request Body에 Data 입력.
         os.flush();
         

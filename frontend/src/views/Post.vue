@@ -151,11 +151,10 @@ export default {
       if (idx > -1) this.foods.splice(idx, 1)
     },
     putFood(){
-      console.log(this.foods)
       RefApi.registFood(
         {
           refrigNo: 1,
-          foods: this.foods,
+          foods: JSON.stringify(this.foods),
         },
         (res) => {
           console.log("음식 넣기 완료")
