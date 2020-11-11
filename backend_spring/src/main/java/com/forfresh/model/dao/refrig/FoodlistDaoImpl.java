@@ -188,12 +188,34 @@ public class FoodlistDaoImpl implements FoodlistDao {
 
 
     @Override
-    public String getItemInfo(String foodName) throws IOException {
-        String addUrl = "/getItemInfo/"+foodName+"/";
+    public String getItemInfo(String foods) throws IOException {
+        String addUrl = "/getCategoryInfo/";
         String finalUrl = root + addUrl;
         URL url = new URL(finalUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
+        // conn.setRequestMethod("GET");
+        
+        // BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+        // String returnLine;
+        // StringBuffer result = new StringBuffer();
+        // while ((returnLine = br.readLine()) != null) {
+        //     result.append(returnLine + "\n");
+        // }
+        // conn.disconnect();
+
+        // return result.toString();
+
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        
+        // Request Body에 Data를 담기위해 OutputStream 객체를 생성.
+        OutputStream os = conn.getOutputStream();
+        // Request Body에 Data 셋팅.
+        os.write(foods.getBytes());        
+        // Request Body에 Data 입력.
+        os.flush();
         
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 

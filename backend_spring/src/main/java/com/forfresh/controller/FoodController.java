@@ -64,19 +64,21 @@ public class FoodController {
     @PostMapping("/regist")
     @ApiOperation(value = "음식 넣기")
     public Object save(@RequestParam(required = true) Integer refrigNo,
-            @RequestParam(required = true) List<String> foods) {
+            @RequestParam(required = true) String foods) throws IOException {
         BasicResponse result = new BasicResponse();
-        for (int i = 0; i < foods.size(); i++) {
-            Foodlist foodlist = new Foodlist();
-            foodlist.setRefrigNo(refrigNo);
-            String foodName = foods.get(i);
-            foodlist.setFoodName(foodName);
 
-            foodlist.setCategoryNo(111);
-            foodlist.setStatus("status");;
+        String foodInfo = null;
+        foodInfo =  foodlistDao.getItemInfo(foods);
 
-            foodlistDao.save(foodlist);
-        }
+        // for (int i = 0; i < foodInfo.size(); i++) {
+        //     Foodlist foodlist = new Foodlist();
+        //     foodlist.setRefrigNo(refrigNo);
+
+        //     foodlist.setCategoryNo(111);
+        //     foodlist.setStatus("status");;
+
+        //     foodlistDao.save(foodlist);
+        // }
         result.status = true;
         return new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -160,25 +162,6 @@ public class FoodController {
             result.data = "음식 삭제 실패";
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-    }
-
-    @GetMapping("/test")
-    @ApiOperation(value = "test 음식이름으로 정보가져오기 지워줘")
-    public Object getFoodInfo(@RequestParam(required = true) String foodName) throws IOException {
-		BasicResponse result = new BasicResponse();
-		
-        String foodInfo = null;
-        foodInfo =  foodlistDao.getItemInfo(foodName);
-
-		if(foodInfo != null) {
-			result.status = true;
-			result.object = foodInfo;
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		}
-		else {
-			result.status=false;
-			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
-		}
     }
     
 }

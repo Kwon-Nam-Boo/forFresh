@@ -48,7 +48,7 @@ public interface FoodlistDao extends JpaRepository<Foodlist, String> {
     
     Optional<Foodlist> findByRefrigNoAndFoodName(int refrigNo, String foodName);
     Optional<Foodlist> findByFoodNo(int foodNo);
-    String getItemInfo(String foodName) throws IOException;
+    String getItemInfo(String foods) throws IOException;
     String getReceiptInfo(String receiptUrl) throws IOException;
 
     @Transactional

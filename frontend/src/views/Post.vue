@@ -118,19 +118,19 @@ export default {
       if (idx > -1) this.foods.splice(idx, 1)
     },
     putFood(){
-      RefApi.registFood(
-        {
-          refrigNo: 1,
-          foods: this.foods,
-        },
-        (res) => {
-          console.log("음식 넣기 완료")
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      alert("잘못된 부분 수정 요망");
+      console.log(this.foods)
+      // RefApi.registFood(
+      //   {
+      //     refrigNo: 1,
+      //     foods: this.foods,
+      //   },
+      //   (res) => {
+      //     console.log("음식 넣기 완료")
+      //   },
+      //   (error) => {
+      //     console.log(error);
+      //   }
+      // );
     },
   }
 
