@@ -7,12 +7,11 @@
       <v-icon>mdi-close</v-icon>
     </v-btn>
     <v-card-title class="headline lighten-2 green--text">
-      공유요청받은 냉장고
+      공유받은 냉장고
     </v-card-title>
     <v-row>
       <v-card-text class="mt-5 ma-5">
-        공유받은 냉장고라면 내 냉장고에서만 삭제되며,
-        직접만든 냉장고라면 모든 유저에게서 이 냉장고가 삭제됩니다.
+        {{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.
       </v-card-text>
     </v-row>
     <v-divider></v-divider>
@@ -21,7 +20,7 @@
       <v-btn
         color="primary"
         text
-        @click="deleteRef"
+        @click="accept"
       >
         수락하기
       </v-btn>
@@ -29,7 +28,7 @@
       <v-btn
         color="red accent-3"
         text
-        @click="deleteRef"
+        @click="refuse"
       >
         거절하기
       </v-btn>
@@ -41,7 +40,7 @@
 import RefApi from "../api/RefApi"
 const storage = window.sessionStorage;
 export default {
-  props:['item'],
+  props:['alarm'],
   data(){
     return{
       alertType: false,
@@ -49,26 +48,45 @@ export default {
     }
   },
   methods: {
-    deleteRef() {
-      const data={
-        refrigNo: this.item.refrigNo,
-        userId: storage.getItem("login_user"),
-      };
-      RefApi.deleteRef(
+    accept() {
+      const data = {
+        refrigNo: this.alarm.refrigNo,
+        userId: storage.getItem('login_user'),
+      }
+      RefApi.shareAllow(
         data,
         (res) => {
-          this.$emit('getRef');
           this.alertType = "success";
-          this.alertMessage = "냉장고 삭제가 완료되었습니다.";
+          this.alertMessage = "냉장고 공유를 수락하셨습니다.";
           setTimeout(()=>{
             this.closeDialog();
           },2000)
         },
         (error) => {
           this.alertType = "error";
-          this.alertMessage = "냉장고 삭제 중 에러가 발생하였습니다.";
+          this.alertMessage = "냉장고 공유 수락 중 에러가 발생했습니다.";
         }
-      );
+      )
+    },
+    refuse() {
+      const data = {
+        refrigNo: this.alarm.refrigNo,
+        userId: storage.getItem('login_user'),
+      }
+      RefApi.shareRefuse(
+        data,
+        (res) => {
+          this.alertType = "success";
+          this.alertMessage = "냉장고 공유를 거절하셨습니다.";
+          setTimeout(()=>{
+            this.closeDialog();
+          },2000)
+        },
+        (error) => {
+          this.alertType = "error";
+          this.alertMessage = "냉장고 공유 거절 중 에러가 발생했습니다.";
+        }
+      )
     },
     closeDialog() {
       this.alertType = false;

@@ -137,7 +137,7 @@ export default {
 }
 </script>
 <style scoped>
-#inspire{
+#post{
    margin-left: 70%;
    
 }

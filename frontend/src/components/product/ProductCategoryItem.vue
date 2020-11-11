@@ -32,9 +32,9 @@
           active-class="deep-purple accent-4 white--text"
           column
         >
-          <v-chip><v-icon>mdi-shopping</v-icon></v-chip>
+          <v-chip @click="changeStatus()"><v-icon>mdi-shopping</v-icon></v-chip>
         </v-chip-group>
-        {{ selection }}
+
         <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
       </v-row>
     </v-card-text>
@@ -57,11 +57,15 @@ export default {
   },
   props: ["product"],
   created() {
-    this.selection = this.product.shoplistNo;
+    if (this.product.shoplistNo != null) {
+      this.selection = 0;
+    }
   },
-  watch: {
-    selection: function () {
-      if (this.selection == 0) {
+  methods: {
+    buyProduct() {},
+    changeStatus() {
+      // console.log("들어왓다.");
+      if (this.selection == null) {
         ProductApi.addUserShopList(
           {
             userId: storage.getItem("login_user"),
@@ -74,7 +78,7 @@ export default {
             // console.log(error);
           }
         );
-      } else if (this.selection == null) {
+      } else {
         ProductApi.requestUserShoppingListNo(
           {
             userId: storage.getItem("login_user"),
@@ -98,9 +102,6 @@ export default {
         );
       }
     },
-  },
-  methods: {
-    buyProduct() {},
   },
 };
 </script>

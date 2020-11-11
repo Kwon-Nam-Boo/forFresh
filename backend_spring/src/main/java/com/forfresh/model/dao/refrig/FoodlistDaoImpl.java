@@ -6,11 +6,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
-
-import com.forfresh.model.dto.refrig.Foodlist;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -18,10 +15,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import com.forfresh.model.dto.refrig.Foodlist;
+
 @Repository
 public class FoodlistDaoImpl implements FoodlistDao {
 
-    // static String root = "http://localhost:8081/Receipt";
+    //static String root = "http://localhost:8081/Receipt";
     static String root = "http://k3a407.p.ssafy.io:8082/Receipt";
 
     @Override
@@ -262,6 +261,41 @@ public class FoodlistDaoImpl implements FoodlistDao {
         conn.disconnect();
 
         return result.toString();
+    }
+
+	@Override
+	public String getCategoryInfo(String list) throws IOException{
+		String addUrl = "/getCategoryInfo/";
+        String finalUrl = root + addUrl;
+        URL url = new URL(finalUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        
+        // Request Body에 Data를 담기위해 OutputStream 객체를 생성.
+        OutputStream os = conn.getOutputStream();
+        // Request Body에 Data 셋팅.
+        os.write(list.getBytes());        
+        // Request Body에 Data 입력.
+        os.flush();
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+        String returnLine;
+        StringBuffer result = new StringBuffer();
+        while ((returnLine = br.readLine()) != null) {
+            result.append(returnLine + "\n");
+        }
+        conn.disconnect();
+
+        return result.toString();
+		
+	}
+    @Override
+    public Optional<FoodlistExpiration> findByFoodNoDetail(int foodNo) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
