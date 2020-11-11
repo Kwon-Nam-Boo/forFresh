@@ -17,8 +17,8 @@ import com.forfresh.model.dto.refrig.Foodlist;
 @Service
 public class FoodlistService {
 	
-	 static String root = "http://localhost:8081/Receipt";
-	 //static String root = "http://k3a407.p.ssafy.io:8082/Receipt";
+	 //static String root = "http://localhost:8081/Receipt";
+	 static String root = "http://k3a407.p.ssafy.io:8082/Receipt";
 	
     public JSONArray getItemInfo(String foods) throws IOException {
         String addUrl = "/getCategoryInfo/";
