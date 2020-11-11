@@ -2,9 +2,10 @@ package com.forfresh.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.forfresh.model.BasicResponse;
 import com.forfresh.model.dao.refrig.FoodlistDao;
 import com.forfresh.model.dao.refrig.FoodlistDao.FoodlistExpiration;
+import com.forfresh.model.dto.refrig.FoodItem;
 import com.forfresh.model.dto.refrig.Foodlist;
+import com.forfresh.service.FoodlistService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -49,22 +52,28 @@ public class FoodController {
     @Autowired
     FoodlistDao foodlistDao;
 
-    @PostMapping("/register")
+    @Autowired
+    FoodlistService foodlistService;
+    
+    @PostMapping("/regist")
     @ApiOperation(value = "음식 넣기")
-    public Object save(@RequestParam(required = true) Integer refrigNo,
-            @RequestParam(required = true) List<String> foodNameList) {
+    public Object save(@RequestBody(required = true) FoodItem foodItem) throws IOException {
         BasicResponse result = new BasicResponse();
-        for (int i = 0; i < foodNameList.size(); i++) {
-            Foodlist foodlist = new Foodlist();
-            foodlist.setRefrigNo(refrigNo);
-            String foodName = foodNameList.get(i);
-            foodlist.setFoodName(foodName);
-
-            foodlist.setCategoryNo(111);
-            foodlist.setStatus("status");;
-
-            foodlistDao.save(foodlist);
-        }
+        String foods = foodItem.getFoods();
+        JSONArray foodsInfo = null;
+        foodsInfo =  foodlistService.getItemInfo(foods);
+          
+        for (int i = 0; i < foodsInfo.length(); i++) {
+        	JSONObject foodObject = (JSONObject) foodsInfo.get(i);
+             Foodlist foodlist = new Foodlist();
+             foodlist.setRefrigNo(foodItem.getRefrigNo());
+             foodlist.setCategoryNo(Integer.parseInt(foodObject.get("category").toString()));
+             foodlist.setFoodName(foodObject.get("foodName").toString());
+             foodlist.setPrice(Integer.parseInt(foodObject.get("price").toString()));
+             foodlist.setStock(Integer.parseInt(foodObject.get("count").toString()));
+             foodlist.setStatus(foodObject.get("status").toString());
+             foodlistDao.save(foodlist);
+         }
         result.status = true;
         return new ResponseEntity<>(result, HttpStatus.OK);
 
@@ -76,7 +85,7 @@ public class FoodController {
         BasicResponse result = new BasicResponse();
 		
         String receiptInfo = null;
-        receiptInfo =  foodlistDao.getReceiptInfo(receiptUrl);
+        receiptInfo =  foodlistService.getReceiptInfo(receiptUrl);
 
 		if(receiptInfo != null) {
 			result.status = true;
@@ -104,17 +113,8 @@ public class FoodController {
             result.status = false;
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-
     }
     
-    @PostMapping("/postest")
-    @ApiOperation(value = "테스트를 위해 만들었다")
-    public List<Object> findAllObjects(@RequestBody List<Map<String, Object>> list){
-        BasicResponse result = new BasicResponse();
-        System.out.println(list);
-        return null;
-
-    }
 
     @GetMapping("/getFood/{foodNo}")
     @ApiOperation(value = "FoodNo로 food 조회")
@@ -142,7 +142,7 @@ public class FoodController {
 
         Optional<Foodlist> foodlistOpt = foodlistDao.findByFoodNo(foodNo);
         BasicResponse result = new BasicResponse();
-
+        
         if (foodlistOpt.isPresent()) {
             Foodlist foodlist = foodlistOpt.get();
             foodlist.setFoodName(foodName);;
@@ -177,23 +177,5 @@ public class FoodController {
         }
     }
 
-    @GetMapping("/test")
-    @ApiOperation(value = "test 음식이름으로 정보가져오기 지워줘")
-    public Object getFoodInfo(@RequestParam(required = true) String foodName) throws IOException {
-		BasicResponse result = new BasicResponse();
-		
-        String foodInfo = null;
-        foodInfo =  foodlistDao.getItemInfo(foodName);
-
-		if(foodInfo != null) {
-			result.status = true;
-			result.object = foodInfo;
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		}
-		else {
-			result.status=false;
-			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
-		}
-    }
     
 }

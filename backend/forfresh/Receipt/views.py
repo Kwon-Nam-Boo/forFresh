@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.http.response import JsonResponse, HttpResponse
 from . import ocr
 from . import categoryModel
+import ast
 # Create your views here.
 
 @api_view(['GET'])
@@ -37,6 +38,16 @@ def getReceiptInfo(request):
     food_list = ocr.concat(food_list)
     ocrList = ocr.delete(food_list)
     ocrList = ocr.makeList(ocrList)
+    try:
+        return JsonResponse({"data":ocrList}, safe=False, json_dumps_params={'ensure_ascii': False})
+    except:
+        return JsonResponse({
+            "fff":111
+        })
+
+@api_view(['POST'])
+def getCategoryInfo(request):
+    ocrList = ast.literal_eval(request.body.decode('utf-8'))
     data = list(categoryModel.categorization(ocrList))
     try:
         return JsonResponse({"data":data}, safe=False, json_dumps_params={'ensure_ascii': False})
@@ -44,4 +55,3 @@ def getReceiptInfo(request):
         return JsonResponse({
             "fff":111
         })
-
