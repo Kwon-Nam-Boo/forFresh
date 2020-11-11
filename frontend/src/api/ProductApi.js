@@ -46,6 +46,19 @@ const requestProductByCategory = (data, callback, errorCallback) => {
     });
 };
 
+const requestProductRecommend = (data, callback, errorCallback) => {
+  axios({
+    method: "get",
+    url: BASE_URL + "/product/recommend",
+  })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
 const requestProductDetail = (data, callback, errorCallback) => {
   axios({
     method: "get",
@@ -68,6 +81,7 @@ const requestSearchProduct = (data, callback, errorCallback) => {
     method: "get",
     url: BASE_URL + "/product/search",
     params: {
+      userId: data.userId,
       productName: data.productName,
       page: data.page,
       size: data.size,
@@ -255,6 +269,9 @@ const ProductApi = {
 
   updateUserComment: (data, callback, errorCallback) =>
     updateUserComment(data, callback, errorCallback),
+
+  requestProductRecommend: (data, callback, errorCallback) =>
+    requestProductRecommend(data, callback, errorCallback),
 };
 
 export default ProductApi;

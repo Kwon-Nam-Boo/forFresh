@@ -56,6 +56,14 @@ public class ProductController {
 
 	@Autowired
 	UserDao userDao;
+	//******************* product 상품 추천 (현재는 랜덤...)
+	@GetMapping("/recommend")
+	@ApiOperation(value = "상품 추천 리스트 불러오기 (현재는 랜덤..)")
+	public ResponseEntity<List<Product>> getProductRecommend() {
+		
+		Optional<List<Product>> productRecomList = productDao.recommendProduct();
+		return new ResponseEntity<List<Product>>(productRecomList.get(), HttpStatus.OK);
+	}
 	// ****************** product CRUD (상품)
 
 	@GetMapping("/list")
@@ -160,12 +168,29 @@ public class ProductController {
 
 	@GetMapping("/search")
 	@ApiOperation(value = "상품 검색하기")
-	public ResponseEntity<List<Product>> searchProduct(@RequestParam("productName") String productName,
+	public ResponseEntity<List<Map<String, Object>>> searchProduct(@RequestParam("userId")String userId,@RequestParam("productName") String productName,
 			@RequestParam("page") Long page, @RequestParam("size") Long size, final Pageable pageable) {
-		Optional<List<Product>> serachProductList = productDao.searchByProductName(productName, pageable);
-		return new ResponseEntity<List<Product>>(serachProductList.get(), HttpStatus.OK);
+		Optional<List<Object>> serachProductList = productDao.searchByProductName(userId,productName, pageable);
+		List<Map<String, Object>> sendData = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < serachProductList.get().size(); i++) {
+			Object[] temp = (Object[]) serachProductList.get().get(i);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("shoplistNo", temp[0]);
+			map.put("productNo", temp[1]);
+			map.put("categoryNo", temp[2]);
+			map.put("productName", temp[3]);
+			map.put("productPrice", temp[4]);
+			map.put("stock", temp[5]);
+			map.put("description", temp[6]);
+			map.put("imgUrl", temp[7]);
+			map.put("registDate", temp[8]);
+			map.put("avgRate", temp[9]);
+			map.put("detailUrl", temp[10]);
+			map.put("commentCnt", temp[11]);
+			sendData.add(map);
+		}
+		return new ResponseEntity<List<Map<String, Object>>>(sendData, HttpStatus.OK);
 	}
-
 	// ****************** shoppingLIST CRUD (장바구니)
 	@GetMapping("/shop/list")
 	@ApiOperation(value = "사용자 장바구니 리스트 조회")

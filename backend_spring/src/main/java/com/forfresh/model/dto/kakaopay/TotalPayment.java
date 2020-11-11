@@ -6,6 +6,8 @@ import lombok.Data;
 public class TotalPayment {
 
 	private String userId;
+	private String shoplistNo;
+	private String stockList;
 	private String productNo;
 	private String itemName;
 	private String quantity;

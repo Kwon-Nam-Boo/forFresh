@@ -47,8 +47,8 @@ public class KakaoPayController {
    }
    
    @GetMapping("/kakaoPaySuccess")
-   @ResponseBody
-   public KakaoPayApprovalVO kakaoPaySuccess(@RequestParam("pg_token") String pg_token) {
+//   @ResponseBody
+   public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token) {
        log.info("kakaoPaySuccess get............................................");
        log.info("kakaoPaySuccess pg_token : " + pg_token);
        return kakaopay.kakaoPayInfo(pg_token);

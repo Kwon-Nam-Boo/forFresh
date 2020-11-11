@@ -61,14 +61,23 @@
 
     <v-navigation-drawer v-model="alarmDrawer" temporary right app>
       <v-list subheader>
-        <v-subheader style="background-color:#e2efef">냉장고 공유</v-subheader>
-        <v-list-item-group
-          v-model="alarmGroup"
-        >
-          <v-list-item v-for="(alarm,i) in alarmList" :key="i" @click="goShared(alarm)">
-            <v-img src="@/assets/fridge.png" height="30"
-                width="20" style="margin-right:5%"/>
-            <v-list-item-title>{{ alarm.nickName }}님이 {{alarm.refrigName}}을 공유했습니다.</v-list-item-title>
+        <v-subheader style="background-color: #e2efef">냉장고 공유</v-subheader>
+        <v-list-item-group v-model="alarmGroup">
+          <v-list-item
+            v-for="(alarm, i) in alarmList"
+            :key="i"
+            @click="goShared(alarm)"
+          >
+            <v-img
+              src="@/assets/fridge.png"
+              height="30"
+              width="20"
+              style="margin-right: 5%"
+            />
+            <v-list-item-title
+              >{{ alarm.nickName }}님이 {{ alarm.refrigName }}을
+              공유했습니다.</v-list-item-title
+            >
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -128,7 +137,10 @@
             <v-list-item-title>장바구니</v-list-item-title>
           </v-list-item>
 
-          <v-list-item @click="$router.push('/addproduct').catch(() => {})">
+          <v-list-item
+            v-if="userInfo.email == 'admin@ssafy.com'"
+            @click="$router.push('/addproduct').catch(() => {})"
+          >
             <v-list-item-icon>
               <v-icon>mdi-cart-plus</v-icon>
             </v-list-item-icon>
@@ -142,10 +154,11 @@
         </div>
       </template>
     </v-navigation-drawer>
-    <v-dialog
-      v-model="isSharedRef"
-    >
-      <SharedRefrigerator @close="closeDialog" :alarm="SharedAlarm"></SharedRefrigerator>
+    <v-dialog v-model="isSharedRef">
+      <SharedRefrigerator
+        @close="closeDialog"
+        :alarm="SharedAlarm"
+      ></SharedRefrigerator>
     </v-dialog>
   </nav>
 </template>
@@ -172,7 +185,7 @@ export default {
       alarmDrawer: false,
       alarmGroup: null,
       alarmList: [],
-      foodList:{
+      foodList: {
         food1: "우유 유통기한 임박",
       },
       SharedAlarm: null,
@@ -220,30 +233,30 @@ export default {
   },
   async mounted() {
     const alarms = await this.getShare();
-    if(alarms != null){
-      for(var alarm of alarms){
-      var data1 = {
-        refrigNo: alarm.refrigNo
+    if (alarms != null) {
+      for (var alarm of alarms) {
+        var data1 = {
+          refrigNo: alarm.refrigNo,
+        };
+        var refInfo = await this.getRefByNo(data1);
+        var nickName = await this.getUserInfo(refInfo.userId);
+        refInfo.nickName = nickName;
+        this.alarmList.push(refInfo);
       }
-      var refInfo = await this.getRefByNo(data1);
-      var nickName = await this.getUserInfo(refInfo.userId);
-      refInfo.nickName = nickName;
-      this.alarmList.push(refInfo);
-    } 
     }
   },
-  methods:{
-    logout(){
-      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제 
+  methods: {
+    logout() {
+      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제
       storage.removeItem("jwt-auth-token");
       storage.removeItem("login_user");
-      this.$router.push('/').catch(()=>{});
+      this.$router.push("/").catch(() => {});
     },
-    getShare(){
-      return new Promise(resolve => {
+    getShare() {
+      return new Promise((resolve) => {
         const data = {
-          userId: storage.getItem("login_user")
-        }
+          userId: storage.getItem("login_user"),
+        };
         AlarmApi.getShare(
           data,
           (res) => {
@@ -251,41 +264,38 @@ export default {
           },
           (error) => {
             resolve(null);
-          });
+          }
+        );
       });
     },
-    getRefByNo(data){
-      return new Promise(resolve => {
+    getRefByNo(data) {
+      return new Promise((resolve) => {
         RefApi.getRefByNo(
-        data,
-        (res) => {
-          resolve(res.data.object);
-        },
-        (error) => {
-
-        }
-      )
+          data,
+          (res) => {
+            resolve(res.data.object);
+          },
+          (error) => {}
+        );
       });
     },
-    getUserInfo(data){
-      return new Promise(resolve => {
+    getUserInfo(data) {
+      return new Promise((resolve) => {
         UserApi.getUserInfo(
           data,
           (res) => {
             resolve(res.data.object.nickName);
           },
-          (error) => {
-
-          }
-        )
+          (error) => {}
+        );
       });
     },
-    goShared(alarm){
+    goShared(alarm) {
       this.SharedAlarm = alarm;
       this.isSharedRef = true;
     },
     closeDialog() {
-      this.isSharedRef=false;
+      this.isSharedRef = false;
     },
   },
 };

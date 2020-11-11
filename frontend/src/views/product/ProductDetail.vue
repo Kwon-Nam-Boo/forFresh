@@ -7,8 +7,17 @@
       <v-card-title>{{ productInfo.description }}</v-card-title>
 
       <v-card-text>
-        <div class="my-4 subtitle-1">{{ productInfo.productName }}</div>
-        <div>가격 : {{ productInfo.productPrice }}</div>
+        <div class="my-0 subtitle-1">분류 : {{ productInfo.productName }}</div>
+
+        <v-row>
+          <v-col class="pt-0">
+            <div>가격 : {{ productInfo.productPrice }}원</div>
+          </v-col>
+          <v-col class="pt-0">
+            <div>수량 : {{ productInfo.stock }} 남음</div>
+          </v-col>
+        </v-row>
+
         <v-row align="center" class="mx-0">
           <v-rating
             :value="productInfo.avgRate"
@@ -33,7 +42,17 @@
             >
           </v-chip-group>
 
-          <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
+          <v-btn
+            v-if="productInfo.stock > 0"
+            absolute
+            right
+            rounded
+            @click="
+              $router.push('/buypage/' + productInfo.productNo).catch(() => {})
+            "
+            >구매하기</v-btn
+          >
+          <v-btn v-else disabled>품 절</v-btn>
         </v-row>
       </v-card-text>
     </v-card>
@@ -57,13 +76,25 @@
       :productNo="productInfo.productNo"
     />
     <!-- </v-card> -->
+    <v-btn
+      v-scroll="onScroll"
+      v-show="fab"
+      fab
+      dark
+      fixed
+      bottom
+      right
+      color="#88dba3"
+      @click="toTop"
+    >
+      <v-icon>mdi-chevron-up</v-icon>
+    </v-btn>
     <QnaInfoForm id="qna" class="target" />
-    <BottomNavigation />
   </div>
 </template>
 <script>
 import ProductApi from "../../api/ProductApi";
-import BottomNavigation from "../../components/product/BottomNavigation";
+
 import CategoryList from "../../components/product/CategoryList";
 import * as easings from "vuetify/es5/services/goto/easing-patterns";
 import ProductComment from "../../components/product/ProductComment";
@@ -72,7 +103,6 @@ const storage = window.sessionStorage;
 
 export default {
   components: {
-    BottomNavigation,
     CategoryList,
     ProductComment,
     QnaInfoForm,
@@ -80,6 +110,7 @@ export default {
   data() {
     return {
       title: "상품 상세보기",
+      fab: false,
       shoplistNo: "",
       selection: null,
       productInfo: {},
@@ -133,6 +164,14 @@ export default {
   },
   methods: {
     buyProduct() {},
+    onScroll(e) {
+      if (typeof window === "undefined") return;
+      const top = window.pageYOffset || e.target.scrollTop || 0;
+      this.fab = top > 20;
+    },
+    toTop() {
+      this.$vuetify.goTo(0);
+    },
     changeStatus() {
       // console.log("들어왓다.");
       if (this.selection == null) {
