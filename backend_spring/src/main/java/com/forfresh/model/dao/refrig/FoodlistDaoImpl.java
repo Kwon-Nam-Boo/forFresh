@@ -3,6 +3,7 @@ package com.forfresh.model.dao.refrig;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,7 +21,7 @@ import com.forfresh.model.dto.refrig.Foodlist;
 @Repository
 public class FoodlistDaoImpl implements FoodlistDao {
 
-    //static String root = "http://localhost:8081/Receipt";
+    // static String root = "http://localhost:8081/Receipt";
     static String root = "http://k3a407.p.ssafy.io:8082/Receipt";
 
     @Override
@@ -187,12 +188,36 @@ public class FoodlistDaoImpl implements FoodlistDao {
 
 
     @Override
-    public String getItemInfo(String foodName) throws IOException {
-        String addUrl = "/getItemInfo/"+foodName+"/";
+    public String getItemInfo(String foods) throws IOException {
+        String addUrl = "/getCategoryInfo/";
         String finalUrl = root + addUrl;
         URL url = new URL(finalUrl);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
+        // conn.setRequestMethod("GET");
+        
+        // BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+        // String returnLine;
+        // StringBuffer result = new StringBuffer();
+        // while ((returnLine = br.readLine()) != null) {
+        //     result.append(returnLine + "\n");
+        // }
+        // conn.disconnect();
+
+        // return result.toString();
+
+        conn.setDoOutput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        
+        // Request Body에 Data를 담기위해 OutputStream 객체를 생성.
+        OutputStream os = conn.getOutputStream();
+        // ObjectOutputStream oss = new ObjectOutputStream(os);
+        // Request Body에 Data 셋팅.
+        // oss.writeObject(foods);
+        os.write(foods.getBytes()); 
+        // Request Body에 Data 입력.
+        os.flush();
         
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
