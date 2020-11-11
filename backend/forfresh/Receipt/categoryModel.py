@@ -5,12 +5,11 @@ from tensorflow.keras.models import load_model
 
 def categorization(item):
     f_list = ['돼지고기', '쇠고기', '닭고기', '알류', '축산가공식품', '생선', '김/해초','해산물/어패류','젓갈','건어물','아이스크림/빙수','냉동/간편조리식품','쌀', '잡곡/혼합곡', '과일', '채소','견과류','반찬','김치','음료','차류','커피','유제품','과자','가공식품'] 
-    model = load_model('C:/ssafy/test1/real/best_model.h5')
-    os.chdir("C:/ssafy/test1/real") 
-    with open('tokenizer.pickle', 'rb') as handle:
-    # model = load_model('/home/ubuntu/categoryModel/best_model.h5')
-    # #os.chdir("C:/ssafy/test1/real") 
-    # with open('/home/ubuntu/categoryModel/tokenizer.pickle', 'rb') as handle:
+    # model = load_model('C:/ssafy/test1/real/best_model.h5')
+    # os.chdir("C:/ssafy/test1/real") 
+    # with open('tokenizer.pickle', 'rb') as handle:
+    model = load_model('/home/ubuntu/categoryModel/best_model.h5')
+    with open('/home/ubuntu/categoryModel/tokenizer.pickle', 'rb') as handle:
         tokenizer = pickle.load(handle)
     #word_to_index = tokenizer.word_index
     #print(word_to_index)
