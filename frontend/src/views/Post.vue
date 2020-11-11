@@ -32,7 +32,7 @@
 
     </div>
   
-      <div id="inspire">
+      <div id="post">
         <v-btn depressed color="#e2efef" style="width:30%">등록하기</v-btn>
       </div>
     
@@ -117,7 +117,7 @@ export default {
 }
 </script>
 <style scoped>
-#inspire{
+#post{
    margin-left: 70%;
    
 }
