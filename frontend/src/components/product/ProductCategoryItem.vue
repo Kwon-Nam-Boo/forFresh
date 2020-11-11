@@ -11,8 +11,16 @@
     <v-card-title>{{ product.description }}</v-card-title>
 
     <v-card-text>
-      <div class="my-4 subtitle-1">{{ product.productName }}</div>
-      <div>가격 : {{ product.productPrice }}원</div>
+      <div class="my-0 subtitle-1">분류 : {{ product.productName }}</div>
+
+      <v-row>
+        <v-col class="pt-0">
+          <div>가격 : {{ product.productPrice }}원</div>
+        </v-col>
+        <v-col class="pt-0">
+          <div>수량 : {{ product.stock }} 남음</div>
+        </v-col>
+      </v-row>
       <v-row align="center" class="mx-0">
         <v-rating
           :value="product.avgRate"
@@ -40,7 +48,7 @@
           absolute
           right
           rounded
-          @click="buyProduct()"
+          @click="$router.push('/buypage/' + product.productNo).catch(() => {})"
           >구매하기</v-btn
         >
         <v-btn v-else disabled>품 절</v-btn>
@@ -70,7 +78,6 @@ export default {
     }
   },
   methods: {
-    buyProduct() {},
     changeStatus() {
       // console.log("들어왓다.");
       if (this.selection == null) {

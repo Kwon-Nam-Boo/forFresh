@@ -46,7 +46,7 @@
               >
             </v-list-item-content>
             <div v-if="userInfo.nickname == item.nickName">
-              <v-btn
+              <v-icon
                 @click="
                   updateComment(
                     item.pcommentNo,
@@ -54,11 +54,9 @@
                     item.userRate
                   )
                 "
-                ><v-icon>mdi-pencil</v-icon></v-btn
+                >mdi-pencil</v-icon
               >
-              <v-btn @click="deleteComment(item.pcommentNo)"
-                ><v-icon>mdi-close</v-icon></v-btn
-              >
+              <v-icon @click="deleteComment(item.pcommentNo)">mdi-close</v-icon>
             </div>
           </v-list-item>
         </template>
@@ -153,7 +151,7 @@ export default {
           commentDetail: this.userComment,
         },
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           //댓글 업데이트 성공
         },
         (error) => {
@@ -162,6 +160,7 @@ export default {
       );
       this.updateStatus = false;
       this.dialog = false;
+      location.reload();
     },
     updateComment(no, comment, rate) {
       this.userComment = comment;
@@ -173,7 +172,8 @@ export default {
       ProductApi.deleteUserComment(
         no,
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
+          location.reload();
           //삭제 성공
         },
         (error) => {

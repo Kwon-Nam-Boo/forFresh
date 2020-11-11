@@ -47,7 +47,9 @@
             absolute
             right
             rounded
-            @click="buyProduct()"
+            @click="
+              $router.push('/buypage/' + productInfo.productNo).catch(() => {})
+            "
             >구매하기</v-btn
           >
           <v-btn v-else disabled>품 절</v-btn>

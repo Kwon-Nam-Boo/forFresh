@@ -21,6 +21,7 @@ export default {
       productNo: "2",
     };
   },
+  created() {},
   methods: {
     payment() {
       PaymentApi.requestPayment(
@@ -32,11 +33,11 @@ export default {
           totalAmount: this.totalAmount,
         },
         (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           location.href = res.data;
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       );
     },

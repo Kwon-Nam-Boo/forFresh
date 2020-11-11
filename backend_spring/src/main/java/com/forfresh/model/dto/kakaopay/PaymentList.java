@@ -19,7 +19,7 @@ public class PaymentList {
 	private String tid;
 	
 	private String userId;
-	private Integer productNo;
+	private String productNo;
 	private Integer quantity;
 	private Integer totalAmount;
 	
