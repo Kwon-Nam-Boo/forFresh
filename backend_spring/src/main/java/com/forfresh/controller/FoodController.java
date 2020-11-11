@@ -105,16 +105,24 @@ public class FoodController {
             result.status = false;
             return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
         }
-
     }
     
-    @PostMapping("/postest")
-    @ApiOperation(value = "테스트를 위해 만들었다")
-    public List<Object> findAllObjects(@RequestBody List<Map<String, Object>> list){
-        BasicResponse result = new BasicResponse();
-        System.out.println(list);
-        return null;
+    @PostMapping("/getCategory")
+    @ApiOperation(value = "해당 상품들의 카테고리와 저장상태를 ")
+    public Object findAllObjects(@RequestBody String list) throws IOException{
+    	 BasicResponse result = new BasicResponse();
+         String receiptInfo = null;
+         receiptInfo =  foodlistDao.getCategoryInfo(list);
 
+ 		if(receiptInfo != null) {
+ 			result.status = true;
+ 			result.object = receiptInfo;
+ 			return new ResponseEntity<>(result, HttpStatus.OK);
+ 		}
+ 		else {
+ 			result.status=false;
+ 			return new ResponseEntity<>(result,  HttpStatus.NOT_FOUND);
+ 		}
     }
 
     @PatchMapping("/changeFood")
@@ -167,7 +175,7 @@ public class FoodController {
 		
         String foodInfo = null;
         foodInfo =  foodlistDao.getItemInfo(foodName);
-
+        
 		if(foodInfo != null) {
 			result.status = true;
 			result.object = foodInfo;
