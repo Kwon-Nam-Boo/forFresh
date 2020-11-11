@@ -9,12 +9,17 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.util.json.JSONParser;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.forfresh.model.dto.refrig.Foodlist;
 
 @Repository
@@ -237,7 +242,7 @@ public class FoodlistDaoImpl implements FoodlistDao {
             result.append(returnLine + "\n");
         }
         conn.disconnect();
-
+        
         return result.toString();
     }
 
@@ -261,12 +266,18 @@ public class FoodlistDaoImpl implements FoodlistDao {
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
         String returnLine;
-        StringBuffer result = new StringBuffer();
+        //StringBuffer result = new StringBuffer();
+        String result ="";
         while ((returnLine = br.readLine()) != null) {
-            result.append(returnLine + "\n");
+        	  result+=returnLine;
+//            result.append(returnLine + "\n");
         }
         conn.disconnect();
-
+        
+        JSONObject jsonObject = new JSONObject(result);
+        JSONArray bookInfoArray = (JSONArray) jsonObject.get("data");
+        
+        System.out.println(bookInfoArray);
         return result.toString();
 		
 	}
