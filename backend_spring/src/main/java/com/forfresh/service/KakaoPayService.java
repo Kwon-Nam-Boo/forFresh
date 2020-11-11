@@ -69,9 +69,9 @@ public class KakaoPayService {
         params.add("quantity", totalpay.getQuantity());
         params.add("total_amount", totalpay.getTotalAmount());
         params.add("tax_free_amount", "100");
-        params.add("approval_url", "http://localhost:8080/api/kakaoPaySuccess");
-        params.add("cancel_url", "http://localhost:8080/api/kakaoPayCancel");
-        params.add("fail_url", "http://localhost:8080/api/kakaoPaySuccessFail");
+        params.add("approval_url", "http://k3a407.p.ssafy.io/api/kakaoPaySuccess");
+        params.add("cancel_url", "http://k3a407.p.ssafy.io/api/kakaoPayCancel");
+        params.add("fail_url", "http://k3a407.p.ssafy.io/api/kakaoPaySuccessFail");
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
  
@@ -139,7 +139,7 @@ public class KakaoPayService {
             		shoppingListDao.deleteById(Integer.parseInt(tempShopList[i]));
             	}
             }
-            return "redirect:http://localhost:3000/paymentsuccess";
+            return "redirect:http://k3a407.p.ssafy.io/paymentsuccess";
         
         } catch (RestClientException e) {
             // TODO Auto-generated catch block
