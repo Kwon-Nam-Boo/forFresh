@@ -33,6 +33,7 @@ const state = {
     "22":{ name: "유제품", no: "22", img: "https://firebasestorage.googleapis.com/v0/b/forfresh-ea84c.appspot.com/o/category%2F21.jpg?alt=media&token=2b21d736-df2e-4a17-a845-a8918f31b81e"},
     "23":{ name: "과자", no: "23", img: "https://firebasestorage.googleapis.com/v0/b/forfresh-ea84c.appspot.com/o/category%2F22.jpg?alt=media&token=3b3c4d32-1597-4485-b0eb-39ba0047fe26"},
     "24":{ name: "가공식품", no: "24", img: "https://firebasestorage.googleapis.com/v0/b/forfresh-ea84c.appspot.com/o/category%2F23.jpg?alt=media&token=fa930041-63cc-4ec1-9522-e50506274b94"},
+    "25":{ name: "미분류", no: "25", img:"https://firebasestorage.googleapis.com/v0/b/forfresh-ea84c.appspot.com/o/category%2F25.png?alt=media&token=aafaeb4e-3466-4847-872f-5e4963207f60"},
   },
 };
 

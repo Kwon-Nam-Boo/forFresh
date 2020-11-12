@@ -29,37 +29,34 @@
             </td>
             <td style="text-align: center;">
               {{ food.count }}
-            </td>
-
-            
-            
+            </td>                        
             <v-icon small class="mr-2" @click="editItem(food)">mdi-pencil</v-icon>
             <v-icon small @click="deleteFood(index)">mdi-delete</v-icon>
           </tr>
+          <v-dialog v-model="dialog" max-width="500px">  
+            <v-card>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.foodName" label="제품명"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.count" label="수 량"></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+  
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="editClose">Cancel</v-btn>
+                <v-btn color="blue darken-1" text @click="editSave">Save</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
       </tbody>
     </table>
-    <v-dialog v-model="dialog" max-width="500px">  
-              <v-card>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.foodName" label="제품명"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="editedItem.count" label="수 량"></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-    
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="editClose">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="editSave">Save</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
     <div style="text-align:center; margin-top:5%; margin-bottom: 10%;">
       <v-btn depressed color="#e2efef" style="width:80%" @click="putFood">냉장고에 넣기</v-btn>
     </div>
@@ -68,7 +65,7 @@
 <script>
 import RefApi from "../../src/api/RefApi";
 import firebase from "firebase";
-
+const storage = window.sessionStorage;
 export default {
     components: {
     
@@ -153,19 +150,18 @@ export default {
       if (idx > -1) this.foods.splice(idx, 1)
     },
     putFood(){
-      console.log(this.foods)
-      // RefApi.registFood(
-      //   {
-      //     refrigNo: 1,
-      //     foods: this.foods,
-      //   },
-      //   (res) => {
-      //     console.log("음식 넣기 완료")
-      //   },
-      //   (error) => {
-      //     console.log(error);
-      //   }
-      // );
+      RefApi.registFood(
+        {
+          refrigNo: storage.getItem('RefNoForAddFood'),
+          foods: JSON.stringify(this.foods),
+        },
+        (res) => {
+          console.log("음식 넣기 완료")
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     editItem(food) {
       this.editIndex = this.foods.indexOf(food)
