@@ -30,7 +30,11 @@
                     v-model="addressDetail"
                   />
                 </div>
-<div class="col-lg-12">
+                <div class="col-lg-12">
+                  <label for="request">요청사항</label>
+                  <input type="text" id="request" v-model="uniqueness" />
+                </div>
+                <div class="col-lg-12">
                   <label for="phone">
                     연락처
                     <span>*</span>
@@ -97,7 +101,7 @@
     </v-card>
   </div>
 </template>
-
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 import ProductApi from "../../api/ProductApi";
 
@@ -164,15 +168,14 @@ export default {
         );
       }
     },
-    // getAddress() {
-    //   new daum.Postcode({
-    //     oncomplete: function (data) {
-    //       document.getElementById("street").value = data.address; // 도로명 주소 변수
-    //       document.getElementById("zipcode").value = data.zonecode;
-    //     },
-    //   }).open();
-    // },
-
+    getAddress() {
+      new daum.Postcode({
+        oncomplete: function (data) {
+          document.getElementById("street").value = data.address; // 도로명 주소 변수
+          document.getElementById("zipcode").value = data.zonecode;
+        },
+      }).open();
+    },
   },
 };
 </script>
