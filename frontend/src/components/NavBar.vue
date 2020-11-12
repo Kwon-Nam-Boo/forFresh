@@ -175,7 +175,7 @@ export default {
       userInfo: {},
       drawer: false,
       group: null,
-      isAlarm: true,
+      isAlarm: false,
       isSharedRef: false,
       alarmDrawer: false,
       alarmGroup: null,
@@ -228,16 +228,17 @@ export default {
   },
   async mounted() {
     const alarms = await this.getShare();
-    if (alarms != null) {
-      for (var alarm of alarms) {
+    if(alarms != null){
+      this.isAlarm = true;
+      for(var alarm of alarms){
         var data1 = {
-          refrigNo: alarm.refrigNo,
-        };
+          refrigNo: alarm.refrigNo
+        }
         var refInfo = await this.getRefByNo(data1);
         var nickName = await this.getUserInfo(refInfo.userId);
         refInfo.nickName = nickName;
         this.alarmList.push(refInfo);
-      }
+      } 
     }
   },
   methods: {
@@ -302,7 +303,5 @@ export default {
 }
 .v-subheader {
   font-size: 2.3vh;
-}
-.v-list-item-title {
 }
 </style>

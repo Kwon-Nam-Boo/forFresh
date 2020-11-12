@@ -1,6 +1,5 @@
 <template>
   <div>
-    <nav-bar :title="title"></nav-bar>
     <div v-if="receiptPicture == null" style="text-align:center; margin-top:20%">
       <img src="@/assets/camera.png" onClick="post" style="width:10%; height:10%;">
       <p>영수증 사진을 등록해주세요</p>
@@ -30,8 +29,7 @@
             </td>
             <td style="text-align: center;">
               {{ food.count }}
-            </td>
-                        
+            </td>                        
             <v-icon small class="mr-2" @click="editItem(food)">mdi-pencil</v-icon>
             <v-icon small @click="deleteFood(index)">mdi-delete</v-icon>
           </tr>
@@ -65,13 +63,11 @@
   </div>
 </template>
 <script>
-import NavBar from "../components/NavBar";
 import RefApi from "../../src/api/RefApi";
 import firebase from "firebase";
-
+const storage = window.sessionStorage;
 export default {
     components: {
-    NavBar,
     
   },
    data() {
@@ -92,6 +88,9 @@ export default {
                   count: 0,
                   }
     }
+  },
+  created() {
+    this.$emit('updateTitle',this.title);
   },
    watch: {
     // dialog (val) {
@@ -153,7 +152,7 @@ export default {
     putFood(){
       RefApi.registFood(
         {
-          refrigNo: 1,
+          refrigNo: storage.getItem('RefNoForAddFood'),
           foods: JSON.stringify(this.foods),
         },
         (res) => {
