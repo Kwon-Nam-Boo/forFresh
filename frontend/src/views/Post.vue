@@ -114,6 +114,7 @@ export default {
       addedItem : {
                   foodName : "",
                   count: 0,
+                  price: 0,
                   },
       defaultItem : {
                   foodName : "",
@@ -181,6 +182,7 @@ export default {
       if (idx > -1) this.foods.splice(idx, 1)
     },
     putFood(){
+      console.log(this.foods)
       RefApi.registFood(
         {
           refrigNo: storage.getItem('RefNoForAddFood'),
