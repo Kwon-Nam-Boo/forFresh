@@ -19,6 +19,16 @@
       >
         {{ alertMessage }}
       </v-alert>
+      <v-toolbar-title class="grey--text" style="margin-left: 30%">
+        <v-img
+          class="mt-2 mb-2"
+          src="@/assets/logo.png"
+          height="40"
+          width="150"
+          @click="$router.push('/home').catch(() => {})"
+          style="cursor: pointer"
+        />
+      </v-toolbar-title>
       <v-card class="mx-auto my-5" max-width="500" >
         <v-card-text class="text--primary" style="font-size:3vh;" align=center>로그인</v-card-text>
         <div class="px-10">
@@ -230,5 +240,6 @@ export default {
 }
 .my-10{
   color: #9DC8C8;
+  margin-top: 0px !important;
 }
 </style>
