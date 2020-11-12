@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,7 @@ public class FoodController {
     @Autowired
     FoodlistService foodlistService;
     
+    @Transactional
     @PostMapping("/regist")
     @ApiOperation(value = "음식 넣기")
     public Object save(@RequestBody(required = true) FoodItem foodItem) throws IOException {
