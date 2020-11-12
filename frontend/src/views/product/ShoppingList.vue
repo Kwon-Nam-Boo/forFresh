@@ -59,6 +59,7 @@
         </v-row>
       </v-container>
       <hr />
+      {{ selected }}
       <v-container>
         <v-form ref="form">
           <v-row v-for="(item, i) in shopList" :key="item.shoplistNo">
@@ -306,7 +307,8 @@ export default {
       }).open();
     },
   },
-};
+},
+}
 </script>
 <style lang="">
 </style>

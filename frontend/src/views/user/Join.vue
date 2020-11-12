@@ -19,8 +19,18 @@
       >
         {{ alertMessage }}
       </v-alert>
+      <v-toolbar-title class="grey--text" style="margin-left: 5%">
+        <v-img
+          class="mt-2 mb-2"
+          src="@/assets/logo.png"
+          height="40"
+          width="150"
+          @click="$router.push('/home').catch(() => {})"
+          style="cursor: pointer"
+        />
+      </v-toolbar-title>
       <v-card class="mx-auto my-5" max-width="500">
-        <v-card-text class="display-1 text--primary">회원가입</v-card-text>
+        <v-card-text class="text--primary" style="font-size:3vh;">회원가입</v-card-text>
         <div class="px-10">
           <v-text-field
             class="mt-10"

@@ -160,7 +160,7 @@ export default {
     EditRefrigerator,
   },
   async created() {
-    this.$emit('updateTitle', '메인페이지');
+    this.$emit('updateTitle', this.title);
     this.items = await this.getRef();
     if(this.items==[]||this.items==""||this.items==null){
       this.isNoItem = true;

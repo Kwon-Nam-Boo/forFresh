@@ -8814,6 +8814,11 @@ vue-cli-plugin-vuetify@~2.0.7:
     semver "^7.1.2"
     shelljs "^0.8.3"
 
+vue-daum-postcode@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/vue-daum-postcode/-/vue-daum-postcode-0.9.0.tgz#2982b8946c6c756e1f9faccc4cb8fc7c93b4b117"
+  integrity sha512-9nlPp4MlMyMlpmd0tHBQqzvctZldhaN/uEl+W7nWSQIDHcsUvsFF1oCbzFVpz1fexjPeFrn+rmtPyk8/dthexA==
+
 vue-eslint-parser@^7.0.0:
   version "7.1.1"
   resolved "https://registry.npm.taobao.org/vue-eslint-parser/download/vue-eslint-parser-7.1.1.tgz#c43c1c715ff50778b9a7e9a4e16921185f3425d3"
