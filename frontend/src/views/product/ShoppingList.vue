@@ -2,6 +2,41 @@
   <div>
     <v-card>
       <v-card-title>배송 정보</v-card-title>
+      <div class="col-lg-12">
+        <label for="street">
+          주소
+          <span>*</span>
+        </label>
+        <div class="col-lg-4" style="margin: 0; padding: 0">
+          <input
+            type="text"
+            placeholder="우편번호"
+            id="zipcode"
+            @click="getAddress"
+            readonly
+          />
+        </div>
+        <input
+          type="text"
+          id="street"
+          class="street-first"
+          placeholder="주소"
+          @click="getAddress"
+          readonly
+        />
+        <input type="text" placeholder="상세 주소" v-model="addressDetail" />
+      </div>
+      <div class="col-lg-12">
+        <label for="request">요청사항</label>
+        <input type="text" id="request" v-model="uniqueness" />
+      </div>
+      <div class="col-lg-12">
+        <label for="phone">
+          연락처
+          <span>*</span>
+        </label>
+        <input type="text" id="phone" v-model="phonenumber" />
+      </div>
     </v-card>
     <v-card class="mt-3">
       <v-card-title>상품 정보</v-card-title>
@@ -96,6 +131,7 @@
     </v-card>
   </div>
 </template>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 import ProductApi from "../../api/ProductApi";
 import PaymentApi from "../../api/PaymentApi";
@@ -124,6 +160,14 @@ export default {
       shopNo: "",
       stockList: "",
     };
+  },
+  computed: {
+    zipcode() {
+      return document.getElementById("zipcode").value;
+    },
+    address() {
+      return document.getElementById("street").value;
+    },
   },
   watch: {
     selected: {
@@ -252,6 +296,14 @@ export default {
           (error) => {}
         );
       }
+    },
+    getAddress() {
+      new daum.Postcode({
+        oncomplete: function (data) {
+          document.getElementById("street").value = data.address; // 도로명 주소 변수
+          document.getElementById("zipcode").value = data.zonecode;
+        },
+      }).open();
     },
   },
 };
