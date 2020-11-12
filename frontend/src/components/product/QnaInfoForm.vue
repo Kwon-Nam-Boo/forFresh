@@ -1,83 +1,68 @@
 <template>
   <v-card>
     <v-card-title> 배송/교환/반품 안내 </v-card-title>
-    <v-data-iterator
-      :items="items"
-      :items-per-page.sync="itemsPerPage"
-      hide-default-footer
-    >
-      <template v-slot:default="props">
-        <v-row>
-          <v-col
-            v-for="item in props.items"
-            :key="item.name"
-            cols="12"
-            sm="6"
-            md="4"
-            lg="3"
-          >
-            <v-card>
-              <v-card-title class="subheading font-weight-bold">
-                {{ item.name }}
-              </v-card-title>
 
-              <v-divider></v-divider>
+    <v-card>
+      <v-card-title class="subheading font-weight-bold">
+        {{ items[0].name }}
+      </v-card-title>
 
-              <v-list dense>
-                <v-list-item>
-                  <v-list-item-content>Calories:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.calories }}
-                  </v-list-item-content>
-                </v-list-item>
+      <v-divider></v-divider>
 
-                <v-list-item>
-                  <v-list-item-content>Fat:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.fat }}
-                  </v-list-item-content>
-                </v-list-item>
+      <v-list dense>
+        <v-list-item>
+          <v-list-item-content>배송방법</v-list-item-content>
+          <v-list-item-content class="align-end">
+            {{ items[0].calories }}
+          </v-list-item-content>
+        </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-content>Carbs:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.carbs }}
-                  </v-list-item-content>
-                </v-list-item>
+        <v-list-item>
+          <v-list-item-content>배송비</v-list-item-content>
+          <v-list-item-content class="align-end">
+            {{ items[0].fat }}
+          </v-list-item-content>
+        </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-content>Protein:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.protein }}
-                  </v-list-item-content>
-                </v-list-item>
+        <v-list-item>
+          <v-list-item-content>묶음배송 여부</v-list-item-content>
+          <v-list-item-content class="align-end">
+            {{ items[0].carbs }}
+          </v-list-item-content>
+        </v-list-item>
 
-                <v-list-item>
-                  <v-list-item-content>Sodium:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.sodium }}
-                  </v-list-item-content>
-                </v-list-item>
+        <v-list-item>
+          <v-list-item-content>배송기간</v-list-item-content>
+          <v-list-item-content class="align-end">
+            {{ items[0].protein }}
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
 
-                <v-list-item>
-                  <v-list-item-content>Calcium:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.calcium }}
-                  </v-list-item-content>
-                </v-list-item>
+    <v-card>
+      <v-card-title class="subheading font-weight-bold">
+        {{ items[1].name }}
+      </v-card-title>
 
-                <v-list-item>
-                  <v-list-item-content>Iron:</v-list-item-content>
-                  <v-list-item-content class="align-end">
-                    {{ item.iron }}
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-card>
-          </v-col>
-        </v-row>
-      </template>
-    </v-data-iterator>
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item>
+          <v-list-item-content>교환/반품 비용</v-list-item-content>
+          <v-list-item-content class="align-end">
+            {{ items[1].calories }}
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-content>교환/반품 신청기준일</v-list-item-content>
+          <v-list-item-content class="align-end">
+            {{ items[1].fat }}
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card>
   </v-card>
 </template>
 <script>
@@ -88,42 +73,16 @@ export default {
       {
         name: "배송정보",
         calories: "순차배송",
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        sodium: 87,
-        calcium: "14%",
-        iron: "1%",
+        fat:
+          "무료배송, 1만원 이상 구매시 무료배송, 도서산간 지역 추가비용 없음",
+        carbs: "가능",
+        protein:
+          "2~3일 내 도착, 천재지변 물량 수급 변동 등 예외 상황 발생시 다소 지연될 수 있습니다.",
       },
       {
-        name: "Ice cream sandwich",
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        sodium: 129,
-        calcium: "8%",
-        iron: "1%",
-      },
-      {
-        name: "Eclair",
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        sodium: 337,
-        calcium: "6%",
-        iron: "7%",
-      },
-      {
-        name: "Cupcake",
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        sodium: 413,
-        calcium: "3%",
-        iron: "8%",
+        name: "교환/반품 안내",
+        calories: "5000원, 단 고객 변심 경우에만 발생",
+        fat: "단순 변심에 의한 상품 제품 수령 후 교환/반품 30일 이내까지 가능",
       },
     ],
   }),

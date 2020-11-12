@@ -13,6 +13,9 @@ import ProductDetail from "./views/product/ProductDetail";
 import ProductSearch from "./views/product/ProductSearch";
 import ProductCategory from "./views/product/ProductCategory";
 import ShoppingList from "./views/product/ShoppingList";
+import PaymentSuccess from "./views/payment/PaymentSuccess";
+import BuyPage from "./views/product/BuyPage";
+
 export default [
   {
     path: "/",
@@ -48,13 +51,12 @@ export default [
     path: "/findpassword",
     name: "FindPassword",
     component: FindPassword,
-  },  
+  },
   {
     path: "/error",
     name: "Error",
     component: Error,
   },
-  
   {
     path: "/addproduct",
     name: "AddProduct",
@@ -85,6 +87,16 @@ export default [
     path: "/shoppinglist",
     name: "ShoppingList",
     component: ShoppingList,
+  },
+  {
+    path: "/paymentsuccess",
+    name: "PaymentSuccess",
+    component: PaymentSuccess,
+  },
+  {
+    path: "/buypage/:productno",
+    name: "BuyPage",
+    component: BuyPage,
   },
   {
     path: "/*",

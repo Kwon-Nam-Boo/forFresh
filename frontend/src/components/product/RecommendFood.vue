@@ -1,14 +1,20 @@
 <template>
   <v-card class="mx-auto" max-width="500">
     <v-card-title>
-      "당신의 냉장고에
+      "오늘은 이런 상품
       <br />
-      없는 재료가 준비되어 있어요"
+      어떤가요?"
     </v-card-title>
     <v-container fluid>
       <v-row dense>
-        <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-          <v-card>
+        <v-col v-for="(card, i) in cards" :key="card.title" :cols="card.flex">
+          <v-card
+            @click="
+              $router
+                .push('/productdetail/' + `${product[i].productNo}`)
+                .catch(() => {})
+            "
+          >
             <v-img
               :src="card.src"
               class="white--text align-end"
@@ -18,20 +24,23 @@
               <v-card-title v-text="card.title"></v-card-title>
             </v-img>
 
-            <v-card-actions>
+            <v-card-actions style="height: 50px">
               <v-spacer></v-spacer>
 
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-
-              <v-btn icon>
-                <v-icon>mdi-bookmark</v-icon>
-              </v-btn>
-
-              <v-btn icon>
-                <v-icon>mdi-share-variant</v-icon>
-              </v-btn>
+              <v-btn
+                v-if="product[i].stock > 0"
+                absolute
+                right
+                rounded
+                class="my-1"
+                @click="
+                  $router
+                    .push('/buypage/' + product[i].productNo)
+                    .catch(() => {})
+                "
+                >구매하기</v-btn
+              >
+              <v-btn v-else disabled>품 절</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -41,26 +50,47 @@
 </template>
 
 <script>
+import ProductApi from "../../api/ProductApi";
 export default {
   data: () => ({
+    product: [],
     cards: [
-      {
-        title: "Pre-fab homes",
-        src: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
-        flex: 12,
-      },
-      {
-        title: "Favorite road trips",
-        src: "https://cdn.vuetifyjs.com/images/cards/road.jpg",
-        flex: 6,
-      },
-      {
-        title: "Best airlines",
-        src: "https://cdn.vuetifyjs.com/images/cards/plane.jpg",
-        flex: 6,
-      },
+      // {
+      //   title: "Pre-fab homes",
+      //   src: "https://cdn.vuetifyjs.com/images/cards/house.jpg",
+      //   flex: 12,
+      // },
+      // {
+      //   title: "Favorite road trips",
+      //   src: "https://cdn.vuetifyjs.com/images/cards/road.jpg",
+      //   flex: 6,
+      // },
+      // {
+      //   title: "Best airlines",
+      //   src: "https://cdn.vuetifyjs.com/images/cards/plane.jpg",
+      //   flex: 6,
+      // },
     ],
   }),
+  created() {
+    ProductApi.requestProductRecommend(
+      {},
+      (res) => {
+        // console.log(res.data);
+        this.product = res.data;
+        for (var i = 0; i < 3; i++) {
+          var fl = 6;
+          if (i == 0) fl = 12;
+          this.cards.push({
+            title: this.product[i].description,
+            src: this.product[i].imgUrl,
+            flex: fl,
+          });
+        }
+      },
+      (error) => {}
+    );
+  },
 };
 </script>
 

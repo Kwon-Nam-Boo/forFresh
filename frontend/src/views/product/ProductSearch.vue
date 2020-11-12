@@ -54,6 +54,7 @@
 import ProductApi from "../../api/ProductApi";
 import InfiniteLoading from "vue-infinite-loading";
 import ProductCtegoryItem from "../../components/product/ProductCategoryItem";
+const storage = window.sessionStorage;
 
 export default {
   components: {
@@ -67,6 +68,7 @@ export default {
       size: "5",
       list: [],
       fab: false,
+      keyword: "",
     };
   },
   created() {
@@ -87,6 +89,7 @@ export default {
     infiniteHandler($state) {
       ProductApi.requestSearchProduct(
         {
+          userId: storage.getItem("login_user"),
           productName: this.$route.params.keyword,
           page: this.page,
           size: this.size,

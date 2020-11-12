@@ -11,8 +11,16 @@
     <v-card-title>{{ product.description }}</v-card-title>
 
     <v-card-text>
-      <div class="my-4 subtitle-1">{{ product.productName }}</div>
-      <div>가격 : {{ product.productPrice }}</div>
+      <div class="my-0 subtitle-1">분류 : {{ product.productName }}</div>
+
+      <v-row>
+        <v-col class="pt-0">
+          <div>가격 : {{ product.productPrice }}원</div>
+        </v-col>
+        <v-col class="pt-0">
+          <div>수량 : {{ product.stock }} 남음</div>
+        </v-col>
+      </v-row>
       <v-row align="center" class="mx-0">
         <v-rating
           :value="product.avgRate"
@@ -32,10 +40,18 @@
           active-class="deep-purple accent-4 white--text"
           column
         >
-          <v-chip><v-icon>mdi-shopping</v-icon></v-chip>
+          <v-chip @click="changeStatus()"><v-icon>mdi-shopping</v-icon></v-chip>
         </v-chip-group>
-        {{ selection }}
-        <v-btn absolute right rounded @click="buyProduct()">구매하기</v-btn>
+
+        <v-btn
+          v-if="product.stock > 0"
+          absolute
+          right
+          rounded
+          @click="$router.push('/buypage/' + product.productNo).catch(() => {})"
+          >구매하기</v-btn
+        >
+        <v-btn v-else disabled>품 절</v-btn>
       </v-row>
     </v-card-text>
 
@@ -57,11 +73,14 @@ export default {
   },
   props: ["product"],
   created() {
-    this.selection = this.product.shoplistNo;
+    if (this.product.shoplistNo != null) {
+      this.selection = 0;
+    }
   },
-  watch: {
-    selection: function () {
-      if (this.selection == 0) {
+  methods: {
+    changeStatus() {
+      // console.log("들어왓다.");
+      if (this.selection == null) {
         ProductApi.addUserShopList(
           {
             userId: storage.getItem("login_user"),
@@ -74,7 +93,7 @@ export default {
             // console.log(error);
           }
         );
-      } else if (this.selection == null) {
+      } else {
         ProductApi.requestUserShoppingListNo(
           {
             userId: storage.getItem("login_user"),
@@ -98,9 +117,6 @@ export default {
         );
       }
     },
-  },
-  methods: {
-    buyProduct() {},
   },
 };
 </script>

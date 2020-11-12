@@ -109,7 +109,6 @@ const editRef = (data, callback, errorCallback) => {
       });
 };
 const getReceiptData = (data, callback, errorCallback) => {
-  console.log(data)
   axios({
       method: "GET",
       url: BASE_URL + "/food/getOCR",
@@ -121,7 +120,6 @@ const getReceiptData = (data, callback, errorCallback) => {
       },
     })
       .then(function(response) {
-        console.log(response)
         callback(response);
       })
       .catch(function(error) {
@@ -129,10 +127,50 @@ const getReceiptData = (data, callback, errorCallback) => {
       });
 };
 
+const registFood = (data, callback, errorCallback) => {
+  axios({
+      method: "POST",
+      url: BASE_URL + "/food/regist",
+      data: {
+        refrigNo : data.refrigNo,
+        foods: data.foods,
+      },
+      headers: {
+        "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+    .then(function(response) {
+      callback(response);
+    })
+    .catch(function(error) {
+      errorCallback(error);
+    });
+};
+
+      
 const getRefByNo = (data, callback, errorCallback) => {
   axios({
       method: "GET",
       url: BASE_URL + "/refrig/getRefrig/"+data.refrigNo,
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+        callback(response);
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
+const shareAllow = (data, callback, errorCallback) => {
+  axios({
+      method: "PATCH",
+      url: BASE_URL + "/refrig/share/allow",
+      params: {
+        userId: data.userId,
+        refrigNo: data.refrigNo,
+      },
       headers: {
           "jwt-auth-token": storage.getItem("jwt-auth-token"),
       },
@@ -146,7 +184,27 @@ const getRefByNo = (data, callback, errorCallback) => {
         errorCallback(error);
       });
 };
+const shareRefuse = (data, callback, errorCallback) => {
+  axios({
+      method: "Delete",
+      url: BASE_URL + "/refrig/share",
+      params: {
+        userId: data.userId,
+        refrigNo: data.refrigNo,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
 
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
 
 const RefApi = {
     addRef: (data, callback, errorCallback) =>
@@ -163,6 +221,12 @@ const RefApi = {
       getRefByNo(data, callback, errorCallback),
     getReceiptData: (data, callback, errorCallback) =>
       getReceiptData(data, callback, errorCallback),
+    registFood: (data, callback, errorCallback) =>
+      registFood(data, callback, errorCallback),
+    shareAllow: (data, callback, errorCallback) =>
+      shareAllow(data, callback, errorCallback),
+    shareRefuse: (data, callback, errorCallback) =>
+      shareRefuse(data, callback, errorCallback),
 };
 
 export default RefApi;

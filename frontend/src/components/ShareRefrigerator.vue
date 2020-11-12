@@ -47,8 +47,8 @@ export default {
     }
   },
   watch: {
-    refrigName: function() {
-      if(this.refrigName.length > 0)
+    shareUserName: function() {
+      if(this.shareUserName.length > 0)
         this.isSubmit = true;
       else
         this.isSubmit = false;
@@ -64,7 +64,7 @@ export default {
         data,
         (res) => {
           this.alertType = "success";
-          this.alertMessage = "냉장고 공유릉 성공하였습니다.";
+          this.alertMessage = "냉장고를 공유하였습니다.";
           setTimeout(()=>{
             this.closeDialog();
           },2000)
