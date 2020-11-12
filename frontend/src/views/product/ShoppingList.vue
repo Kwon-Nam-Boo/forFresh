@@ -59,7 +59,6 @@
         </v-row>
       </v-container>
       <hr />
-      {{ selected }}
       <v-container>
         <v-form ref="form">
           <v-row v-for="(item, i) in shopList" :key="item.shoplistNo">
@@ -300,15 +299,13 @@ export default {
     },
     getAddress() {
       new daum.Postcode({
-        oncomplete: function (data) {
+        oncomplete: function(data) {
           document.getElementById("street").value = data.address; // 도로명 주소 변수
           document.getElementById("zipcode").value = data.zonecode;
         },
       }).open();
     },
   },
-},
-}
+};
 </script>
-<style lang="">
-</style>
+<style lang=""></style>
