@@ -29,7 +29,7 @@
           ></v-rating>
 
           <div class="grey--text ml-4">
-            {{ productInfo.avgRate }}점 {{ productInfo.commentCnt }}
+            {{ productInfo.avgRate }}점 ({{ productInfo.commentCnt }})
           </div>
           <v-chip-group
             class="ml-5"

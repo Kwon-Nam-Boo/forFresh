@@ -27,8 +27,8 @@ def categorization(item):
             if(index == 10 or index == 11):
                 x['status'] = '냉동'
             # 쌀, 잡곡의 경우
-            elif(index == 12 or index == 13 or index == 16 or index == 20 or index == 21 or index ==23 or index ==24):
-                x['status'] = '상온'
+            # elif(index == 12 or index == 13 or index == 16 or index == 20 or index == 21 or index ==23 or index ==24):
+                # x['status'] = '상온'
             else:
                 x['status'] = '냉장'
     return item   
