@@ -12,24 +12,27 @@
     
     <div style="display: flex; margin: 20px;">
       <input type="file" @change="receiptImage" accept="image/*" />
-      <v-btn depressed color="#e2efef" style="width:20%;" @click="getDummy">등록</v-btn>
+      <v-btn depressed v-show="imageData" color="#e2efef" style="width:20%;" @click="getDummy">등록</v-btn>
     </div>
 
     <table style="margin: auto; margin-top:20px; width:80%;">
       <thead>
         <th>상품명</th>
         <th>수량</th>
+        <th>금액</th>
         <th></th>
       </thead>
       <tbody>
           <tr v-for="(food, index) in foods" :key="index">
-            
-            <td>
+            <td style="font-size: small;">
               {{ food.foodName }}
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; font-size: small;">
               {{ food.count }}
-            </td>                        
+            </td>                       
+            <td style="text-align: center; font-size: small;">
+              {{ food.price }}
+            </td>          
             <v-icon small class="mr-2" @click="editItem(food)">mdi-pencil</v-icon>
             <v-icon small @click="deleteFood(index)">mdi-delete</v-icon>
           </tr>
@@ -44,6 +47,9 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field v-model="editedItem.count" label="수 량"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="editedItem.price" label="금 액"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -67,6 +73,9 @@
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field v-model="addedItem.count" label="수 량"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field v-model="addedItem.price" label="금 액"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -109,16 +118,18 @@ export default {
       foods: [],
       editedItem : {
                   foodName : "",
-                  count: 0,
+                  count: 1,
+                  price: 0,
                   },
       addedItem : {
                   foodName : "",
-                  count: 0,
+                  count: 1,
                   price: 0,
                   },
       defaultItem : {
                   foodName : "",
-                  count: 0,
+                  count: 1,
+                  price: 0,
                   }
     }
   },
