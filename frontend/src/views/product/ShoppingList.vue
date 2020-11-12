@@ -64,7 +64,7 @@
       <v-container>
         <v-row>
           <v-col>
-            <p>총 상품 금액 : {{ total() }} 원</p>
+            <p>총 상품 금액 : {{ productTotal }} 원</p>
           </v-col>
         </v-row>
         <v-row>
@@ -146,10 +146,6 @@ export default {
         );
       }
     },
-    total(){
-      for(var i)
-      return this.productTotal;
-    }
   },
 };
 </script>

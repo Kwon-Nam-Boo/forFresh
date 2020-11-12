@@ -34,7 +34,7 @@
         <v-dialog
           v-model="deleteDialog"
         >
-          <delete-food @close="closeDialog"></delete-food>
+          <delete-food @close="closeDialog" :items="foodList"></delete-food>
         </v-dialog>
       </v-col>
     </v-row>
@@ -64,8 +64,7 @@
                   <v-list-item-group>
                     <v-list-item class='pa-0' @click="moveDetail(food.foodNo)">
                       <v-avatar class="mx-auto" size='40'>
-                        <!-- <img :src="require(`@/assets/img/${food.img}`)"> -->
-                        <img :src="require($store.foodCategoryList[food.categoryNo].img)">
+                        <img :src="$store.state.foodCategoryList[food.categoryNo].img">
                       </v-avatar>
                     </v-list-item>
                     <v-list-item class='foodname pa-0' dense @click="moveDetail(food.foodNo)">

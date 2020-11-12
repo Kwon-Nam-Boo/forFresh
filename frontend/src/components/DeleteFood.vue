@@ -1,5 +1,11 @@
 <template>
   <v-card>
+    <v-alert :type="alertType" v-if="alertMessage">
+      {{alertMessage}}
+    </v-alert>
+    <v-btn icon style="float: right;" @click="closeDialog" >
+      <v-icon>mdi-close</v-icon>
+    </v-btn>
     <v-card-title class="headline lighten-2 green--text">
       식재료 삭제하기
     </v-card-title>
@@ -15,25 +21,19 @@
 
           >
             <v-avatar class="mx-auto" size='40'>
-              <img :src=item.img>
+              <img :src="$store.state.foodCategoryList[item.categoryNo].img">
             </v-avatar>
           </v-list-item>
           <v-list-item class='foodname pa-0' dense>
             <v-checkbox
               class='ma-auto'
-              v-model="checkboxList[i]"
-              :label="item.name"
+              v-model="selected"
+              :value="i"
+              :label="item.foodName"
             >
             </v-checkbox>
             
           </v-list-item>
-          <!-- <v-list-item class='pa-0'>
-            <v-checkbox
-              class='ma-auto'
-              v-model="checkboxList[i]"
-            >
-            </v-checkbox>
-          </v-list-item> -->
         </v-col>
               </v-row>
     <v-divider></v-divider>
@@ -53,20 +53,16 @@
 
 <script>
 export default {
+  props:["items"],
   data(){
     return{
-      items:[
-        {num:1,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:2,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:3,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:4,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:5,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:6,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:7,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-        {num:8,img:"https://cdn.vuetifyjs.com/images/john.jpg", name:'두부'},
-      ],
-      checkboxList:[],
+      selected:[],
+      alertType: false,
+      alertMessage: "",
     }
+  },
+  created() {
+
   },
   methods: {
     deleteFood() {
@@ -74,6 +70,8 @@ export default {
       this.closeDialog();
     },
     closeDialog() {
+      this.alertType = false;
+      this.alertMessage = "";
       this.$emit('close');
     }
   }

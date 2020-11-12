@@ -4,7 +4,7 @@
     <!-- <nav-bar :title="title"></nav-bar> -->
     <div class="food">
          <v-avatar class="mx-auto" size='90'>
-          <img :src="require(`@/assets/img/tofu.png`)">
+          <img :src="$store.state.foodCategoryList[food.categoryNo].img">
         </v-avatar>
          <p style="margin-left:45%;font-weight: bold ;">{{food.foodName}}</p>
     </div>
@@ -62,7 +62,7 @@ export default {
         foodName: "",
         stock: "",
         price: "",
-        categoryNo: -1,
+        categoryNo: 0,
       },
       loaded:false,
       chartData: null,
