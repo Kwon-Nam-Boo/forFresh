@@ -61,7 +61,7 @@
                 :key="i"
               >
                 <v-list class="pa-1 ma-0" v-if="food.status == item && dateList[i] <= item2[2] && dateList[i] > item2[3]">
-                  <v-list-item-group style="max-width: 60px;">
+                  <v-list-item-group style='max-width: 60px;'>
                     <v-list-item class='pa-0' @click="moveDetail(food.foodNo)">
                       <v-avatar class="mx-auto" size='40'>
                         <img :src="$store.state.foodCategoryList[food.categoryNo].img">
