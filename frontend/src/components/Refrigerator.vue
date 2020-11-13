@@ -34,7 +34,7 @@
         <v-dialog
           v-model="deleteDialog"
         >
-          <delete-food @close="closeDialog" :items="foodList"></delete-food>
+          <DeleteFood @close="closeDialog" :items="foodList" :refrigNo="refrigNo" @getFood="getFood"></DeleteFood>
         </v-dialog>
       </v-col>
     </v-row>
@@ -81,13 +81,13 @@
 </template>
 
 <script>
-import deleteFood from './DeleteFood'
+import DeleteFood from './DeleteFood'
 import FoodApi from '../api/FoodApi'
 const storage = window.sessionStorage;
 export default {
   props:['refrigNo'],
   components:{
-    deleteFood,
+    DeleteFood,
   },
   data() {
     return {
@@ -108,23 +108,7 @@ export default {
     }
   },
   created() {
-    const data = {
-      refrigNo: this.refrigNo
-    }
-    FoodApi.getFoodList(
-      data,
-      (res) => {
-        this.foodList = res.data.object;
-        for(var food of this.foodList){
-          var dateCur = new Date(food.registDate);
-          dateCur.setDate(dateCur.getDate()+Number(food.expireDate));
-          this.dateList.push((dateCur - new Date())/1000/60/60/24);
-        }
-      },
-      (error) => {
-
-      }
-    )
+    this.getFood();
   },
   watch: {
     select: function() {
@@ -145,6 +129,25 @@ export default {
       storage.setItem('foodNo', foodNo);
       this.$router.push('/detail');
     },
+    getFood() {
+      const data = {
+      refrigNo: this.refrigNo
+      }
+      FoodApi.getFoodList(
+        data,
+        (res) => {
+          this.foodList = res.data.object;
+          for(var food of this.foodList){
+            var dateCur = new Date(food.registDate);
+            dateCur.setDate(dateCur.getDate()+Number(food.expireDate));
+            this.dateList.push((dateCur - new Date())/1000/60/60/24);
+          }
+        },
+        (error) => {
+
+        }
+      )
+    }
   }
 };
 </script>

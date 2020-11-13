@@ -26,6 +26,7 @@ import com.forfresh.model.dao.refrig.FoodlistDao;
 import com.forfresh.model.dao.refrig.FoodlistDao.FoodlistExpiration;
 import com.forfresh.model.dto.refrig.FoodItem;
 import com.forfresh.model.dto.refrig.Foodlist;
+import com.forfresh.model.dto.refrig.RequestDelFood;
 import com.forfresh.service.FoodlistService;
 
 import io.swagger.annotations.ApiOperation;
@@ -162,21 +163,22 @@ public class FoodController {
 
     @DeleteMapping("/deleteFood")
     @ApiOperation(value = "음식 삭제하기")
-    public Object deleteFood(@RequestParam(required = true) final Integer refrigNo,
-            @RequestParam(required = true) final String foodName) {
-
-        Optional<Foodlist> foodlistOpt = foodlistDao.findByRefrigNoAndFoodName(refrigNo, foodName);
+    @Transactional
+    public Object deleteFood(@RequestBody RequestDelFood foodNoList) {
         BasicResponse result = new BasicResponse();
-
-        if (foodlistOpt.isPresent()) {
-            foodlistDao.deleteByFoodNo(foodlistOpt.get().getFoodNo());
-            result.status = true;
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            result.status = false;
-            result.data = "음식 삭제 실패";
-            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        System.out.println(foodNoList.getFoodNos().get(0));
+        for(int i = 0; i < foodNoList.getFoodNos().size(); i++){
+            Optional<Foodlist> foodlistOpt = foodlistDao.findByFoodNo(foodNoList.getFoodNos().get(i));
+            if (foodlistOpt.isPresent()) {
+                foodlistDao.deleteByFoodNo(foodlistOpt.get().getFoodNo());
+            } else {
+                result.status = false;
+                result.data = "음식 삭제 실패";
+                return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+            }
         }
+        result.status = true;
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     
