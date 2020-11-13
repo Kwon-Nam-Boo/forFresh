@@ -57,6 +57,7 @@ public class FoodController {
     @Autowired
     FoodlistService foodlistService;
     
+    @Transactional
     @PostMapping("/regist")
     @ApiOperation(value = "음식 넣기")
     public Object save(@RequestBody(required = true) FoodItem foodItem) throws IOException {
