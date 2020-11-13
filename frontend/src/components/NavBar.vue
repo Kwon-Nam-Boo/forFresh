@@ -240,7 +240,8 @@ export default {
     }
     const refrigList = await this.getRefig();
     if(refrigList != null){
-      console.log();
+      this.isAlarm = true;
+      
     }
   },
   methods: {
