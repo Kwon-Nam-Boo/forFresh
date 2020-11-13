@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     createRef() {
+      this.isSubmit = false;
       const data = {
         userId: storage.getItem("login_user"),
         refrigName: this.refrigName,
@@ -75,6 +76,7 @@ export default {
         (error) => {
           this.alertType = "error";
           this.alertMessage = "냉장고 등록 중 에러가 발생했습니다.";
+          this.isSubmit = true;
         }
       );
 

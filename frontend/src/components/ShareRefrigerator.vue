@@ -56,6 +56,7 @@ export default {
   },
   methods: {
     shareRef() {
+      this.isSubmit = false;
       const data={
         refrigNo: this.item.refrigNo,
         userId: this.shareUserName,
@@ -70,7 +71,9 @@ export default {
           },2000)
         },
         (error) => {
-
+          this.isSubmit = true;
+          this.alertType = "error";
+          this.alertMessage = "냉장고 공유 중 에러가 발생하였습니다.";
         }
       );
     },

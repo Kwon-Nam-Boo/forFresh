@@ -21,6 +21,7 @@
         color="primary"
         text
         @click="accept"
+        :disabled="!isSubmit"
       >
         수락하기
       </v-btn>
@@ -29,6 +30,7 @@
         color="red accent-3"
         text
         @click="refuse"
+        :disabled="!isSubmit"
       >
         거절하기
       </v-btn>
@@ -45,10 +47,12 @@ export default {
     return{
       alertType: false,
       alertMessage: "",
+      isSubmit = true,
     }
   },
   methods: {
     accept() {
+      this.isSubmit = false;
       const data = {
         refrigNo: this.alarm.refrigNo,
         userId: storage.getItem('login_user'),
@@ -65,10 +69,12 @@ export default {
         (error) => {
           this.alertType = "error";
           this.alertMessage = "냉장고 공유 수락 중 에러가 발생했습니다.";
+          this.isSubmit = true;
         }
       )
     },
     refuse() {
+      this.isSubmit = false;
       const data = {
         refrigNo: this.alarm.refrigNo,
         userId: storage.getItem('login_user'),
@@ -85,12 +91,14 @@ export default {
         (error) => {
           this.alertType = "error";
           this.alertMessage = "냉장고 공유 거절 중 에러가 발생했습니다.";
+          this.isSubmit = true;
         }
       )
     },
     closeDialog() {
       this.alertType = false;
       this.alertMessage = "";
+      this.isSubmit = true;
       this.$emit('close');
     },
   }

@@ -13,6 +13,8 @@ public interface RefrigShareDao extends JpaRepository<RefrigShare, String> {
     List<RefrigShare> findBySharedIdAndAccept(String sharedId, int accept);
     Optional<RefrigShare> findByRefrigNoAndSharedId(int refrigNo, String sharedId);
     Optional<RefrigShare> findByRefrigNoAndSharedIdAndAccept(int refrigNo, String sharedId, int accept);
+    
+    @Transactional
     Optional<RefrigShare> deleteByRefrigNoAndSharedId(int refrigNo, String sharedId);
 
     @Transactional
