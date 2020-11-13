@@ -12,7 +12,7 @@ import "firebase/database";
 // hostname setting
 // const hostname = 'localhost';
 const hostname = "k3a407.p.ssafy.io";
-//const hostname = "localhost:8080";
+// const hostname = "localhost:8080";
 const BASE_URL = "http://" + hostname + "/api";
 export default BASE_URL;
 

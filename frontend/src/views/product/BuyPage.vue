@@ -40,6 +40,18 @@
     </v-card>
     <v-card class="mt-3">
       <v-card-title>상품 정보</v-card-title>
+      <v-row>
+        <v-col>
+          <v-select
+            :items="items"
+            label="냉장고선택"
+            v-model="refName"
+            dense
+            outlined
+          ></v-select>
+        </v-col>
+      </v-row>
+      <hr />
       <v-container>
         <v-form ref="form">
           <v-row>
@@ -108,6 +120,7 @@
 <script>
 import ProductApi from "../../api/ProductApi";
 import PaymentApi from "../../api/PaymentApi";
+import RefApi from "../../api/RefApi";
 
 const storage = window.sessionStorage;
 
@@ -121,10 +134,10 @@ export default {
       curStock: 1,
       post: 0,
       productPlusPostTotal: 0,
-      // itemName: "",
-      // productNo: "",
-      // shopNo: "",
-      // stockList: "",
+      refrigNo: "no",
+      refrigList: [],
+      items: ["선택안함"],
+      refName: "",
       product: {},
     };
   },
@@ -150,6 +163,7 @@ export default {
         // console.log(error);
       }
     );
+    this.refrigList = this.getRef();
   },
   methods: {
     payment() {
@@ -157,14 +171,20 @@ export default {
         alert("수량을 확인하세요");
         return;
       }
-
+      for (var i = 0; i < this.refrigList.length; i++) {
+        if (this.refrigList[i].refrigName == this.refName) {
+          this.refrigNo = this.refrigList[i].refrigNo;
+        }
+      }
       PaymentApi.requestPayment(
         {
           userId: storage.getItem("login_user"),
+          refrigNo: this.refrigNo,
           shoplistNo: "no",
           stockList: String(this.curStock),
           productNo: this.$route.params.productno,
           itemName: this.product.productName,
+          priceList: this.product.productPrice,
           quantity: String(this.curStock),
           totalAmount: String(
             this.post + this.product.productPrice * this.curStock
@@ -193,6 +213,21 @@ export default {
           document.getElementById("zipcode").value = data.zonecode;
         },
       }).open();
+    },
+    getRef() {
+      const data = {
+        userId: storage.getItem("login_user"),
+      };
+      RefApi.getRef(
+        data,
+        (res) => {
+          this.refrigList = res.data.object;
+          for (var j = 0; j < this.refrigList.length; j++) {
+            this.items.push(this.refrigList[j].refrigName);
+          }
+        },
+        (error) => {}
+      );
     },
     // productPlusPostTotalMethod() {
     //   return (this.productPlusPostTotal =

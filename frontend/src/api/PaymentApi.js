@@ -10,10 +10,12 @@ const requestPayment = (data, callback, errorCallback) => {
     url: BASE_URL + "/kakaoPay",
     data: {
       userId: data.userId,
+      refrigNo: data.refrigNo,
       shoplistNo: data.shoplistNo,
       stockList: data.stockList,
       productNo: data.productNo,
       itemName: data.itemName,
+      priceList: data.priceList,
       quantity: data.quantity,
       totalAmount: data.totalAmount,
     },

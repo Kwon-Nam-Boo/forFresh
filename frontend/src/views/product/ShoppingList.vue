@@ -52,6 +52,15 @@
             ></v-checkbox>
           </v-col>
           <v-col>
+            <v-select
+              :items="items"
+              label="냉장고선택"
+              v-model="refName"
+              dense
+              outlined
+            ></v-select>
+          </v-col>
+          <v-col>
             <v-btn absolute right class="mt-3" @click="delShopList()"
               >선택 삭제</v-btn
             >
@@ -135,6 +144,7 @@
 <script>
 import ProductApi from "../../api/ProductApi";
 import PaymentApi from "../../api/PaymentApi";
+import RefApi from "../../api/RefApi";
 
 const storage = window.sessionStorage;
 
@@ -159,6 +169,11 @@ export default {
       productNo: "",
       shopNo: "",
       stockList: "",
+      priceList: "",
+      refrigNo: "no",
+      refrigList: [],
+      items: ["선택안함"],
+      refName: "",
     };
   },
   computed: {
@@ -179,6 +194,7 @@ export default {
         this.itemName = "";
         this.productNo = "";
         this.stockList = "";
+        this.priceList = "";
         for (var i = 0; i < selected.length; i++) {
           this.shopNo += selected[i] + " ";
           for (var j = 0; j < temp.length; j++) {
@@ -186,6 +202,7 @@ export default {
               this.itemName += temp[j].productName + " ";
               this.productNo += temp[j].productNo + " ";
               this.stockList += temp[j].stock + " ";
+              this.priceList += temp[j].productPrice + " ";
             }
           }
         }
@@ -213,6 +230,8 @@ export default {
       },
       (error) => {}
     );
+    this.refrigList = this.getRef();
+    // console.log(this.refrigList[0]);
   },
   methods: {
     calStock(idx, curStock) {
@@ -228,13 +247,20 @@ export default {
         alert("구매할 상품이 없습니다.");
         return;
       }
+      for (var i = 0; i < this.refrigList.length; i++) {
+        if (this.refrigList[i].refrigName == this.refName) {
+          this.refrigNo = this.refrigList[i].refrigNo;
+        }
+      }
       PaymentApi.requestPayment(
         {
           userId: storage.getItem("login_user"),
+          refrigNo: this.refrigNo,
           shoplistNo: this.shopNo,
           stockList: this.stockList,
           productNo: this.productNo,
           itemName: this.itemName,
+          priceList: this.priceList,
           quantity: String(this.stockCnt),
           totalAmount: String(this.productPlusPostTotal),
         },
@@ -299,11 +325,26 @@ export default {
     },
     getAddress() {
       new daum.Postcode({
-        oncomplete: function(data) {
+        oncomplete: function (data) {
           document.getElementById("street").value = data.address; // 도로명 주소 변수
           document.getElementById("zipcode").value = data.zonecode;
         },
       }).open();
+    },
+    getRef() {
+      const data = {
+        userId: storage.getItem("login_user"),
+      };
+      RefApi.getRef(
+        data,
+        (res) => {
+          this.refrigList = res.data.object;
+          for (var j = 0; j < this.refrigList.length; j++) {
+            this.items.push(this.refrigList[j].refrigName);
+          }
+        },
+        (error) => {}
+      );
     },
   },
 };
