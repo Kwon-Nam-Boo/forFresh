@@ -123,7 +123,7 @@
     <v-dialog
       v-model="isAddRef"
     >
-      <AddRefrigerator @close="closeDialog" @getRef="getRef"></AddRefrigerator>
+      <AddRefrigerator @close="closeDialog" @getRef="init"></AddRefrigerator>
     </v-dialog>
     <v-dialog
       v-model="isShareRef"
@@ -133,12 +133,12 @@
     <v-dialog
       v-model="isDeleteRef"
     >
-      <DeleteRefrigerator :item="items[tab]" @close="closeDialog" @getRef="getRef"></DeleteRefrigerator>
+      <DeleteRefrigerator :item="items[tab]" @close="closeDialog" @getRef="init"></DeleteRefrigerator>
     </v-dialog>
     <v-dialog
       v-model="isEditRef"
     >
-      <EditRefrigerator :item="items[tab]" @close="closeDialog" @getRef="getRef"></EditRefrigerator>
+      <EditRefrigerator :item="items[tab]" @close="closeDialog" @getRef="init"></EditRefrigerator>
     </v-dialog>
   </v-main>
 </template>
@@ -161,12 +161,7 @@ export default {
   },
   async created() {
     this.$emit('updateTitle', this.title);
-    this.items = await this.getRef();
-    if(this.items==[]||this.items==""||this.items==null){
-      this.isNoItem = true;
-    } else {
-      this.isNoItem = false;
-    }
+    this.init();
   },
   data() {
     return {
@@ -215,6 +210,14 @@ export default {
           }
         )
       });
+    },
+    async init() {
+      this.items = await this.getRef();
+      if(this.items==[]||this.items==""||this.items==null){
+        this.isNoItem = true;
+      } else {
+        this.isNoItem = false;
+      }
     }
   }
 };
