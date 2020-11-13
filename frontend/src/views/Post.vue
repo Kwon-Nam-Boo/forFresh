@@ -19,7 +19,7 @@
       <thead>
         <th>상품명</th>
         <th>수량</th>
-        <th>금액</th>
+        <th>단가</th>
         <th></th>
       </thead>
       <tbody>
@@ -49,7 +49,7 @@
                       <v-text-field v-model="editedItem.count" label="수 량"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="editedItem.price" label="금 액"></v-text-field>
+                      <v-text-field v-model="editedItem.price" label="단 가"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -75,7 +75,7 @@
                       <v-text-field v-model="addedItem.count" label="수 량"></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                      <v-text-field v-model="addedItem.price" label="금 액"></v-text-field>
+                      <v-text-field v-model="addedItem.price" label="단 가"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
