@@ -20,11 +20,13 @@ import org.springframework.web.client.RestTemplate;
 import com.forfresh.model.dao.kakaopay.PaymentListDao;
 import com.forfresh.model.dao.product.ProductDao;
 import com.forfresh.model.dao.product.ShoppingListDao;
+import com.forfresh.model.dao.refrig.FoodlistDao;
 import com.forfresh.model.dto.kakaopay.KakaoPayApprovalVO;
 import com.forfresh.model.dto.kakaopay.KakaoPayReadyVO;
 import com.forfresh.model.dto.kakaopay.PaymentList;
 import com.forfresh.model.dto.kakaopay.TotalPayment;
 import com.forfresh.model.dto.product.Product;
+import com.forfresh.model.dto.refrig.Foodlist;
 
 import lombok.extern.java.Log;
  
@@ -40,6 +42,8 @@ public class KakaoPayService {
     ProductDao productDao;
     @Autowired
     ShoppingListDao shoppingListDao;
+    @Autowired
+    FoodlistDao foodlistDao;
     
     private KakaoPayReadyVO kakaoPayReadyVO;
     private KakaoPayApprovalVO kakaoPayApprovalVO;
@@ -47,14 +51,45 @@ public class KakaoPayService {
     private String shopList;
     private String stockList;
     private String productList;
-
+    private String refrigNo;
+    private String priceList;
+    
     public String kakaoPayReady(@RequestBody TotalPayment totalpay) {
  
         RestTemplate restTemplate = new RestTemplate();
         payiedUserId=totalpay.getUserId();
         shopList = totalpay.getShoplistNo();
         stockList=totalpay.getStockList();  
-        productList = totalpay.getProductNo();  
+        productList = totalpay.getProductNo();
+        ///// 임시로 구현한 foodlist 저장 ///////////
+        refrigNo = totalpay.getRefrigNo();
+        // 냉장고번호가없다면(냉장고에 않넣을거라면) 무시(foodlist에 안넣어도된다)
+        if(!refrigNo.equals("no")){
+        	priceList = totalpay.getPriceList();
+            String[] tempProductList = productList.split(" ");
+            String[] tempStockList = stockList.split(" ");
+            String[] tempPriceList = priceList.split(" ");
+            for (int i = 0; i < tempProductList.length; i++) {
+            	Foodlist foodlist = new Foodlist();
+    			Optional<Product> tmpProduct = productDao.findById(Integer.parseInt(tempProductList[i]));
+    			foodlist.setRefrigNo(Integer.parseInt(refrigNo));
+    			foodlist.setFoodName(tmpProduct.get().getDescription());
+    			int categoryNo = tmpProduct.get().getCategoryNo();
+    			foodlist.setCategoryNo(categoryNo);
+    			// 냉동이면 냉동, 나머지 냉장
+    			if(categoryNo == 10 || categoryNo == 11) {
+    				foodlist.setStatus("냉동");
+    			}else {
+    				foodlist.setStatus("냉장");
+    			}
+    			foodlist.setStock(Integer.parseInt(tempStockList[i]));
+    			foodlist.setPrice(Integer.parseInt(tempPriceList[i]));
+    			foodlistDao.save(foodlist);
+            }
+        }
+        /////
+        System.out.println("삐삐");
+        
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + "179048868b71ef28f95e2b938400973b");
