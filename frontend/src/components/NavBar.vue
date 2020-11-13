@@ -87,17 +87,14 @@
           >유통기한 임박</v-subheader
         >
         <v-list-item-group v-model="alarmGroup">
-          <v-list-item v-for="food in foodList" :key="food">
+          <v-list-item v-for="food in foodList" :key="food.foodNo">
             <v-img
-              src="@/assets/fridge.png"
+              :src="$store.state.foodCategoryList[food.categoryNo].img"
               height="30"
               width="20"
               style="margin-right: 5%"
             />
-            <v-list-item-title>{{ food }}</v-list-item-title>
-            <v-btn fab dark width="20" height="20" color="red">
-              <v-icon dark> mdi-minus </v-icon>
-            </v-btn>
+            <v-list-item-title>{{ food.foodName }}</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -162,6 +159,7 @@ import PayButton from "../components/payment/Paytest";
 import AlarmApi from "../api/AlarmApi";
 import RefApi from "../api/RefApi";
 import SharedRefrigerator from "./SharedRefrigerator";
+import FoodApi from "../api/FoodApi";
 const storage = window.sessionStorage;
 export default {
   props: ["title"],
@@ -178,9 +176,7 @@ export default {
       alarmDrawer: false,
       alarmGroup: null,
       alarmList: [],
-      foodList: {
-        food1: "우유 유통기한 임박",
-      },
+      foodList: [],
       SharedAlarm: null,
     };
   },
@@ -238,15 +234,23 @@ export default {
         this.alarmList.push(refInfo);
       } 
     }
-    const refrigList = await this.getRefig();
+    const refrigList = await this.getRefrig();
     if(refrigList != null){
-      this.isAlarm = true;
-      
+      for(var ref of refrigList){
+        const foodList = await this.getFood(ref.refrigNo);
+        for(var food of foodList){
+          var dateCur = new Date(food.registDate);
+          dateCur.setDate(dateCur.getDate()+Number(food.expireDate));
+          if((dateCur - new Date())/1000/60/60/24 <= 2){
+            this.isAlarm = true;
+            this.foodList.push(food);
+          }
+        }
+      }
     }
   },
   methods: {
     logout() {
-      // userinfo session만 없애는 거 & 해당 사용자 검색어 세션 삭제
       storage.removeItem("jwt-auth-token");
       storage.removeItem("login_user");
       this.$router.push("/").catch(() => {});
@@ -295,6 +299,22 @@ export default {
           userId: storage.getItem("login_user"),
         }
         RefApi.getRef(
+          data,
+          (res) => {
+            resolve(res.data.object);
+          },
+          (error) => {
+            resolve(null);
+          }
+        );
+      });
+    },
+    getFood(refrigNo) {
+      return new Promise((resolve) => {
+        const data = {
+          refrigNo: refrigNo,
+        }
+        FoodApi.getFoodList(
           data,
           (res) => {
             resolve(res.data.object);
