@@ -44,6 +44,7 @@
 
   </div>
 </template>
+
 <script>
 // import NavBar from "../components/NavBar";
 // import Doughnut from "../vuex/Doughnut.js";
