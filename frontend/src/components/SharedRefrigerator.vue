@@ -47,7 +47,7 @@ export default {
     return{
       alertType: false,
       alertMessage: "",
-      isSubmit = true,
+      isSubmit: true,
     }
   },
   methods: {
