@@ -2,6 +2,8 @@ package com.forfresh.service;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,14 +47,14 @@ public class KakaoPayService {
     private String shopList;
     private String stockList;
     private String productList;
-    
+
     public String kakaoPayReady(@RequestBody TotalPayment totalpay) {
  
         RestTemplate restTemplate = new RestTemplate();
         payiedUserId=totalpay.getUserId();
         shopList = totalpay.getShoplistNo();
-        stockList=totalpay.getStockList();
-        productList = totalpay.getProductNo();
+        stockList=totalpay.getStockList();  
+        productList = totalpay.getProductNo();  
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + "179048868b71ef28f95e2b938400973b");
@@ -121,7 +123,8 @@ public class KakaoPayService {
         try {
             kakaoPayApprovalVO = restTemplate.postForObject(new URI(HOST + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
             log.info("****************************" + kakaoPayApprovalVO);
-            PaymentList payList = new PaymentList(kakaoPayApprovalVO.getTid(),payiedUserId,kakaoPayApprovalVO.getItem_code(),kakaoPayApprovalVO.getQuantity(),kakaoPayApprovalVO.getAmount().getTotal());
+            LocalDateTime date = LocalDateTime.now();
+            PaymentList payList = new PaymentList(kakaoPayApprovalVO.getTid(),payiedUserId,kakaoPayApprovalVO.getItem_code(),kakaoPayApprovalVO.getQuantity(),kakaoPayApprovalVO.getAmount().getTotal(),date);
             //결제 내역 저장
             paymentListDao.save(payList);
             //상품 수량 감소
@@ -139,6 +142,8 @@ public class KakaoPayService {
             		shoppingListDao.deleteById(Integer.parseInt(tempShopList[i]));
             	}
             }
+            //refrig 냉장고 식품저장
+            
             return "redirect:http://k3a407.p.ssafy.io/paymentsuccess";
         
         } catch (RestClientException e) {

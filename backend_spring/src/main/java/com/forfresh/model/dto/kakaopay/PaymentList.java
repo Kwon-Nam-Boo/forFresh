@@ -1,5 +1,7 @@
 package com.forfresh.model.dto.kakaopay;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,5 +24,6 @@ public class PaymentList {
 	private String productNo;
 	private Integer quantity;
 	private Integer totalAmount;
+	private LocalDateTime registDate; 
 	
 }
