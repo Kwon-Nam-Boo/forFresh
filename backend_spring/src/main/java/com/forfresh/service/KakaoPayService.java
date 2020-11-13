@@ -63,32 +63,7 @@ public class KakaoPayService {
         productList = totalpay.getProductNo();
         ///// 임시로 구현한 foodlist 저장 ///////////
         refrigNo = totalpay.getRefrigNo();
-        // 냉장고번호가없다면(냉장고에 않넣을거라면) 무시(foodlist에 안넣어도된다)
-        if(!refrigNo.equals("no")){
-        	priceList = totalpay.getPriceList();
-            String[] tempProductList = productList.split(" ");
-            String[] tempStockList = stockList.split(" ");
-            String[] tempPriceList = priceList.split(" ");
-            for (int i = 0; i < tempProductList.length; i++) {
-            	Foodlist foodlist = new Foodlist();
-    			Optional<Product> tmpProduct = productDao.findById(Integer.parseInt(tempProductList[i]));
-    			foodlist.setRefrigNo(Integer.parseInt(refrigNo));
-    			foodlist.setFoodName(tmpProduct.get().getDescription());
-    			int categoryNo = tmpProduct.get().getCategoryNo();
-    			foodlist.setCategoryNo(categoryNo);
-    			// 냉동이면 냉동, 나머지 냉장
-    			if(categoryNo == 10 || categoryNo == 11) {
-    				foodlist.setStatus("냉동");
-    			}else {
-    				foodlist.setStatus("냉장");
-    			}
-    			foodlist.setStock(Integer.parseInt(tempStockList[i]));
-    			foodlist.setPrice(Integer.parseInt(tempPriceList[i]));
-    			foodlistDao.save(foodlist);
-            }
-        }
-        /////
-        System.out.println("삐삐");
+        priceList = totalpay.getPriceList();
         
         // 서버로 요청할 Header
         HttpHeaders headers = new HttpHeaders();
@@ -178,7 +153,32 @@ public class KakaoPayService {
             	}
             }
             //refrig 냉장고 식품저장
-            
+            // 냉장고번호가없다면(냉장고에 않넣을거라면) 무시(foodlist에 안넣어도된다)
+        if(!refrigNo.equals("no")){
+        	
+            String[] tempProductList = productList.split(" ");
+            String[] tempStockList = stockList.split(" ");
+            String[] tempPriceList = priceList.split(" ");
+            for (int i = 0; i < tempProductList.length; i++) {
+            	Foodlist foodlist = new Foodlist();
+    			Optional<Product> tmpProduct = productDao.findById(Integer.parseInt(tempProductList[i]));
+    			foodlist.setRefrigNo(Integer.parseInt(refrigNo));
+    			foodlist.setFoodName(tmpProduct.get().getDescription());
+    			int categoryNo = tmpProduct.get().getCategoryNo();
+    			foodlist.setCategoryNo(categoryNo);
+    			// 냉동이면 냉동, 나머지 냉장
+    			if(categoryNo == 10 || categoryNo == 11) {
+    				foodlist.setStatus("냉동");
+    			}else {
+    				foodlist.setStatus("냉장");
+    			}
+    			foodlist.setStock(Integer.parseInt(tempStockList[i]));
+    			foodlist.setPrice(Integer.parseInt(tempPriceList[i]));
+    			foodlistDao.save(foodlist);
+            }
+        }
+        /////
+        // System.out.println("삐삐");
             return "redirect:http://k3a407.p.ssafy.io/paymentsuccess";
         
         } catch (RestClientException e) {
