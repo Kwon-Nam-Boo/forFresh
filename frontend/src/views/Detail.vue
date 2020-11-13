@@ -6,7 +6,7 @@
          <v-avatar class="mx-auto" size='90'>
           <img :src="$store.state.foodCategoryList[food.categoryNo].img">
         </v-avatar>
-         <p style="margin-left:45%;font-weight: bold ;">{{food.foodName}}</p>
+         <p style="text-align:center;font-weight: bold ;">{{food.foodName}}</p>
     </div>
     <div >
       <div class="expire">

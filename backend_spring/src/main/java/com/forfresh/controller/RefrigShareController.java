@@ -109,7 +109,7 @@ public class RefrigShareController {
     public Object ShareReject(@RequestParam(required = true) Integer refrigNo, @RequestParam(required = true) String userId){
 
 		Optional<RefrigShare> refrigShareOpt = refrigShareDao.findByRefrigNoAndSharedId(refrigNo, userId); 
-
+        
         if(refrigShareOpt.isPresent()){
             refrigShareDao.deleteByRefrigNoAndSharedId(refrigNo,userId);
             return new ResponseEntity<>("success", HttpStatus.OK);

@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     editRef() {
+      this.isSubmit = false;
       const data={
         refrigNo: this.item.refrigNo,
         userId: storage.getItem("login_user"),
@@ -75,6 +76,7 @@ export default {
         (error) => {
           this.alertType = "error";
           this.alertMessage = "냉장고 이름 편집 중 에러가 발생하였습니다.";
+          this.isSubmit = true;
         }
       );
     },

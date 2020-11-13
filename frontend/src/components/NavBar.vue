@@ -331,6 +331,7 @@ export default {
     },
     closeDialog() {
       this.isSharedRef = false;
+      location.reload();
     },
   },
 };
