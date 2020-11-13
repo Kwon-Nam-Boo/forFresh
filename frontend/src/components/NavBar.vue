@@ -116,8 +116,6 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item>
 
-          
-
           <v-list-item @click="$router.push('/productmain').catch(() => {})">
             <v-list-item-icon>
               <v-icon>mdi-cart</v-icon>
@@ -240,6 +238,10 @@ export default {
         this.alarmList.push(refInfo);
       } 
     }
+    const refrigList = await this.getRefig();
+    if(refrigList != null){
+      console.log();
+    }
   },
   methods: {
     logout() {
@@ -283,6 +285,22 @@ export default {
             resolve(res.data.object.nickName);
           },
           (error) => {}
+        );
+      });
+    },
+    getRefrig() {
+      return new Promise((resolve) => {
+        const data = {
+          userId: storage.getItem("login_user"),
+        }
+        RefApi.getRef(
+          data,
+          (res) => {
+            resolve(res.data.object);
+          },
+          (error) => {
+            resolve(null);
+          }
         );
       });
     },

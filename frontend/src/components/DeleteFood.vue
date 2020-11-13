@@ -52,8 +52,9 @@
 </template>
 
 <script>
+import FoodApi from '../api/FoodApi'
 export default {
-  props:["items"],
+  props:["items", "refrigNo"],
   data(){
     return{
       selected:[],
@@ -66,8 +67,29 @@ export default {
   },
   methods: {
     deleteFood() {
-      //삭제하고 checkboxList비우기
-      this.closeDialog();
+      const foodNoList = [];
+      for(var index of this.selected){
+        foodNoList.push(this.items[index].foodNo);
+      }
+      const data = {
+        foodNoList: foodNoList,
+      }
+      FoodApi.deleteFood(
+        data,
+        (res) => {
+          this.$emit('getFood');
+          this.alertType = "success";
+          this.alertMessage = "식재료 삭제가 완료되었습니다.";
+          this.selected = [];
+          setTimeout(()=>{
+            this.closeDialog();
+          },2000)
+        },
+        (error) => {
+          this.alertType = "error";
+          this.alertMessage = "식재료 삭제 중 에러가 발생하였습니다.";
+        }
+      )
     },
     closeDialog() {
       this.alertType = false;
