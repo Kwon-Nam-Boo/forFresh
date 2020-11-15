@@ -33,11 +33,9 @@ export default {
           totalAmount: this.totalAmount,
         },
         (res) => {
-          // console.log(res.data);
           location.href = res.data;
         },
         (error) => {
-          // console.log(error);
         }
       );
     },

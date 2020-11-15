@@ -23,7 +23,7 @@
         color="red accent-3"
         text
         @click="deleteRef"
-        :disabled="isSubmit"
+        :disabled="!isSubmit"
       >
         삭제하기
       </v-btn>

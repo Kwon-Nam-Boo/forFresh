@@ -76,7 +76,6 @@ export default {
     ProductApi.requestProductRecommend(
       {},
       (res) => {
-        // console.log(res.data);
         this.product = res.data;
         for (var i = 0; i < 3; i++) {
           var fl = 6;

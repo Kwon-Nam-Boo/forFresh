@@ -161,17 +161,9 @@ export default {
             password: this.password,
           },
           (res) => {
-            // console.log(res);
             this.isSubmit = true;
-            // this.$session.start();
-            // this.$session.set("userinfo", {
-            //   email: this.$store.state.email,
-            //   summonerName: this.$store.state.summonerName,
-            // });
-            // this.$router.push({ path: "/home" }).catch(() => {});
             if (res.data.status) {
               this.statusMessage = res.data.object.userId + "님 환영합니다.";
-              // console.dir(res.headers["jwt-auth-token"]);
               this.setInfo(
                 "성공",
                 res.headers["jwt-auth-token"],
@@ -188,7 +180,6 @@ export default {
             }
           },
           (error) => {
-            //console.log(error);
             this.alertMessage = "입력정보를 확인하세요";
             this.alertStatus = true;
           }
