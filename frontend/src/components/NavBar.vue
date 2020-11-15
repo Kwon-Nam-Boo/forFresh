@@ -87,7 +87,11 @@
           >유통기한 임박</v-subheader
         >
         <v-list-item-group v-model="alarmGroup">
-          <v-list-item v-for="food in foodList" :key="food.foodNo">
+          <v-list-item 
+            v-for="food in foodList" 
+            :key="food.foodNo" 
+            @click="moveDetail(food.foodNo)"
+          >
             <v-img
               :src="$store.state.foodCategoryList[food.categoryNo].img"
               height="30"
@@ -332,6 +336,10 @@ export default {
     closeDialog() {
       this.isSharedRef = false;
       location.reload();
+    },
+    moveDetail(foodNo) {
+      storage.setItem('foodNo', foodNo);
+      this.$router.push('/detail');
     },
   },
 };

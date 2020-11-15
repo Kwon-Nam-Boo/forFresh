@@ -28,13 +28,27 @@
         <p style="margin-left:3%;font-weight: bold ;">영양성분</p> 
         <Doughnut v-if="loaded" :chartData="chartData" :options="options" style="height:30vh;width:30vw; margin-left:65%"/>
         </div> -->
-        <p style="margin-left:3%;font-weight: bold ;">수량 : {{food.stock}}개</p>
-        <p style="margin-left:3%;font-weight: bold ;">단가 : {{food.price}}원</p>
+      <v-simple-table>
+        <tbody>
+          <tr>
+            <td>카테고리</td>
+            <td>{{food.category}}</td>
+          </tr>
+          <tr>
+            <td>수량</td>
+            <td>{{food.stock}}개</td>
+          </tr>
+          <tr>
+            <td>단가</td>
+            <td>{{food.price}}원</td>
+          </tr>
+        </tbody>
+      </v-simple-table>
     </div>
 
     <v-row>
       <v-col>
-        <v-btn depressed color="#e2efef" style="margin-left:25%; width:30%">홈</v-btn>
+        <v-btn depressed color="#e2efef" style="margin-left:25%; width:30%" @click="moveHome">홈</v-btn>
       </v-col>
       <v-col >
         <v-btn depressed color="#e2efef" style="float:right; margin-right:25%; width:30%">삭제하기</v-btn>
@@ -136,6 +150,23 @@ export default {
         this.dateStatus.color = "green";
       }
     },
+    moveHome() {
+      this.$router.push('/home');
+    },
+    deleteFood() {
+      const data = {
+        foodNoList: this.food.foodNo,
+      }
+      FoodApi.deleteFood(
+        data,
+        (res) => {
+          this.$router.go(-1);
+        },
+        (error) => {
+
+        }
+      )
+    }
   },
 }
 </script>

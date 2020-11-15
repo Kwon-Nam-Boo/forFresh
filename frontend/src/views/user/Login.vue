@@ -1,13 +1,6 @@
 <template>
   <div>
-    <nav-bar :viewType="navbarType" />
     <v-col  md="4" offset-md="4" class="my-10">
-      <!-- <v-img
-        class="white--text align-end"
-        width="600"
-        height="300"
-        src="../../assets/images/lolbti_logo_2.png"
-      ></v-img> -->
       <v-alert
         v-model="alertStatus"
         dismissible
@@ -74,23 +67,6 @@
           <p >forfresh는 처음인가요?</p>
           <a @click="$router.push('/join').catch(() => {})" style="color:#88dba3; margin-left:7%">회원가입</a>
           </v-row>
-          
-          
-        
-          <!-- <v-btn
-            class="mt-5"
-            block
-            color="#88dba3"
-            @click="$router.push('/join').catch(() => {})"
-            >회원가입</v-btn>
-           -->
-          <!-- <v-btn
-            class="mt-5"
-            block
-            color="#88dba3"
-            @click="$router.push('/findpassword').catch(() => {})"
-            >비밀번호 찾기</v-btn
-          >  -->
           <br />
           <br />
         </div>
@@ -103,13 +79,12 @@
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import UserApi from "../../api/UserApi";
-// import NavBar from "../../components/NavBar.vue";
 
 const storage = window.sessionStorage;
 
 export default {
   components: {
-    // NavBar,
+
   },
   data: () => {
     return {
