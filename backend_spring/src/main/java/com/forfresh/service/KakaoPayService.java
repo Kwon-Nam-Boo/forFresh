@@ -156,8 +156,8 @@ public class KakaoPayService {
             // 냉장고번호가없다면(냉장고에 않넣을거라면) 무시(foodlist에 안넣어도된다)
         if(!refrigNo.equals("no")){
         	
-            String[] tempProductList = productList.split(" ");
-            String[] tempStockList = stockList.split(" ");
+            tempProductList = productList.split(" ");
+            tempStockList = stockList.split(" ");
             String[] tempPriceList = priceList.split(" ");
             for (int i = 0; i < tempProductList.length; i++) {
             	Foodlist foodlist = new Foodlist();
