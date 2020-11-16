@@ -203,16 +203,6 @@ export default {
       }
     },
     sendMail() {
-      // this.$store.commit("sendMail", this.email);
-      // this.$store.watch(this.$store.getters.getEmailAuthCode, (n) => {
-      //   if (n == "email overlapped") {
-      //     this.dialog = false;
-      //     this.alertMessage = "이미 가입된 이메일입니다.";
-      //     this.alertStatus = true;
-      //     // console.log(this.$store.getters.getEmailAuthCode);
-      //     this.$store.state.emailAuthCode = "";
-      //   }
-      // });
       UserApi.sendMailForPassword(
         this.email,
         (res) => {
@@ -254,13 +244,6 @@ export default {
       this.isSubmit = isSubmit;
     },
     updatePassword() {
-      console.log(this.isSubmit);
-      console.log(this.authStatus);
-      // console.log(this.error.nickname);
-      // console.log(this.error.email);
-      // console.log(this.error.password);
-      // console.log(this.error.passwordRe);
-
       if (this.isSubmit && this.authStatus) {
         this.isSubmit = false;
         UserApi.updateUserPassword(
@@ -271,7 +254,6 @@ export default {
           },
           (res) => {
             this.$router.push({ path: "/login" }).catch(() => {
-              // console.log("error 회원가입안됨");
             });
           },
           (error) => {
@@ -281,11 +263,6 @@ export default {
           }
         );
       }
-      // else {
-      //   this.alertMessage =
-      //     "이메일 인증, 닉네임 중복 검사 등 작성 양식을 다시 확인해주세요";
-      //   this.alertStatus = true;
-      // }
     },
   },
 };

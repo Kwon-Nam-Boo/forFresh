@@ -160,7 +160,6 @@ export default {
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           },
           (error) => {
-            console.log(error.message);
           },
           () => {
             this.uploadValue = 100;
@@ -184,7 +183,6 @@ export default {
           this.foods = temp.data
         },
         (error) => {
-          console.log(error);
         }
       );
       alert("잘못된 부분 수정 요망");
@@ -193,7 +191,6 @@ export default {
       if (idx > -1) this.foods.splice(idx, 1)
     },
     putFood(){
-      console.log(this.foods)
       RefApi.registFood(
         {
           refrigNo: storage.getItem('RefNoForAddFood'),
@@ -203,7 +200,6 @@ export default {
           this.$router.push('/home').catch(() => {})
         },
         (error) => {
-          console.log(error);
         }
       );
     },

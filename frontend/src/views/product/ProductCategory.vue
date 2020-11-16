@@ -77,7 +77,6 @@ export default {
           size: this.size,
         },
         (res) => {
-          // console.log(res.data);
           setTimeout(() => {
             if (res.data.length) {
               this.page += 1;

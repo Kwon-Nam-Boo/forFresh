@@ -5,8 +5,6 @@ export default {
     UserApi.sendMailApi(
       payload,
       (res) => {
-        // console.log(res);
-        // this.emailAuthCode = res.data
         state.emailAuthCode = res.data.data;
       },
       (error) => {

@@ -170,7 +170,6 @@ export default {
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           },
           (error) => {
-            // console.log(error.message);
           },
           () => {
             this.uploadValue = 100;
@@ -202,10 +201,8 @@ export default {
           detailUrl: fb2,
         },
         (res) => {
-          console.log("db등록성공");
         },
         (error) => {
-          console.log(error);
         }
       );
       this.categoryName = null;

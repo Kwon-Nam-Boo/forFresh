@@ -87,7 +87,11 @@
           >유통기한 임박</v-subheader
         >
         <v-list-item-group v-model="alarmGroup">
-          <v-list-item v-for="food in foodList" :key="food.foodNo">
+          <v-list-item 
+            v-for="food in foodList" 
+            :key="food.foodNo" 
+            @click="moveDetail(food.foodNo)"
+          >
             <v-img
               :src="$store.state.foodCategoryList[food.categoryNo].img"
               height="30"
@@ -181,13 +185,10 @@ export default {
     };
   },
   created() {
-    // console.log("navbar created 들어옴");
     if (storage.getItem("jwt-auth-token")) {
-      // console.log("스토리지에 저장되어서 if문 들어옴");
       UserApi.getUserInfo(
         storage.getItem("login_user"),
         (res) => {
-          //console.log(res);
           this.userInfo = {
             email: res.data.object.userId,
             nickname: res.data.object.nickName,
@@ -198,22 +199,19 @@ export default {
           };
         },
         (error) => {
-          //  console.log(error);
           alert("세션이 만료되었습니다! 다시 로그인 해주세요");
           this.$router.push({ path: "/" }).catch(() => {});
         }
       );
     } else {
-      // console.log("스토리지에 없어서 else문 들어옴");
       storage.setItem("jwt-auth-token", "");
       storage.setItem("login_user", "");
       UserApi.getUserInfo(
         storage.getItem("jwt-auth-token"),
         (res) => {
-          //     console.log(res);
+          
         },
         (error) => {
-          //   console.log(error);
           alert("세션이 만료되었습니다! 다시 로그인 해주세요");
           this.$router.push({ path: "/" }).catch(() => {});
         }
@@ -331,6 +329,13 @@ export default {
     },
     closeDialog() {
       this.isSharedRef = false;
+      location.reload();
+    },
+    moveDetail(foodNo) {
+      storage.setItem('foodNo', foodNo);
+      this.$router.push('/detail').catch(() => {
+        location.reload();
+      });
     },
   },
 };

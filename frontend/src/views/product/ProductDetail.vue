@@ -135,7 +135,6 @@ export default {
         }
       },
       (error) => {
-        // console.log(error);
       }
     );
     ProductApi.requestProductCommentList(
@@ -144,7 +143,6 @@ export default {
         this.commentInfo = res.data;
       },
       (error) => {
-        // console.log(error);
       }
     );
   },
@@ -173,7 +171,6 @@ export default {
       this.$vuetify.goTo(0);
     },
     changeStatus() {
-      // console.log("들어왓다.");
       if (this.selection == null) {
         ProductApi.addUserShopList(
           {
@@ -181,10 +178,8 @@ export default {
             productNo: this.productInfo.productNo,
           },
           (res) => {
-            // console.log(res.data);
           },
           (error) => {
-            // console.log(error);
           }
         );
       } else {

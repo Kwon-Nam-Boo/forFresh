@@ -174,6 +174,9 @@ export default {
       refrigList: [],
       items: ["선택안함"],
       refName: "",
+      addressDetail: "",
+      uniqueness: "",
+      phonenumber: "",
     };
   },
   computed: {
@@ -225,13 +228,10 @@ export default {
           this.selected.push(this.shopList[i].shoplistNo);
         }
         this.selectedAllCopy = this.selected;
-        // console.log(this.originStock);
-        // console.log(this.shopList);
       },
       (error) => {}
     );
     this.refrigList = this.getRef();
-    // console.log(this.refrigList[0]);
   },
   methods: {
     calStock(idx, curStock) {
@@ -265,11 +265,9 @@ export default {
           totalAmount: String(this.productPlusPostTotal),
         },
         (res) => {
-          // console.log(res.data);
           location.href = res.data;
         },
         (error) => {
-          // console.log(error);
         }
       );
     },
@@ -287,7 +285,6 @@ export default {
           }
         }
       }
-      // console.log(cost);
       this.stockCnt = cnt;
       return (this.productTotal = cost);
     },
@@ -312,7 +309,6 @@ export default {
       this.initStatus = !this.initStatus;
     },
     delShopList() {
-      // console.log(this.selected);
       for (var i = 0; i < this.selected.length; i++) {
         ProductApi.deleteShopList(
           this.selected[i],

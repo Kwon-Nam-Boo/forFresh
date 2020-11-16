@@ -23,6 +23,7 @@
         color="red accent-3"
         text
         @click="deleteRef"
+        :disabled="!isSubmit"
       >
         삭제하기
       </v-btn>
@@ -39,10 +40,12 @@ export default {
     return{
       alertType: false,
       alertMessage: "",
+      isSubmit: true,
     }
   },
   methods: {
     deleteRef() {
+      this.isSubmit = false;
       const data={
         refrigNo: this.item.refrigNo,
         userId: storage.getItem("login_user"),
@@ -60,12 +63,14 @@ export default {
         (error) => {
           this.alertType = "error";
           this.alertMessage = "냉장고 삭제 중 에러가 발생하였습니다.";
+          this.isSubmit = true;
         }
       );
     },
     closeDialog() {
       this.alertType = false;
       this.alertMessage = "";
+      this.isSubmit = true;
       this.$emit('close');
     },
   }

@@ -151,7 +151,6 @@ export default {
           commentDetail: this.userComment,
         },
         (res) => {
-          // console.log(res.data);
           //댓글 업데이트 성공
         },
         (error) => {
@@ -172,7 +171,6 @@ export default {
       ProductApi.deleteUserComment(
         no,
         (res) => {
-          // console.log(res.data);
           location.reload();
           //삭제 성공
         },
@@ -194,12 +192,10 @@ export default {
             commentDetail: this.userComment,
           },
           (res) => {
-            // console.log(res.data);
             location.reload();
             this.dialog = false;
           },
           (error) => {
-            // console.log(error);
             this.dialog = false;
           }
         );
