@@ -44,6 +44,7 @@
         color="primary"
         text
         @click="deleteFood"
+        :disabled="!isSubmit"
       >
         삭제하기
       </v-btn>
@@ -60,6 +61,7 @@ export default {
       selected:[],
       alertType: false,
       alertMessage: "",
+      isSubmit: true,
     }
   },
   created() {
@@ -67,6 +69,7 @@ export default {
   },
   methods: {
     deleteFood() {
+      this.isSubmit = false;
       const foodNoList = [];
       for(var index of this.selected){
         foodNoList.push(this.items[index].foodNo);
@@ -86,6 +89,7 @@ export default {
           },2000)
         },
         (error) => {
+          this.isSubmit = true;
           this.alertType = "error";
           this.alertMessage = "식재료 삭제 중 에러가 발생하였습니다.";
         }
@@ -94,6 +98,7 @@ export default {
     closeDialog() {
       this.alertType = false;
       this.alertMessage = "";
+      this.isSubmit = true;
       this.$emit('close');
     }
   }

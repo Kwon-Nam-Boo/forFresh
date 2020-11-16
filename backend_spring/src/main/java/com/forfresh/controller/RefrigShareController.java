@@ -68,7 +68,7 @@ public class RefrigShareController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/getShare")
+    @GetMapping("/getshare")
 	@ApiOperation(value = "공유요청 가져오기")
 	public Object getShareRequest(@RequestParam(required = true) String userId) {
         List<RefrigShare> refrigShareList = refrigShareDao.findBySharedIdAndAccept(userId, 0);

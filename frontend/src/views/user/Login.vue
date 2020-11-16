@@ -1,13 +1,6 @@
 <template>
   <div>
-    <nav-bar :viewType="navbarType" />
     <v-col  md="4" offset-md="4" class="my-10">
-      <!-- <v-img
-        class="white--text align-end"
-        width="600"
-        height="300"
-        src="../../assets/images/lolbti_logo_2.png"
-      ></v-img> -->
       <v-alert
         v-model="alertStatus"
         dismissible
@@ -74,23 +67,6 @@
           <p >forfresh는 처음인가요?</p>
           <a @click="$router.push('/join').catch(() => {})" style="color:#88dba3; margin-left:7%">회원가입</a>
           </v-row>
-          
-          
-        
-          <!-- <v-btn
-            class="mt-5"
-            block
-            color="#88dba3"
-            @click="$router.push('/join').catch(() => {})"
-            >회원가입</v-btn>
-           -->
-          <!-- <v-btn
-            class="mt-5"
-            block
-            color="#88dba3"
-            @click="$router.push('/findpassword').catch(() => {})"
-            >비밀번호 찾기</v-btn
-          >  -->
           <br />
           <br />
         </div>
@@ -103,13 +79,12 @@
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
 import UserApi from "../../api/UserApi";
-// import NavBar from "../../components/NavBar.vue";
 
 const storage = window.sessionStorage;
 
 export default {
   components: {
-    // NavBar,
+
   },
   data: () => {
     return {
@@ -186,17 +161,9 @@ export default {
             password: this.password,
           },
           (res) => {
-            // console.log(res);
             this.isSubmit = true;
-            // this.$session.start();
-            // this.$session.set("userinfo", {
-            //   email: this.$store.state.email,
-            //   summonerName: this.$store.state.summonerName,
-            // });
-            // this.$router.push({ path: "/home" }).catch(() => {});
             if (res.data.status) {
               this.statusMessage = res.data.object.userId + "님 환영합니다.";
-              // console.dir(res.headers["jwt-auth-token"]);
               this.setInfo(
                 "성공",
                 res.headers["jwt-auth-token"],
@@ -213,7 +180,6 @@ export default {
             }
           },
           (error) => {
-            //console.log(error);
             this.alertMessage = "입력정보를 확인하세요";
             this.alertStatus = true;
           }

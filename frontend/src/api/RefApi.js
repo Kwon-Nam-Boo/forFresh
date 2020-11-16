@@ -27,7 +27,7 @@ const addRef = (data, callback, errorCallback) => {
 const getRef = (data, callback, errorCallback) => {
     axios({
         method: "GET",
-        url: BASE_URL + "/refrig/getRefrig",
+        url: BASE_URL + "/refrig/getrefrig",
         params: {
           userId: data.userId,
         },
@@ -68,7 +68,7 @@ const shareRef = (data, callback, errorCallback) => {
 const deleteRef = (data, callback, errorCallback) => {
   axios({
       method: "DELETE",
-      url: BASE_URL + "/refrig/deleteRefrig",
+      url: BASE_URL + "/refrig/deleterefrig",
       params: {
         userId: data.userId,
         refrigNo: data.refrigNo,
@@ -89,7 +89,7 @@ const deleteRef = (data, callback, errorCallback) => {
 const editRef = (data, callback, errorCallback) => {
   axios({
       method: "PATCH",
-      url: BASE_URL + "/refrig/changeName",
+      url: BASE_URL + "/refrig/changename",
       params: {
         userId: data.userId,
         refrigNo: data.refrigNo,
@@ -111,7 +111,7 @@ const editRef = (data, callback, errorCallback) => {
 const getReceiptData = (data, callback, errorCallback) => {
   axios({
       method: "GET",
-      url: BASE_URL + "/food/getOCR",
+      url: BASE_URL + "/food/getocr",
       params: {
         receiptUrl: data.receiptUrl,
       },
@@ -151,7 +151,7 @@ const registFood = (data, callback, errorCallback) => {
 const getRefByNo = (data, callback, errorCallback) => {
   axios({
       method: "GET",
-      url: BASE_URL + "/refrig/getRefrig/"+data.refrigNo,
+      url: BASE_URL + "/refrig/getrefrig/"+data.refrigNo,
       headers: {
           "jwt-auth-token": storage.getItem("jwt-auth-token"),
       },

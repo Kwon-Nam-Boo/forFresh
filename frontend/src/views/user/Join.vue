@@ -249,7 +249,6 @@ export default {
           this.dialog = false;
           this.alertMessage = "이미 가입된 이메일입니다.";
           this.alertStatus = true;
-          // console.log(this.$store.getters.getEmailAuthCode);
           this.$store.state.emailAuthCode = "";
         }
       });
@@ -259,10 +258,7 @@ export default {
         UserApi.checkNickName(
           this.nickname,
           (res) => {
-            // console.log(res.data.data);
-            // console.log(res.data.object);
             if (res.data.object == null) {
-              // console.log("중복이 아닙니다.");
               this.checkedNickName = this.nickname;
               this.nickNameChkStatus = true;
               this.error.nickname = false;
@@ -272,7 +268,6 @@ export default {
             }
           },
           (error) => {
-            // console.log(error);
           }
         );
       } else {
@@ -313,13 +308,6 @@ export default {
       this.isSubmit = isSubmit;
     },
     onJoin() {
-      // console.log(this.isSubmit);
-
-      // console.log(this.error.nickname);
-      // console.log(this.error.email);
-      // console.log(this.error.password);
-      // console.log(this.error.passwordRe);
-
       if (this.isSubmit && this.nickNameChkStatus && this.authStatus) {
         this.isSubmit = false;
         UserApi.requestJoin(
@@ -330,7 +318,6 @@ export default {
           },
           (res) => {
             this.$router.push({ path: "/login" }).catch(() => {
-              // console.log("error 회원가입안됨");
             });
           },
           (error) => {

@@ -160,7 +160,6 @@ export default {
         this.product = res.data.object;
       },
       (error) => {
-        // console.log(error);
       }
     );
     this.refrigList = this.getRef();
@@ -191,11 +190,9 @@ export default {
           ),
         },
         (res) => {
-          // console.log(res.data);
           location.href = res.data;
         },
         (error) => {
-          // console.log(error);
         }
       );
     },

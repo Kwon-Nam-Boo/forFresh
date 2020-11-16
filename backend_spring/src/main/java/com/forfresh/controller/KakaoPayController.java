@@ -32,12 +32,12 @@ public class KakaoPayController {
    private KakaoPayService kakaopay;
    
    
-   @GetMapping("/kakaoPay")
+   @GetMapping("/kakaopay")
    public void kakaoPayGet() {
        
    }
    
-   @PostMapping("/kakaoPay")
+   @PostMapping("/kakaopay")
    @ResponseBody
    public String kakaoPay(@RequestBody TotalPayment totalpay) {
        log.info("kakaoPay post............................................");
@@ -46,7 +46,7 @@ public class KakaoPayController {
 
    }
    
-   @GetMapping("/kakaoPaySuccess")
+   @GetMapping("/kakaopaysuccess")
 //   @ResponseBody
    public String kakaoPaySuccess(@RequestParam("pg_token") String pg_token) {
        log.info("kakaoPaySuccess get............................................");
@@ -56,7 +56,7 @@ public class KakaoPayController {
 //       model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
    }
    
-   @GetMapping("/kakaoPayCancel")
+   @GetMapping("/kakaopaycancel")
    @ResponseBody
    public String kakaoPayCancel() {
 //	   log.info("kakaoPaySuccess get............................................");
@@ -65,7 +65,7 @@ public class KakaoPayController {
 //       model.addAttribute("info", kakaopay.kakaoPayInfo(pg_token));
    }
    
-   @GetMapping("/kakaoPaySuccessFail")
+   @GetMapping("/kakaopaysuccessfail")
    @ResponseBody
    public String kakaoPaySuccessFail() {
 //	   log.info("kakaoPaySuccess get............................................");
