@@ -61,20 +61,24 @@
 </div>
 
 - 개인 냉장고 등록, 삭제
+
 <div>
 <img width="190" src="/uploads/2ec06dc58d2aefb198f4b5a56e49fe4c/image.png">
 </div>
 
 - 냉장고 공유
+
 <div>
 <img width="190" src="/uploads/73acf33460757b9921d1a6653d2c16b2/image.png
 ">
 </div>
+
 - 냉장고 식품 등록, 삭제
 <div>
 <img width="190" src="/uploads/9d11a8fb791894a0d1b87b87d009dfb3/image.png
 ">
 </div>
+
 - 식품 상세페이지 제공
 <div>
 <img width="190" src="/uploads/15ec5a18229ecde7b324acf01f99cf0f/image.png
@@ -82,7 +86,6 @@
 </div>
 
 - 상품 신선도 정보 제공 및 알림
-</div>
 - 식품 상세페이지 제공
 <div>
 <img width="190" src="/uploads/6aab5ecd33eae07540d617c760f74f79/image.png
@@ -104,11 +107,13 @@
 <img width="190" src="/uploads/dc6b8443b16e0d5ec3819fc7295a2f5a/image.png
 ">
 </div>
+
 - 장바구니 페이지 제공
 <div>
 <img width="190" src="/uploads/e5aa7088d37b0c58a46878bccd97cf34/image.png
 ">
 </div>
+
 - 상품 상세페이지 제공
 - 상품 상세페이지 내 댓글 등록 수정 삭제
 <div>
