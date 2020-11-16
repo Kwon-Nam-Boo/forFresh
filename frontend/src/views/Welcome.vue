@@ -53,6 +53,7 @@ export default {
       pics:[
         {src:"slide5.png"},
         {src:"slide4.png"},
+        {src:"slide6.png"},
       ]
     };
   },
