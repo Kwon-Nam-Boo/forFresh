@@ -81,9 +81,9 @@ public class KakaoPayService {
         params.add("quantity", totalpay.getQuantity());
         params.add("total_amount", totalpay.getTotalAmount());
         params.add("tax_free_amount", "100");
-        params.add("approval_url", "http://k3a407.p.ssafy.io/api/kakaoPaySuccess");
-        params.add("cancel_url", "http://k3a407.p.ssafy.io/api/kakaoPayCancel");
-        params.add("fail_url", "http://k3a407.p.ssafy.io/api/kakaoPaySuccessFail");
+        params.add("approval_url", "http://k3a407.p.ssafy.io/api/kakaopaysuccess");
+        params.add("cancel_url", "http://k3a407.p.ssafy.io/api/kakaopaycancel");
+        params.add("fail_url", "http://k3a407.p.ssafy.io/api/kakaopaysuccessfail");
  
          HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
  

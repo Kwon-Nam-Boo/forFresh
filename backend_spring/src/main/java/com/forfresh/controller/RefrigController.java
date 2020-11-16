@@ -67,7 +67,7 @@ public class RefrigController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/getRefrig")
+    @GetMapping("/getrefrig")
 	@ApiOperation(value = "id로 냉장고 조회")
 	public Object getRefirig(@RequestParam("userId") String userId) {
 		BasicResponse result = new BasicResponse();
@@ -92,7 +92,7 @@ public class RefrigController {
 
 	}
 
-	@GetMapping("/getRefrig/{refrigNo}")
+	@GetMapping("/getrefrig/{refrigNo}")
 	@ApiOperation(value = "냉장고no로 냉장고 조회")
 	public Object getRefrigByNo(@PathVariable int refrigNo) {
         Optional<RefrigRegist> refrigOpt = refrigRegistDao.findByRefrigNo(refrigNo);
@@ -108,7 +108,7 @@ public class RefrigController {
 		}
 	}
 	
-	@PatchMapping("/changeName")
+	@PatchMapping("/changename")
     @ApiOperation(value = "냉장고 이름변경")
 
     public Object updateRefrig(@RequestParam(required = true) final Integer refrigNo,
@@ -131,7 +131,7 @@ public class RefrigController {
 		}
 	}
 	
-	@DeleteMapping("/deleteRefrig")
+	@DeleteMapping("/deleterefrig")
     @ApiOperation(value = "냉장고 삭제하기")
     public Object deleteRefrig(@RequestParam(required = true) final Integer refrigNo, @RequestParam(required = true) final String userId){
 		

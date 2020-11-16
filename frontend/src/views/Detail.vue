@@ -51,7 +51,7 @@
         <v-btn depressed color="#e2efef" style="margin-left:25%; width:30%" @click="moveHome">홈</v-btn>
       </v-col>
       <v-col >
-        <v-btn depressed color="#e2efef" style="float:right; margin-right:25%; width:30%">삭제하기</v-btn>
+        <v-btn depressed color="#e2efef" style="float:right; margin-right:25%; width:30%" @click="deleteFood">삭제하기</v-btn>
       </v-col>
     </v-row>
 
@@ -155,9 +155,9 @@ export default {
     },
     deleteFood() {
       const data = {
-        foodNoList: this.food.foodNo,
+        foodNo: this.food.foodNo,
       }
-      FoodApi.deleteFood(
+      FoodApi.deleteFoodOne(
         data,
         (res) => {
           this.$router.go(-1);
