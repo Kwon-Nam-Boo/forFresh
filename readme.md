@@ -173,10 +173,11 @@
 
 ### front (vue,vuetify, javascript, http, css, firebase 등)
 
-- Firebase 두 가지의 사진 파일을 firebase storage에 업로드 해야했음.
-  처리하는 과정에서 비동기적 특성으로 인해 DB에 반환 받은 URL 값을 넣는데 문제가 발생
-  이를 해결하기 위해 async await 활용, 문법적인 문제로 정상적으로 동작되지 않는 문제가 발생
-  이는 promise를 적용해 해결함
+- Firebase 
+    - 두 가지의 사진 파일을 firebase storage에 업로드 해야했음.
+      처리하는 과정에서 비동기적 특성으로 인해 DB에 반환 받은 URL 값을 넣는데 문제가 발생
+      이를 해결하기 위해 async await 활용, 문법적인 문제로 정상적으로 동작되지 않는 문제가 발생
+      이는 promise를 적용해 해결함
 
 ### ERD
 
@@ -188,17 +189,17 @@
 ### backend(spring)
 
 - JPA
-  여러개의 테이블을 조인하고 반환한 결과값을 매핑하기 위해 DTO에 테이블 관계를 표현하는 어노테이션을 기입하는게 일반적임
+  - 여러개의 테이블을 조인하고 반환한 결과값을 매핑하기 위해 DTO에 테이블 관계를 표현하는 어노테이션을 기입하는게 일반적임
   하지만 학습이 필요해 다른 번거롭지만 쉬운 방법을 택함
   projection을 활용했음. select 문에서 반환할 컬럼을 하나하나 interface내 변수로 정의하는 방식임.
   하지만 이 마저도 모든 데이터를 매핑하는데 한계가 있음 향후 발전과제로 어노테이션 학습이 필요함.
 - JWT
-  Front의 navbar 컴포넌트가 모든 페이지에 들어있는 특성을 이용해 각 페이지가 새로고침 될 때 마다 header 정보와 함께 axios get 요청을 보냄
+  - Front의 navbar 컴포넌트가 모든 페이지에 들어있는 특성을 이용해 각 페이지가 새로고침 될 때 마다 header 정보와 함께 axios get 요청을 보냄
   interceptor가 이를 확인해 인증이 되면 서비스를 이용할 수 있고 그렇지 않으면 세션이 만료되었다는 메세지를 출력하여 로그인 페이지로 이동.
 - KakaoPay API
-  결제 정보를 front로부터 받아 kakaopay api를 활용해 요청을 보냄. test 사업자 번호를 이용해 test결제를 이용함
+  - 결제 정보를 front로부터 받아 kakaopay api를 활용해 요청을 보냄. test 사업자 번호를 이용해 test결제를 이용함
 - Email 인증
-  중복 email여부를 확인 하고 6자리의 난수를 생성해 해당 email주소로 mail 발송하고 front로 생성된 난수를 반환함
+  - 중복 email여부를 확인 하고 6자리의 난수를 생성해 해당 email주소로 mail 발송하고 front로 생성된 난수를 반환함
   front에서 해당 난수와 사용자가 입력한 인증번호가 일치한지 여부를 확인하여 회원가입 절차를 진행
 
 ### backend(django)
