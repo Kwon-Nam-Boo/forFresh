@@ -9,10 +9,10 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.web.curation</groupId>
-	<artifactId>webcuration</artifactId>
+	<groupId>com.forfresh</groupId>
+	<artifactId>forfresh</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>webcuration</name>
+	<name>forfresh</name>
 	<description>Web curation project for Spring Boot</description>
 
 	<properties>
@@ -20,6 +20,19 @@
 	</properties>
 
 	<dependencies>
+		<!-- 이메일 인증: https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>5.2.0.RELEASE</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

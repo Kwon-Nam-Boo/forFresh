@@ -1,0 +1,92 @@
+CREATE TABLE `user` (
+	`user_id`	varchar(100)	NOT NULL PRIMARY KEY,
+	`password`	varchar(100)	NOT NULL,
+	`nick_name`	varchar(100)	NOT NULL,
+    `phone` varchar(20) null,
+    `addr1` varchar(50) null,
+    `addr1` varchar(50) null,
+    `addr1` varchar(50) null
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `expiration` (
+	`category_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`category`	varchar(100)	NULL,
+	`expire_date`	DATE	NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `refrig_regist` (
+	`refrig_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`user_id`	varchar(100)	NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `food_list` (
+	`food_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`refrig_no`	INT(10)	NOT NULL,
+	`category_no`	INT(10)	NOT NULL,
+	`name`	varchar(100)	NULL,
+	`status`	varchar(100)	NULL,
+    `stock` int default 0,
+    `price` int default 0,
+	`regist_date`	datetime DEFAULT current_timestamp(),
+	 FOREIGN KEY (refrig_no) REFERENCES refrig_regist (refrig_no) ON UPDATE CASCADE ON DELETE CASCADE,
+	 FOREIGN KEY (category_no) REFERENCES expiration (category_no) ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `regist_share` (
+	`refrig_no`	INT(10)	NOT NULL,
+	`shared_id`	varchar(100)	NOT NULL,
+    `accept` int default 0,
+	FOREIGN KEY (refrig_no) REFERENCES refrig_regist (refrig_no) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (shared_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	constraint pk_composite primary key(refrig_no,user_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `product` (
+	`product_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`category_no`	INT(10)	NOT NULL,
+	`product_name`	varchar(50)	NOT NULL,
+    `product_price` int(10) default 0,
+    `stock` int default 0,
+    `description` varchar(100) null,
+    `img_url` varchar(100) null,
+    `regist_date` datetime DEFAULT current_timestamp(),
+    `avg_rate` int(10) default 0 ,
+    `detail_imgs` varchar(500) null,
+	FOREIGN KEY (category_no) REFERENCES expiration (category_no) ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `product_comment` (
+	`pcomment_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`user_id`	varchar(100)	NOT NULL,
+    `product_no` INT(10) NOT NULL,
+    `user_rate` int(10) default 0,
+	`comment_detail`	varchar(500) null,
+    `regist_date` datetime not null DEFAULT current_timestamp,
+	FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (product_no) REFERENCES product (product_no) ON UPDATE CASCADE ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `shopping_list` (
+	`shoplist_no`	INT(10)	NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	`user_id`	varchar(100)	NOT NULL,
+	`product_no`	int(10)	NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (product_no) REFERENCES product (product_no) ON UPDATE CASCADE ON DELETE CASCADE
+
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `payment_list` (
+	`tid`	INT(10)	NOT NULL PRIMARY KEY ,
+    `user_id`	varchar(100)	NOT NULL,
+	`product_no`	int(10)	NOT NULL,
+	`quantity`	int(10)	default 0 ,
+    `total_amount` int(10) default 0,
+	FOREIGN KEY (user_id) REFERENCES user (user_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (product_no) REFERENCES product (product_no) ON UPDATE CASCADE ON DELETE CASCADE
+
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+

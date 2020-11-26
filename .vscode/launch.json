@@ -2,12 +2,22 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-WebCurationApplication<webcuration>",
+            "name": "Spring Boot-ComForfreshApplication<webcuration>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
-            "mainClass": "com.web.curation.WebCurationApplication",
+            "mainClass": "com.forfresh.ComForfreshApplication",
             "projectName": "webcuration",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ComForfreshApplication<forfresh>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.forfresh.ComForfreshApplication",
+            "projectName": "forfresh",
             "args": ""
         }
     ]
