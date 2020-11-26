@@ -1,11 +1,11 @@
 <template>
   <div>
     <CategoryList />
-    <ProductCtegoryItem
+    <ProductCategoryItem
       v-for="(item, i) in list"
       :product="list[i]"
       v-bind:key="i"
-    ></ProductCtegoryItem>
+    ></ProductCategoryItem>
     <v-btn
       v-scroll="onScroll"
       v-show="fab"
@@ -35,14 +35,14 @@
 </template>
 
 <script>
-import ProductCtegoryItem from "../../components/product/ProductCategoryItem";
+import ProductCategoryItem from "../../components/product/ProductCategoryItem";
 import InfiniteLoading from "vue-infinite-loading";
 import ProductApi from "../../api/ProductApi";
 import CategoryList from "../../components/product/CategoryList";
 const storage = window.sessionStorage;
 export default {
   components: {
-    ProductCtegoryItem,
+    ProductCategoryItem,
     InfiniteLoading,
     CategoryList,
   },

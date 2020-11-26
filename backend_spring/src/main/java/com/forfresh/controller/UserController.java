@@ -84,7 +84,7 @@ public class UserController {
 			return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 		}
 	}
-	@GetMapping("/user/searchAll")
+	@GetMapping("/user/searchall")
 	@ApiOperation(value = "모든 회원 조회")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> user = userService.findAll();

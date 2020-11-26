@@ -6,7 +6,7 @@ const storage = window.sessionStorage;
 const getFoodList = (data, callback, errorCallback) => {
     axios({
         method: "GET",
-        url: BASE_URL + "/food/getFood",
+        url: BASE_URL + "/food/getfood",
         params: {
           refrigNo: data.refrigNo
         },
@@ -27,7 +27,7 @@ const getFoodList = (data, callback, errorCallback) => {
 const getFoodByNo = (data, callback, errorCallback) => {
   axios({
       method: "GET",
-      url: BASE_URL + "/food/getFood/"+data.foodNo,
+      url: BASE_URL + "/food/getfood/"+data.foodNo,
       headers: {
           "jwt-auth-token": storage.getItem("jwt-auth-token"),
       },
@@ -45,9 +45,30 @@ const getFoodByNo = (data, callback, errorCallback) => {
 const deleteFood = (data, callback, errorCallback) => {
   axios({
       method: "DELETE",
-      url: BASE_URL + "/food/deleteFood",
+      url: BASE_URL + "/food/deletefood",
       data: {
         foodNos: data.foodNoList,
+      },
+      headers: {
+          "jwt-auth-token": storage.getItem("jwt-auth-token"),
+      },
+    })
+      .then(function(response) {
+
+        callback(response);
+
+      })
+      .catch(function(error) {
+        errorCallback(error);
+      });
+};
+
+const deleteFoodOne = (data, callback, errorCallback) => {
+  axios({
+      method: "DELETE",
+      url: BASE_URL + "/food/deletefoodone",
+      params: {
+        foodNo: data.foodNo,
       },
       headers: {
           "jwt-auth-token": storage.getItem("jwt-auth-token"),
@@ -70,6 +91,8 @@ const RefApi = {
       getFoodByNo(data, callback, errorCallback),
     deleteFood: (data, callback, errorCallback) =>
       deleteFood(data, callback, errorCallback),
+    deleteFoodOne: (data, callback, errorCallback) =>
+      deleteFoodOne(data, callback, errorCallback),
 };
 
 export default RefApi;

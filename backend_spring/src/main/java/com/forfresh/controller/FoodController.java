@@ -82,7 +82,7 @@ public class FoodController {
 
     }
 
-    @GetMapping("/getOCR")
+    @GetMapping("/getocr")
     @ApiOperation(value = "ocr 데이터 가져오기")
     public Object getOCR(@RequestParam(required = true) String receiptUrl) throws IOException {
         BasicResponse result = new BasicResponse();
@@ -101,7 +101,7 @@ public class FoodController {
 		}
     }
 
-    @GetMapping("/getFood")
+    @GetMapping("/getfood")
     @ApiOperation(value = "냉장고No로 food 조회")
     public Object getRefirig(@RequestParam(required = true) Integer refrigNo) {
         BasicResponse result = new BasicResponse();
@@ -119,7 +119,7 @@ public class FoodController {
     }
     
 
-    @GetMapping("/getFood/{foodNo}")
+    @GetMapping("/getfood/{foodNo}")
     @ApiOperation(value = "FoodNo로 food 조회")
     public Object getFoodNo(@PathVariable int foodNo) {
         BasicResponse result = new BasicResponse();
@@ -137,7 +137,7 @@ public class FoodController {
 
     }
 
-    @PatchMapping("/changeFood")
+    @PatchMapping("/changefood")
     @ApiOperation(value = "음식 이름변경")
 
     public Object updateFood(@RequestParam(required = true) final Integer foodNo,
@@ -161,12 +161,11 @@ public class FoodController {
         }
     }
 
-    @DeleteMapping("/deleteFood")
+    @DeleteMapping("/deletefood")
     @ApiOperation(value = "음식 삭제하기")
     @Transactional
     public Object deleteFood(@RequestBody RequestDelFood foodNoList) {
         BasicResponse result = new BasicResponse();
-        System.out.println(foodNoList.getFoodNos().get(0));
         for(int i = 0; i < foodNoList.getFoodNos().size(); i++){
             Optional<Foodlist> foodlistOpt = foodlistDao.findByFoodNo(foodNoList.getFoodNos().get(i));
             if (foodlistOpt.isPresent()) {
@@ -181,5 +180,21 @@ public class FoodController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @DeleteMapping("/deletefoodone")
+    @ApiOperation(value = "음식 삭제하기")
+    @Transactional
+    public Object deleteFoodOne(@RequestParam int foodNo) {
+        BasicResponse result = new BasicResponse();
+        Optional<Foodlist> foodlistOpt = foodlistDao.findByFoodNo(foodNo);
+        if (foodlistOpt.isPresent()) {
+            foodlistDao.deleteByFoodNo(foodlistOpt.get().getFoodNo());
+        } else {
+            result.status = false;
+            result.data = "음식 삭제 실패";
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        }
+        result.status = true;
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
     
 }

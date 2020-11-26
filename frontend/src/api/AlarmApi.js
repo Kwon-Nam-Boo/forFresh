@@ -6,7 +6,7 @@ const storage = window.sessionStorage;
 const getShare = (data, callback, errorCallback) => {
   axios({
     method: "get",
-    url: BASE_URL + "/refrig/getShare",
+    url: BASE_URL + "/refrig/getshare",
     params: {
       userId: data.userId,
     },

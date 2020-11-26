@@ -7,7 +7,7 @@ const axios = require("axios");
 const requestPayment = (data, callback, errorCallback) => {
   axios({
     method: "post",
-    url: BASE_URL + "/kakaoPay",
+    url: BASE_URL + "/kakaopay",
     data: {
       userId: data.userId,
       refrigNo: data.refrigNo,
