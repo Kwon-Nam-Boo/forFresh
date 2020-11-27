@@ -53,7 +53,7 @@
     Connection closed by 52.78.99.106 port 22
     ```
   - [리눅스 서버 root와 사용자, 그리고 CLI 명령어 실행 시 주의사항](https://swiftcoding.org/remind-of-cli-commands)
-  - 서버 시간 설 정
+  - 서버 시간 설 정  
 
   - (추가) mobaxterm  
     - putty, xshell, SecureCRT와 비슷한 툴(윈도우 환경에서 용이)
@@ -113,7 +113,7 @@
     - firebase 설치
       - `yarn add firebase`
     - 좌표변경
-      - `yarn add proj4`
+      - `yarn add proj4`  
     - (추가)
       - `yarn install`을 하면 아마 해당 프로젝트에 필요한건 다 설치 될 것
   - build
@@ -131,7 +131,7 @@
     /home/ubuntu/a310/sub_pjt2_3_develop/frontend/dist
     ```
 
-    -(추가) default 설정 예시
+    - (추가) default 설정 예시
       ```
       // 프런트앤드 위치
       root /home/ubuntu/app/swim/workspace/forfresh/frontend/dist/;
@@ -236,8 +236,8 @@
       - `npm install pm2 -g`
     - 설정
 
-      - app.json 설정 (backend & frontend 와 같은 레벨에 생성)
-        -(추가) args의 주소 값만 jar파일 위치로 지정해준다
+      - app.json 설정 (backend & frontend 와 같은 레벨에 생성)  
+        - (추가) args의 주소 값만 jar파일 위치로 지정해준다
         ```
         {
         	"apps": [{
@@ -278,8 +278,10 @@
     - `pip install django~=2.2.7`
   - requirements.txt
     - `sudo pip install -r requirements.txt --user`
-  -(추가) freeze
+
+  - (추가) freeze    
     - pip freeze는(requirements 내용을 출력해줘서 복붙하면 편하게 requirements.txt 제작이 가능하다)
+
   - ❗Error❗
     - `ImportError: cannot import name 'main'` 에러 시  
       - ✍️ pip를 업데이트 한 후에 문제가 계속 발생, 일단 pip를 지우고 다시 설치하면 해결
@@ -287,7 +289,7 @@
     - `tensorboard 1.14.0 has requirement setuptools>=41.0.0, but you'll have setuptools 40.6.2 which is incompatible.`
       - 버젼오류같음...  
 
-  -(추가) tensorflow
+  - (추가) tensorflow
     - 만약 aws 서버에서 tesensorflow 2.0은 잘 작동하지 않는다. 이전 프로젝트에서 이 부분 때문에 팀원이 tensorflow 모델을 적용하지 못한것이다. 이를 해결하기 위한 두가지 방법이 있다면
 
     - 1.  **가상 환경을 설치**하여 돌린다. 추천하는 방법이자, 포멀한 방법이다. 가상 환경에 설치하는 것이므로 GPU에 대해서도 걱정할 필요가 없다(ex. 쥬피터). 하지만 세팅이 너무 어렵다 ... 구글링과 문서 잘읽고 시도해보자
@@ -318,7 +320,8 @@
     - `sudo kill -9 포트번호`
     - `screen -ls`
     - `screen -X -S 포트번호 quit`
-  -(추가) /home/ubuntu/categoryModel/
+
+  - (추가) /home/ubuntu/categoryModel/
     - 제작한 tokenList(tokenizer.pickkle)와 카테고리 분류 모델(best_model.h5)을 넣어둔 폴더.(경로 설정만 잘해주자)
     - 두 파일에 대해서는 read.me 참고
 
@@ -381,7 +384,7 @@
       - `API token: Gitlab API`는 로그인한 다음에 User Settings > Access Tokens에 들어가서
         발급받은 토큰 작성
       - Id, Description은 각자 알아서
-      - 완료 후, 깃랩과 연동 확인(Test) --> Success
+      - 완료 후, 깃랩과 연동 확인(Test) --> Success  
       - (추가) ❌API token 오류
         - `API token: Gitlab API`으로 인증이 안되는 경우가 있다. 그리고 해결을 못했다...
         - 그래서 다른 방식을 사용하였다. `Username with password`는 해당 프로젝트에 권한이 있는 ID의 id,pass만으로 접근가능
@@ -454,7 +457,7 @@
       - `Exec command: sudo pm2 restart /home/ubuntu/dist/server/app.json`  
         Exec command : 배포 후 실행 할 명령어를 입력 (pm2 실행)
 
-  -(추가) 그 외 
+  - (추가) 그 외 
     - 빌드 오류가 나면 대부분은 구글링으로 문제해결은 가능하다
     - 보통은 버전 오류, install이 안되있거나, 경로 , permisson 오류가 대부분이다.
     - 해당 설정은 프로젝트의 브런치가 push을 하던간에, pull을 받고 재배포한다.(kn으로 push해도, develop을 pull하고 배포한다. 아무관련이 없지만)
