@@ -266,7 +266,7 @@
 
     8.  batch_size(한번에 학습시킬 크기), epoch(학습 횟수)를 설정하여 **학습**시킨다.(총 158분 소요)
 
-    9. 2번에서 만들어둔 **토큰리스트와 모델을 저장**해서 사용(각각 pickkle, h5의 형태로 저장)
+    9. 2번에서 만들어둔 **토큰리스트와 모델을 저장**해서 사용(각각 tokenizer.pickle, best_model.h5의 형태로 저장, doc폴더에 넣어둠. 사용하고 싶으면 해당 폴더로 경로를 지정하여 사용)
 
 ### front (vue,vuetify, javascript, http, css, firebase 등)
 
